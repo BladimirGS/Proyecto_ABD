@@ -35,7 +35,7 @@ class MostrarUsuarios extends Component
                       ->orWhere('tipo', $this->termino)
                       ->orWhere('email', $this->termino);
             })
-            ->paginate(1);
+            ->paginate(5);
     
         return view('livewire.usuario.mostrar-usuarios', [
             'usuarios' => $usuarios

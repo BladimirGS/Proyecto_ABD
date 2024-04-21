@@ -26,7 +26,7 @@
                         <i class="bx bx-menu p-2 sm:pr-8" id="header-toggle"></i>
                     </div>
                     
-                    <div class="l-navbar" id="nav-bar">
+                    <div class="l-navbar  bg-violet-700" id="nav-bar">
                         @include('layouts.menu')
                     </div>
                 @endauth

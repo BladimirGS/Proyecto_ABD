@@ -1,16 +1,21 @@
-<nav class="nav">
+<nav class="h-full flex flex-col justify-between overflow-hidden">
     @auth
         <div>
-            <a href="#" class="nav__logo">
+            <a href="#" class="grid grid-cols-[max-content,max-content] items-center gap-x-4 py-2 pl-6 mb-8">
                 <i class='bx bx-layer nav__logo-icon'></i>
                 <span class="nav__logo-name">Bedimcode</span>
             </a>
 
-            <div class="nav__list">
-                <a href="{{ route('dashboard') }}" class="nav__link active">
+            <div>
+                <a href="{{ route('dashboard') }}" class="nav__link">
                 <i class='bx bx-grid-alt nav__icon' ></i>
-                    <span class="nav__name">Dashboard</span>
+                    <span class="">Dashboard</span>
                 </a>
+
+                <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                    <i class='bx bx-grid-alt nav__icon' ></i>
+                    <span class="">Dashboard</span>
+                </x-nav-link>
 
                 <a href="{{ route('users') }}" class="nav__link">
                     <i class='bx bx-user nav__icon' ></i>
@@ -27,7 +32,7 @@
                     <span class="nav__name">Favorites</span>
                 </a>
 
-                <a href="#" class="nav__link">
+                <a href="#" class="relative text-violet-300 mb-6 transition-all hover:text-white grid grid-cols-[max-content,max-content] items-center gap-x-4 py-2 pl-6">
                     <i class='bx bx-folder nav__icon' ></i>
                     <span class="nav__name">Data</span>
                 </a>

@@ -1,4 +1,4 @@
-<div class="bg-gray-100">
+<div>
     <h2 class="text-2xl md:text-4xl text-gray-600 text-center font-extrabold">Buscar y Filtrar Usuarios</h2>
 
     <div class="max-w-7xl mx-auto my-5">
@@ -11,6 +11,7 @@
                         placeholder="Buscar por Término: ej. Laravel"
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full"
                         wire:model="termino"
+                        wire:keydown='leerDatosFormulario'
                     />
                 </div>
 
