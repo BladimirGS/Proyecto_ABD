@@ -19,16 +19,18 @@ class EditarUsuario extends ModalComponent
     public $email;
     public $password;
 
-    /**
-     * Supported: 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'
-     */
-    public static function modalMaxWidth(): string
-    {
-        return '3xl';
-    }
+    // Reglas de validación
+    protected $rules = [
+        'nombre' => 'required',
+        'apellido' => 'required',
+        'rfc' => 'required',
+        'tipo' => 'required',
+        'email' => 'required',
+    ];
 
     public function mount()
     {
+        // verificar que el usuario tenga permisos
         Gate::authorize('update', auth()->user());
 
         // rellena los nuevos valores
@@ -41,26 +43,19 @@ class EditarUsuario extends ModalComponent
 
     public function EditarUsuario()
     {
+        // verificar que el usuario tenga permisos
         Gate::authorize('update', auth()->user());
 
-        // Se hace la validacion
-        $datos = $this->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'rfc' => 'required',
-            'tipo' => 'required',
-            'email' => 'required',
-        ]);
+        // Se validan con las reglas
+        $datos = $this->validate();
 
+        // Se actualiza el usuario
         $this->usuario->update($datos);
 
+        // se dispara un evento
         $this->dispatch('actualizar-usuario');
 
+        // Se cierra el modal
         $this->closeModal();
-    }
-
-    public function render()
-    {
-        return view('livewire.usuario.editar-usuario');
     }
 }

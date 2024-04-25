@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Settings Dropdown -->
-    <x-dropdown align="right" width="48">
+    <x-dropdown width="48">
         <x-slot name="trigger">
             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                 <span class="hidden md:inline-block">{{ Auth::user()->nombre }}</span>
@@ -16,7 +16,7 @@
 
         <x-slot name="content">
             <x-dropdown-link >
-                {{ __('Perfil') }}
+                Perfil
             </x-dropdown-link>
 
             <!-- Authentication -->
@@ -26,7 +26,7 @@
                     onclick="event.preventDefault();
                     this.closest('form').submit();"
                 >
-                    {{ __('Cerrar Sesión') }}
+                    Cerrar Sesión
                 </x-dropdown-link>
             </form>
         </x-slot>

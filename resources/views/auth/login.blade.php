@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Iniciar sesión') }}
+            Iniciar sesión
         </h2>
     </x-slot>
 
@@ -18,7 +18,8 @@
                 @csrf
                 <!-- Email Address -->
                 <div class="mb-5">
-                    <x-input-label for="email" :value="__('Email')" />
+                    <x-input-label for="email" value="Correo Electronico" />
+
                     <x-text-input 
                         id="email" 
                         class="block mt-1 w-full" 
@@ -32,7 +33,7 @@
 
                 <!-- Password -->
                 <div class="mb-5">
-                    <x-input-label for="password" :value="__('Password')" />
+                    <x-input-label for="password" value="Contraseña" />
 
                     <x-text-input 
                         id="password" 
@@ -48,14 +49,14 @@
                 <div class="block mb-5">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                        <span class="ms-2 text-sm text-gray-600">Recuérdame</span>
                     </label>
                 </div>
 
                 <div class="flex items-center justify-end">
-                    <x-primary-button class="ms-3">
-                        {{ __('Log in') }}
-                    </x-primary-button>
+                    <x-button type="submit">
+                        Iniciar Sesión
+                    </x-button>
                 </div>
             </form>
         </div>

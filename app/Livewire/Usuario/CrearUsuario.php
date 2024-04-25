@@ -4,10 +4,12 @@ namespace App\Livewire\Usuario;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Gate;
 use LivewireUI\Modal\ModalComponent;
 
 class CrearUsuario extends ModalComponent
 {
+    // Valores de entrada
     public $nombre;
     public $apellido;
     public $rfc;
@@ -15,8 +17,7 @@ class CrearUsuario extends ModalComponent
     public $email;
     public $password;
 
-
-
+    // Reglas de validación
     protected $rules = [
         'nombre' => 'required',
         'apellido' => 'required',
@@ -28,6 +29,10 @@ class CrearUsuario extends ModalComponent
 
     public function CrearUsuario()
     {
+        // verificar que el usuario tenga permisos
+        Gate::authorize('create', auth()->user());
+
+        // Se validan con las reglas
         $datos = $this->validate();
 
         // crear usuario
@@ -46,11 +51,4 @@ class CrearUsuario extends ModalComponent
         // Redireccionar al usuario
         return redirect()->route('users.index');
     }
-
-    public function render()
-    {
-        return view('livewire.usuario.crear-usuario');
-    }
-
-
 }

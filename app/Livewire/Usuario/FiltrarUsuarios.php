@@ -7,10 +7,16 @@ use Livewire\Component;
 class FiltrarUsuarios extends Component
 {
     public $termino;
+    public $evento;
+
+    public function mount($evento)
+    {
+        $this->evento = $evento;
+    }
 
     public function leerDatosFormulario()
     {
-        $this->dispatch('buscar-usuario', termino: $this->termino);
+        $this->dispatch($this->evento, termino: $this->termino);
     }
 
     public function render()

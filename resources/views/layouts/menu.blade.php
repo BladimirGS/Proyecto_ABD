@@ -7,7 +7,7 @@
 
         <div>
             <x-nav-link>
-                <i class='bx bx-grid-alt text-xl' ></i>
+                <img src="{{ asset('img/bb.png') }}" alt="" class=" h-5 w-5">
                 <span class="">Dashboard</span>
             </x-nav-link>
 

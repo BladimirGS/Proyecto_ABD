@@ -5,7 +5,9 @@ use App\Http\Controllers\UsuarioController;
 use App\Livewire\Usuario\MostrarUsuarios;
 use Illuminate\Support\Facades\Route;
 
-
+Route::get('/', function () {
+    return view('welcome');
+})->name('dashboard');
 
 Route::middleware('guest')->group(function () {
 // Iniciar sesión
@@ -14,12 +16,6 @@ Route::post('/login', [AuthController::class, 'store']);
 });
 
 Route::middleware('auth')->group(function () {
-
-Route::get('/', function () {
-    return view('welcome');
-})->name('dashboard');
-
-
 // Cerrar sesión
 Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 

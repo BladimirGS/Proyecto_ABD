@@ -41,5 +41,4 @@ class MostrarUsuarios extends Component
             'usuarios' => $usuarios
         ]);
     }
-    
 }
