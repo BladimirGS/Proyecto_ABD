@@ -5,10 +5,10 @@
 
     switch ($color) {
         case 'red':
-            $class = 'bg-red-600 hover:bg-red-700 focus:bg-red-700';
+            $class = 'bg-red-600 hover:bg-red-700 focus:bg-red-700 active:bg-red-800';
             break;
         case 'blue':
-            $class = 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700';
+            $class = 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800';
             break;
         case 'primary':
         default:

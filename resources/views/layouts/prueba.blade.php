@@ -16,7 +16,7 @@
           <div class="flex flex-col flex-shrink-0 w-full">
               <div class="flex items-center justify-center px-8 py-3 text-center">
                   <a class="shrink-0 flex items-center cursor-pointer">
-                      <x-application-logo />
+                 
                   </a>
               </div>
 

@@ -3,9 +3,10 @@
 namespace App\Livewire\Usuario;
 
 use App\Models\User;
-use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Gate;
 
 class MostrarUsuarios extends Component
 {
@@ -14,7 +15,10 @@ class MostrarUsuarios extends Component
     public $termino;
 
     #[On('eliminar-usuario')]
-    public function EliminarUsuario(User $id) {
+    public function EliminarUsuario(User $id) 
+    {
+        // verificar que el usuario tenga permisos
+        Gate::authorize('delete', auth()->user());
         $id->delete();
     }
 

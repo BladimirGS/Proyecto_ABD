@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Middleware\RolUsuario;
 use App\Livewire\Usuario\MostrarUsuarios;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ Route::get('/login', [AuthController::class, 'create'])->name('login');
 Route::post('/login', [AuthController::class, 'store']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'rol.admin'])->group(function () {
 // Cerrar sesión
 Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 

@@ -8,7 +8,7 @@
             <div class="mb-4 text-center md:text-left">
                 <h2 class="text-2xl md:text-4xl text-gray-600 text-center font-extrabold">Buscar y Filtrar Usuarios</h2>
 
-                <livewire:usuario.filtrar-usuarios evento="buscar-usuario" />
+                <livewire:buscador evento="buscar-usuario" />
 
                 <x-button
                     wire:click="$dispatch('openModal', { component: 'usuario.crear-usuario' })"
@@ -38,7 +38,7 @@
                             <x-table-cell value="{{ $usuario->tipo }}" />
                             <x-table-cell value="{{ $usuario->email }}" />
                             <x-table-cell>
-                                <div class="flex justify-between gap-4">
+                                <div class="flex justify-around gap-4">
                                     <x-button 
                                         wire:click="$dispatch('openModal', { component: 'usuario.editar-usuario', arguments: { usuario: {{ $usuario->id }} }})"
                                         color="blue"

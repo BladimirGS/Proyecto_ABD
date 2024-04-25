@@ -3,7 +3,6 @@
 namespace App\Livewire\Usuario;
 
 use App\Models\User;
-use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
 use LivewireUI\Modal\ModalComponent;
 
@@ -26,6 +25,12 @@ class CrearUsuario extends ModalComponent
         'email' => 'required|email|unique:users,email',
         'password' => 'required',
     ];
+
+    public function mount()
+    {
+        // verificar que el usuario tenga permisos
+        Gate::authorize('create', auth()->user());
+    }
 
     public function CrearUsuario()
     {
