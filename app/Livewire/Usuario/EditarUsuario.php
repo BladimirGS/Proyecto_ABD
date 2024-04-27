@@ -24,7 +24,7 @@ class EditarUsuario extends ModalComponent
         'nombre' => 'required',
         'apellido' => 'required',
         'rfc' => 'required',
-        'tipo' => 'required',
+        'tipo' => 'required|in:Planta,Honorario,Interino,Administrador',
         'email' => 'required',
     ];
 

@@ -51,10 +51,11 @@
                     wire:model="tipo"
                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
                 >
-                <option>-- Seleccione --</option>
-                <option value="planta">Planta</option>
-                    <option value="honorario">Honorario</option>
-                    <option value="administrador">Administrador</option>
+                    <option>-- Seleccione --</option>
+                    <option value="Planta">Planta</option>
+                    <option value="Honorario">Honorario</option>
+                    <option value="Interino">Interino</option>
+                    <option value="Aministrador">Administrador</option>
                 </select>
                 <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
             </div>
@@ -81,7 +82,7 @@
                     wire:model="password"
                     :value="old('password')"
                     placeholder="Contraseña del usuario"
-                    autocomplete="new-password"
+                    autocomplete="off"
                 />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>

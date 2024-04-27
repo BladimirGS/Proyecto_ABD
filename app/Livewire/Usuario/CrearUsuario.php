@@ -21,7 +21,7 @@ class CrearUsuario extends ModalComponent
         'nombre' => 'required',
         'apellido' => 'required',
         'rfc' => 'required',
-        'tipo' => 'required',
+        'tipo' => 'required|in:Planta,Honorario,Interino,Administrador',
         'email' => 'required|email|unique:users,email',
         'password' => 'required',
     ];
@@ -54,6 +54,6 @@ class CrearUsuario extends ModalComponent
         session()->flash('mensaje', 'El Usuario se añadio correctamente');
 
         // Redireccionar al usuario
-        return redirect()->route('users.index');
+        return redirect()->route('users');
     }
 }

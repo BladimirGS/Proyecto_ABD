@@ -28,7 +28,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->tipo === "administrador";
+        return $user->tipo === "Administrador";
     }
 
     /**
@@ -36,7 +36,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->tipo === "administrador";
+        return $user->tipo === "Administrador";
     }
 
     /**
@@ -44,7 +44,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->tipo === "administrador";
+        return $user->tipo === "Administrador";
     }
 
     /**

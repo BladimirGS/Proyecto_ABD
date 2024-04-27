@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav>
     <!-- Settings Dropdown -->
     <x-dropdown width="48">
         <x-slot name="trigger">
@@ -19,7 +19,7 @@
                 Perfil
             </x-dropdown-link>
 
-            <!-- Authentication -->
+            <!-- Cerrar sesión -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <x-dropdown-link 

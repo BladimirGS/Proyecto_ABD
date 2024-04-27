@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="md:flex md:justify-center md:gap-10 md:items-center">
+    <div class="md:flex md:justify-start md:gap-10 md:items-center py-12">
         <div class="md:w-3/6 p-5">
             <img src="{{ asset('img/login.jpg') }}" alt="Imagen login de usuarios">
         </div>
@@ -16,28 +16,29 @@
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
+
+                <legend class="block font-extrabold text-xl text-violet-600 text-center uppercase">Bienvenido</legend>
+
                 <!-- Email Address -->
-                <div class="mb-5">
+                <div class="mt-5">
                     <x-input-label for="email" value="Correo Electronico" />
 
                     <x-text-input 
                         id="email" 
-                        class="block mt-1 w-full" 
                         type="email" 
                         name="email" 
                         :value="old('email')" 
                         autofocus 
-                        autocomplete="username" />
+                        autocomplete="email" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
-                <div class="mb-5">
+                <div class="mt-5">
                     <x-input-label for="password" value="Contraseña" />
 
                     <x-text-input 
                         id="password" 
-                        class="block mt-1 w-full"
                         type="password"
                         name="password"
                         autocomplete="current-password" />
@@ -48,13 +49,13 @@
                 <!-- Remember Me -->
                 <div class="block mb-5">
                     <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                        <span class="ms-2 text-sm text-gray-600">Recuérdame</span>
+                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-violet-600 shadow-sm focus:ring-indigo-500 active:bg-violet-400" name="remember">
+                        <span class="ms-2 text-sm text-violet-600">Recuérdame</span>
                     </label>
                 </div>
 
                 <div class="flex items-center justify-end">
-                    <x-button type="submit">
+                    <x-button type="submit" color="violet">
                         Iniciar Sesión
                     </x-button>
                 </div>

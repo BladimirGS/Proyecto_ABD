@@ -9,12 +9,7 @@ class Buscador extends Component
     public $termino;
     public $evento;
 
-    public function mount($evento)
-    {
-        $this->evento = $evento;
-    }
-
-    public function leerDatosFormulario()
+    public function enviarTerminoBusqueda()
     {
         $this->dispatch($this->evento, termino: $this->termino);
     }

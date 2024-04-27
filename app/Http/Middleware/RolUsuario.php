@@ -17,7 +17,7 @@ class RolUsuario
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->tipo !== "administrador") {
+        if($request->user()->tipo !== "Administrador") {
             // si el rol no es administrador redireccionar
             return redirect()->route('dashboard');
         }
