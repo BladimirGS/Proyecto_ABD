@@ -5,6 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Middleware\RolUsuario;
 use App\Livewire\Carrera\MostrarCarreras;
 use App\Livewire\Materia\MostrarMaterias;
+use App\Livewire\Periodo\MostrarPeriodos;
 use App\Livewire\Prueba;
 use App\Livewire\Usuario\MostrarUsuarios;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/carreras', MostrarCarreras::class)->name('carreras');
     Route::get('/materias', MostrarMaterias::class)->name('materias');
+    Route::get('/periodos', MostrarPeriodos::class)->name('periodos');
 
 });
 

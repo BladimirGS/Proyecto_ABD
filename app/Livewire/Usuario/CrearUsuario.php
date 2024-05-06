@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Usuario;
 
+use App\Models\Contrato;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use LivewireUI\Modal\ModalComponent;
@@ -46,5 +47,12 @@ class CrearUsuario extends ModalComponent
 
         // Redireccionar al usuario
         return redirect()->route('users');
+    }
+
+    public function render()
+    {
+        return view('livewire.usuario.crear-usuario', [
+            'contratos' => Contrato::all()
+        ]);
     }
 }

@@ -45,17 +45,16 @@
             </div>
     
             <div class="mt-5">
-                <x-input-label for="tipo" value="Tipo" />
+                <x-input-label for="tipo" value="Tipo de contrato" />
                 <select
                     id="tipo"
                     wire:model="tipo"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+                    class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 >
-                    <option>-- Seleccione --</option>
-                    <option value="Planta">Planta</option>
-                    <option value="Honorario">Honorario</option>
-                    <option value="Interino">Interino</option>
-                    <option value="Aministrador">Administrador</option>
+                    <option>Seleccione el tipo de contrato</option>
+                    @foreach ($contratos as $contrato)
+                        <option value="Planta">{{ $contrato->nombre }}</option>
+                    @endforeach
                 </select>
                 <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
             </div>
@@ -82,7 +81,7 @@
                     wire:model="password"
                     :value="old('password')"
                     placeholder="Contraseña del usuario"
-                    autocomplete="off"
+                    autocomplete="new-password"
                 />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>

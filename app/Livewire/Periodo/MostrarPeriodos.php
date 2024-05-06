@@ -1,42 +1,42 @@
 <?php
 
-namespace App\Livewire\Materia;
+namespace App\Livewire\Periodo;
 
-use App\Models\Materia;
+use App\Models\Periodo;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
-class MostrarMaterias extends Component
+class MostrarPeriodos extends Component
 {
     use WithPagination;
 
     public $termino;
 
-    #[On('eliminar-materia')]
-    public function EliminarMaterio(Materia $id) 
+    #[On('eliminar-periodo')]
+    public function EliminarPeriodo(Periodo $id) 
     {
         $id->delete();
     }
 
-    #[On('buscar-materia')]
+    #[On('buscar-periodo')]
     public function buscar($termino)
     {
         $this->termino = $termino;
         $this->resetPage();
     }
 
-    #[On('actualizar-materia')]
+    #[On('actualizar-periodo')]
     public function render()
     {
-        $materias = Materia::when($this->termino, function($query) {
+        $periodos = Periodo::when($this->termino, function($query) {
             $query->where('clave', 'LIKE', "%" . $this->termino . "%")
                   ->orWhere('nombre', 'LIKE', "%" . $this->termino . "%");
         })
         ->paginate(5);
         
-        return view('livewire.materia.mostrar-materias', [
-            'materias' => $materias
+        return view('livewire.periodo.mostrar-periodos', [
+            'periodos' => $periodos
         ]);
     }
 }

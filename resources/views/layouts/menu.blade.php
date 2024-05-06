@@ -11,30 +11,41 @@
                 <span class="">Dashboard</span>
             </x-nav-link>
 
+            @can('ver-usuario')
             <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                 <i class='bx bx-user text-xl' ></i>
-                <span>Users</span>
+                <span>Usuarios</span>
             </x-nav-link>
+            @endcan
             
+            @can('ver-usuario')
             <x-nav-link>
                 <i class='bx bx-message-square-detail text-xl' ></i>
-                <span>Messages</span>
+                <span>Carreras</span>
             </x-nav-link>
 
+            @endcan
+            
+            @can('ver-usuario')
             <x-nav-link>
                 <i class='bx bx-bookmark text-xl' ></i>
-                <span>Favorites</span>
+                <span>Materias</span>
             </x-nav-link>
+            @endcan
 
+            @can('ver-usuario')
             <x-nav-link>
                 <i class='bx bx-folder text-xl' ></i>
-                <span>Data</span>
+                <span>Periodos</span>
             </x-nav-link>
-
+            @endcan
+            
+            @can('ver-usuario')
             <x-nav-link>
                 <i class='bx bx-bar-chart-alt-2 text-xl' ></i>
-                <span>Analytics</span>
+                <span>Actividades</span>
             </x-nav-link>
+            @endcan
         </div>
     </div>
 </nav>
