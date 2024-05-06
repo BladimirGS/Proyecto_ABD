@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('rfc');
-            $table->string('tipo');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();

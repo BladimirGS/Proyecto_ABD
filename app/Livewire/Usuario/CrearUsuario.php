@@ -26,17 +26,8 @@ class CrearUsuario extends ModalComponent
         'password' => 'required',
     ];
 
-    public function mount()
-    {
-        // verificar que el usuario tenga permisos
-        Gate::authorize('create', auth()->user());
-    }
-
     public function CrearUsuario()
     {
-        // verificar que el usuario tenga permisos
-        Gate::authorize('create', auth()->user());
-
         // Se validan con las reglas
         $datos = $this->validate();
 

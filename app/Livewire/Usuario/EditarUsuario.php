@@ -30,9 +30,6 @@ class EditarUsuario extends ModalComponent
 
     public function mount()
     {
-        // verificar que el usuario tenga permisos
-        Gate::authorize('update', auth()->user());
-
         // rellena los nuevos valores
         $this->nombre = $this->usuario->nombre;
         $this->apellido = $this->usuario->apellido;
@@ -43,9 +40,6 @@ class EditarUsuario extends ModalComponent
 
     public function EditarUsuario()
     {
-        // verificar que el usuario tenga permisos
-        Gate::authorize('update', auth()->user());
-
         // Se validan con las reglas
         $datos = $this->validate();
 

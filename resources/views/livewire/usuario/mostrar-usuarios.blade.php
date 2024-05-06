@@ -35,7 +35,13 @@
                             <x-table-cell value="{{ $usuario->nombre }}" />
                             <x-table-cell value="{{ $usuario->apellido }}" />
                             <x-table-cell value="{{ $usuario->rfc }}" />
-                            <x-table-cell value="{{ $usuario->tipo }}" />
+                                <x-table-cell> 
+                                    @forelse ($usuario->contratos as $contrato)
+                                        <span class="block">{{ $contrato->nombre }}</span>
+                                    @empty
+                                        <span>Sin contrato</span>
+                                    @endforelse
+                                </x-table-cell> 
                             <x-table-cell value="{{ $usuario->email }}" />
                             <x-table-cell>
                                 <div class="flex justify-around gap-4">

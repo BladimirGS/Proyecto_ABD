@@ -19,3 +19,10 @@ composer require laravel-lang/common --dev
 php artisan lang:add es
 
 php artisan make:livewire usuario\FiltrarUsuarios
+
+
+spatie 
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan make:seeder RolesAndPermissionsSeeder  
+php artisan migrate:refresh --seed        

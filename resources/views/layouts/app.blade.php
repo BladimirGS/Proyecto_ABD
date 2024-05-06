@@ -18,15 +18,15 @@
 
         @livewireStyles
     </head>
-    <body class="antialiased text-gray-900 bg-gray-100" id="body-pd">
+    <body class="antialiased body-pd text-gray-900 bg-gray-100" id="body-pd">
         <div class="min-h-screen flex flex-col">
-            <header class="header bg-white" id="header">
+            <header class="header body-pd bg-white" id="header">
                 @auth
                     <div class="header__toggle">
                         <i class="bx bx-menu p-2 sm:pr-8" id="header-toggle"></i>
                     </div>
                     
-                    <div class="l-navbar  bg-violet-700" id="nav-bar">
+                    <div class="l-navbar show  bg-violet-700" id="nav-bar">
                         @include('layouts.menu')
                     </div>
                 @endauth

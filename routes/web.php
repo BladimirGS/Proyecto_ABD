@@ -14,7 +14,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'store']);
 });
 
-Route::middleware(['auth', 'rol.admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/', Prueba::class)->name('dashboard');
 
@@ -23,4 +23,7 @@ Route::middleware(['auth', 'rol.admin'])->group(function () {
 
     // Gestion de usuarios
     Route::get('/users', MostrarUsuarios::class)->name('users');
+    Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
+    Route::get('/users/{id}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
 });
+

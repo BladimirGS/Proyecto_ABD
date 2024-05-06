@@ -84,7 +84,7 @@
                     type="password"
                     wire:model="password"
                     placeholder="Contraseña del usuario"
-                    autocomplete="off"
+                    autocomplete="new-password"
                 />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>

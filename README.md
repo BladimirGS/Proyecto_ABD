@@ -53,10 +53,9 @@
     php artisan migrate
     ```
 
-9. Inserta el primer usuario en la tabla `users`:
-    ```sql
-    INSERT INTO `users` (`nombre`, `apellido`, `rfc`, `tipo`, `email`, `password`)
-    VALUES ('usuario', 'admin', '2116', 'Administrador', 'admin@correo.com', '$2y$12$K6ap1kW55VRk9FkogAqVpOPqfMGLETZsNH4HeITEoaeNgg84qCTF6');
+9. Ejecuta las semillas:
+    ```
+    php artisan migrate:refresh --seed
     ```
 
 10. Genera una clave de aplicación:
