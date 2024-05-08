@@ -12,15 +12,15 @@ class EditarCarrera extends ModalComponent
 
     public $nombre;
 
+    protected $rules = [
+        'nombre' => 'required',
+    ];
+
     public function mount()
     {
         // rellena los nuevos valores
         $this->nombre = $this->carrera->nombre;
     }
-
-    protected $rules = [
-        'nombre' => 'required',
-    ];
 
     public function EditarCarrera()
     {

@@ -19,7 +19,7 @@
             @endcan
             
             @can('ver-usuario')
-            <x-nav-link>
+            <x-nav-link :href="route('carreras')" :active="request()->routeIs('carreras')">
                 <i class='bx bx-message-square-detail text-xl' ></i>
                 <span>Carreras</span>
             </x-nav-link>
@@ -27,14 +27,14 @@
             @endcan
             
             @can('ver-usuario')
-            <x-nav-link>
+            <x-nav-link :href="route('materias')" :active="request()->routeIs('materias')">
                 <i class='bx bx-bookmark text-xl' ></i>
                 <span>Materias</span>
             </x-nav-link>
             @endcan
 
             @can('ver-usuario')
-            <x-nav-link>
+            <x-nav-link :href="route('periodos')" :active="request()->routeIs('periodos')">
                 <i class='bx bx-folder text-xl' ></i>
                 <span>Periodos</span>
             </x-nav-link>

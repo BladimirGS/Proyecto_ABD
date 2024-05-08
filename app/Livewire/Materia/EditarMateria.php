@@ -13,17 +13,17 @@ class EditarMateria extends ModalComponent
     public $clave;
     public $nombre;
 
+    protected $rules = [
+        'clave' => 'required',
+        'nombre' => 'required',
+    ];
+
     public function mount()
     {
         // rellena los nuevos valores
         $this->clave = $this->materia->clave;
         $this->nombre = $this->materia->nombre;
     }
-
-    protected $rules = [
-        'clave' => 'required',
-        'nombre' => 'required',
-    ];
 
     public function EditarMateria()
     {

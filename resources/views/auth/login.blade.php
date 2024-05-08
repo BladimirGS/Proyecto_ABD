@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Iniciar sesión
@@ -47,7 +47,7 @@
                 </div>
 
                 <!-- Remember Me -->
-                <div class="block mb-5">
+                <div class="block mt-4 mb-5">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-violet-600 shadow-sm focus:ring-indigo-500 active:bg-violet-400" name="remember">
                         <span class="ms-2 text-sm text-violet-600">Recuérdame</span>
@@ -62,4 +62,4 @@
             </form>
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>

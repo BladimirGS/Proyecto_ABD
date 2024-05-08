@@ -48,12 +48,12 @@
 
 7. Crea una nueva base de datos en tu servidor MySQL.
 
-8. Ejecuta las migraciones para crear las tablas en la base de datos:
-    ```
-    php artisan migrate
+8. Creamos la base de datos:
+    ```sql
+    CREATE DATABASE name_database;
     ```
 
-9. Ejecuta las semillas:
+9.  Ejecuta las migraciones y semillas de la base de datos:
     ```
     php artisan migrate:refresh --seed
     ```
