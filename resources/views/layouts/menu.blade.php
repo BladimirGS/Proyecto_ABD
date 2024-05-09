@@ -6,13 +6,13 @@
         </x-nav-link>
 
         <div>
-            <x-nav-link>
+            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 <img src="{{ asset('img/bb.png') }}" alt="" class=" h-5 w-5">
                 <span class="">Dashboard</span>
             </x-nav-link>
 
             @can('ver-usuario')
-            <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                 <i class='bx bx-user text-xl' ></i>
                 <span>Usuarios</span>
             </x-nav-link>
@@ -44,6 +44,13 @@
             <x-nav-link>
                 <i class='bx bx-bar-chart-alt-2 text-xl' ></i>
                 <span>Actividades</span>
+            </x-nav-link>
+            @endcan
+
+            @can('ver-algo')
+            <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')">
+                <i class='bx bx-bar-chart-alt-2 text-xl' ></i>
+                <span>Grupos</span>
             </x-nav-link>
             @endcan
         </div>

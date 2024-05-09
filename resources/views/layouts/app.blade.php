@@ -17,6 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @livewireStyles
+        @stack('styles')
     </head>
     <body class="antialiased body-pd text-gray-900 bg-gray-100" id="body-pd">
         <div class="min-h-screen flex flex-col">

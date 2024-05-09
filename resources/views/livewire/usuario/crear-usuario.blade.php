@@ -46,16 +46,18 @@
     
             <div class="mt-5">
                 <x-input-label for="tipo" value="Tipo de contrato" />
+
                 <select
-                    id="tipo"
-                    wire:model="tipo"
-                    class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                id="tipo"
+                wire:model="tipo"
+                class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 >
-                    <option>Seleccione el tipo de contrato</option>
-                    @foreach ($contratos as $contrato)
-                        <option value="Planta">{{ $contrato->nombre }}</option>
-                    @endforeach
+                <option disabled selected value=" ">Seleccione el tipo de contrato</option>
+                @foreach ($contratos as $contrato)
+                    <option value="{{ $contrato->id }}">{{ $contrato->nombre }}</option>
+                @endforeach
                 </select>
+            
                 <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
             </div>
     

@@ -13,7 +13,7 @@ class CrearUsuario extends ModalComponent
     public $nombre;
     public $apellido;
     public $rfc;
-    public $tipo;
+    public $tipo=" ";
     public $email;
     public $password;
 
@@ -22,7 +22,7 @@ class CrearUsuario extends ModalComponent
         'nombre' => 'required',
         'apellido' => 'required',
         'rfc' => 'required',
-        'tipo' => 'required|in:Planta,Honorario,Interino,Administrador',
+        'tipo' => 'required|in:1,2,3',
         'email' => 'required|email|unique:users,email',
         'password' => 'required',
     ];
@@ -33,20 +33,21 @@ class CrearUsuario extends ModalComponent
         $datos = $this->validate();
 
         // crear usuario
-        User::create([
+        $user = User::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
             'rfc' => $datos['rfc'],
-            'tipo' => $datos['tipo'],
             'email' => $datos['email'],
             'password' => bcrypt($datos['password']),
         ]);
+
+        $user->contratos()->attach($datos['tipo']);
 
         // Crear un mensaje
         session()->flash('mensaje', 'El Usuario se añadio correctamente');
 
         // Redireccionar al usuario
-        return redirect()->route('users');
+        return redirect()->route('users.index');
     }
 
     public function render()
