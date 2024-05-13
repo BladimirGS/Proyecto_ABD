@@ -126,32 +126,28 @@
 <script>
     document.addEventListener('livewire:initialized', () => {
         $('.selectUsers').select2({
-            placeholder: 'Seleccione algo',
-            tags: true,
+            placeholder: 'Seleccione algo'
         });
         $('.selectUsers').on('change', function() {
             @this.set('user_id', this.value)
         })
 
         $('.selectCarreras').select2({
-            placeholder: 'Seleccione algo',
-            tags: true,
+            placeholder: 'Seleccione algo'
         });
         $('.selectCarreras').on('change', function() {
             @this.set('carrera_id', this.value)
         })
 
         $('.selectMaterias').select2({
-            placeholder: 'Seleccione algo',
-            tags: true,
+            placeholder: 'Seleccione algo'
         });
         $('.selectMaterias').on('change', function() {
             @this.set('materia_id', this.value)
         })
         
         $('.selectPeriodos').select2({
-            placeholder: 'Seleccione algo',
-            tags: true,
+            placeholder: 'Seleccione algo'
         });
         $('.selectPeriodos').on('change', function() {
             @this.set('periodo_id', this.value)

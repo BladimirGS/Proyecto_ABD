@@ -49,6 +49,7 @@ class CrearGrupo extends Component
 
     public function render()
     {
+
         return view('livewire.grupo.crear-grupo', [
             'users' => User::all(),
             'carreras' => Carrera::all(),

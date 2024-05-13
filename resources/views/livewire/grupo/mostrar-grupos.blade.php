@@ -40,10 +40,10 @@
                             <x-table-cell>{{ $grupo->periodo->nombre }}</x-table-cell>
                             <x-table-cell>
                                 <div class="flex justify-around gap-4">
-                                    <x-button 
-                                        wire:click="$dispatch('openModal', { component: 'grupo.editar-grupo', arguments: { grupo: {{ $grupo->id }} }})"
-                                        color="blue"
-                                    >Editar</x-button>
+                                    <a 
+                                        href="{{ route('grupos.edit', ['grupo' => $grupo]) }}"
+                                        class="px-4 py-2 text-white rounded-md font-semibold text-xs uppercase tracking-widest border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800"
+                                    >Editar</a>
 
                                     <x-button
                                         wire:click="$dispatch('eliminar-grupo', { id: {{ $grupo->id }} })"

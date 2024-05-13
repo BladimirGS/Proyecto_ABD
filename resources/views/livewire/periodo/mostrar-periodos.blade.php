@@ -15,7 +15,7 @@
                 >Registrar Periodo</x-button>
             </div>
 
-            <div class=" md:w-1/2 mx-auto bg-white shadow-sm sm:rounded-lg overflow-x-scroll sm:overflow-hidden">
+            <div class=" md:w-2/3 mx-auto bg-white shadow-sm sm:rounded-lg overflow-x-scroll sm:overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
