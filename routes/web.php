@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\docente\GrupoDocenteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Middleware\RolUsuario;
 use App\Livewire\Carrera\MostrarCarreras;
-use App\Livewire\Grupo\CrearGrupo;
 use App\Livewire\Grupo\MostrarGrupos;
 use App\Livewire\Materia\MostrarMaterias;
 use App\Livewire\Periodo\MostrarPeriodos;
@@ -35,12 +34,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/carreras', MostrarCarreras::class)->name('carreras');
     Route::get('/materias', MostrarMaterias::class)->name('materias');
     Route::get('/periodos', MostrarPeriodos::class)->name('periodos');
+
+    // administrador
     Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
     // Route::get('/grupos/create', CrearGrupo::class)->name('grupos.create');
     Route::get('/grupos/{grupo}/edit', [GrupoController::class, 'edit'])->name('grupos.edit');
     Route::post('/grupos/{grupo}/update', [GrupoController::class, 'update'])->name('grupos.update');
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
     Route::post('/grupos/store', [GrupoController::class, 'store'])->name('grupos.store');
+
+    // docente
+    Route::get('/docente/grupos', [GrupoDocenteController::class, 'index'])->name('docente.grupos.index');
 
 });
 

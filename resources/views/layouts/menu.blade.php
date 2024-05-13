@@ -6,7 +6,7 @@
         </x-nav-link>
 
         <div>
-            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-nav-link :href="route('docente.grupos.index')" :active="request()->routeIs('docente.grupos.index')">
                 <img src="{{ asset('img/bb.png') }}" alt="" class=" h-5 w-5">
                 <span class="">Dashboard</span>
             </x-nav-link>
