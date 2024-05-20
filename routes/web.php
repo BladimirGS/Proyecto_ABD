@@ -1,16 +1,18 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\docente\GrupoDocenteController;
-use App\Http\Controllers\GrupoController;
-use App\Http\Controllers\UsuarioController;
-use App\Livewire\Carrera\MostrarCarreras;
+use App\Livewire\Prueba;
 use App\Livewire\Grupo\MostrarGrupos;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GrupoController;
+use App\Livewire\Carrera\MostrarCarreras;
 use App\Livewire\Materia\MostrarMaterias;
 use App\Livewire\Periodo\MostrarPeriodos;
-use App\Livewire\Prueba;
 use App\Livewire\Usuario\MostrarUsuarios;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsuarioController;
+use App\Livewire\Actividad\MostrarActividad;
+use App\Livewire\Actividad\MostrarActividades;
+use App\Http\Controllers\docente\GrupoDocenteController;
 
 
 Route::middleware('guest')->group(function () {
@@ -34,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/carreras', MostrarCarreras::class)->name('carreras');
     Route::get('/materias', MostrarMaterias::class)->name('materias');
     Route::get('/periodos', MostrarPeriodos::class)->name('periodos');
+    Route::get('/actividades', MostrarActividades::class)->name('actividades');
 
     // administrador
     Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
@@ -42,6 +45,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/grupos/{grupo}/update', [GrupoController::class, 'update'])->name('grupos.update');
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
     Route::post('/grupos/store', [GrupoController::class, 'store'])->name('grupos.store');
+
+    Route::get('/actividades/{actividad}', MostrarActividad::class)->name('actividades.show');
+    Route::get('/grupos/{grupo}', [GrupoController::class, 'show'])->name('grupos.show');
 
     // docente
     Route::get('/docente/grupos', [GrupoDocenteController::class, 'index'])->name('docente.grupos.index');

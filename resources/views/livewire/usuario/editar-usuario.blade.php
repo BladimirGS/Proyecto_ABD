@@ -45,22 +45,24 @@
             </div>
     
             <div class="mt-5">
-                <x-input-label for="tipo" value="Tipo" />
-    
-                <select
-                    id="tipo"
-                    wire:model="tipo"
-                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
-                >
-                    <option disabled value="{{ $usuario->tipo }}">{{ $usuario->tipo}} </option>
-                    <option value="Planta">Planta</option>
-                    <option value="Honorario">Honorario</option>
-                    <option value="Interino">Interino</option>
-                    <option value="Administrador">Administrador</option>
-                </select>
-    
-                <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
-            </div>
+                <x-input-label for="contratosUsuario" value="Contrato" />
+            
+                @foreach ($contratos as $contrato)
+                    <div class="flex items-center mt-2">
+                        <input
+                            type="checkbox"
+                            id="contratosUsuario_{{ $contrato->id }}"
+                            value="{{ $contrato->id }}"
+                            wire:model="contratosUsuario"
+                            {{ in_array($contrato->id, $contratosUsuario) ? 'checked' : '' }}
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        >
+                        <label for="contratosUsuario_{{ $contrato->id }}" class="ml-2 text-gray-700">{{ $contrato->nombre }}</label>
+                    </div>
+                @endforeach
+            
+                <x-input-error :messages="$errors->get('contratosUsuario')" class="mt-2" />
+            </div>            
     
             <div class="mt-5">
                 <x-input-label for="email" value="Correo" />

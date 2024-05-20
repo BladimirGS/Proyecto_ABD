@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Usuario;
 
+use App\Models\Contrato;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use LivewireUI\Modal\ModalComponent;
@@ -15,7 +16,7 @@ class EditarUsuario extends ModalComponent
     public $nombre;
     public $apellido;
     public $rfc;
-    public $tipo;
+    public $contratosUsuario;
     public $email;
     public $password;
 
@@ -24,32 +25,49 @@ class EditarUsuario extends ModalComponent
         'nombre' => 'required',
         'apellido' => 'required',
         'rfc' => 'required',
-        'tipo' => 'required|in:Planta,Honorario,Interino,Administrador',
+        'contratosUsuario' => 'required|array',
+        'contratosUsuario.*' => 'exists:contratos,id',
         'email' => 'required',
     ];
 
     public function mount()
     {
-        // rellena los nuevos valores
+        // Rellena los nuevos valores
         $this->nombre = $this->usuario->nombre;
         $this->apellido = $this->usuario->apellido;
         $this->rfc = $this->usuario->rfc;
-        $this->tipo = $this->usuario->tipo;
+        $this->contratosUsuario = $this->usuario->contratos()->pluck('contratos.id')->toArray();
         $this->email = $this->usuario->email;
     }
 
     public function EditarUsuario()
-    {
+    {   
+        // dd($this->contratosUsuario);
         // Se validan con las reglas
         $datos = $this->validate();
 
         // Se actualiza el usuario
-        $this->usuario->update($datos);
+        $this->usuario->update([
+            'nombre' => $datos['nombre'],
+            'apellido' => $datos['apellido'],
+            'rfc' => $datos['rfc'],
+            'email' => $datos['email'],
+        ]);
 
-        // se dispara un evento
+        // Actualizar tabla intermedia
+        $this->usuario->contratos()->sync($datos['contratosUsuario']);
+
+        // Se dispara un evento
         $this->dispatch('actualizar-usuario');
 
         // Se cierra el modal
         $this->closeModal();
+    }
+
+    public function render()
+    {
+        return view('livewire.usuario.editar-usuario', [
+            'contratos' => Contrato::all()
+        ]);
     }
 }

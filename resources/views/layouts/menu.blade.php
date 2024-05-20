@@ -41,7 +41,7 @@
             @endcan
             
             @can('ver-usuario')
-            <x-nav-link>
+            <x-nav-link :href="route('actividades')" :active="request()->routeIs('actividades')">
                 <i class='bx bx-bar-chart-alt-2 text-xl' ></i>
                 <span>Actividades</span>
             </x-nav-link>

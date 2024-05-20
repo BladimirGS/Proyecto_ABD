@@ -13,7 +13,7 @@ class CrearUsuario extends ModalComponent
     public $nombre;
     public $apellido;
     public $rfc;
-    public $tipo=" ";
+    public $contratosUsuario = [];
     public $email;
     public $password;
 
@@ -22,7 +22,8 @@ class CrearUsuario extends ModalComponent
         'nombre' => 'required',
         'apellido' => 'required',
         'rfc' => 'required',
-        'tipo' => 'required|in:1,2,3',
+        'contratosUsuario' => 'required|array',
+        'contratosUsuario.*' => 'exists:contratos,id',
         'email' => 'required|email|unique:users,email',
         'password' => 'required',
     ];
@@ -40,8 +41,9 @@ class CrearUsuario extends ModalComponent
             'email' => $datos['email'],
             'password' => bcrypt($datos['password']),
         ]);
-
-        $user->contratos()->attach($datos['tipo']);
+        
+        // tabla intermedia
+        $user->contratos()->attach($datos['contratosUsuario']);
 
         // Crear un mensaje
         session()->flash('mensaje', 'El Usuario se añadio correctamente');

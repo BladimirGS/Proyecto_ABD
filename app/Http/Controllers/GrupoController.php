@@ -7,6 +7,7 @@ use App\Models\Grupo;
 use App\Models\Carrera;
 use App\Models\Materia;
 use App\Models\Periodo;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class GrupoController extends Controller
@@ -63,7 +64,10 @@ class GrupoController extends Controller
      */
     public function show(Grupo $grupo)
     {
-        //
+        return view('grupo.show', [
+            'grupo' => $grupo, 
+            'actividades' => Activity::all()
+        ]);
     }
 
     /**
