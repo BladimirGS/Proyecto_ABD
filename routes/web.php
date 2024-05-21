@@ -13,7 +13,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Livewire\Actividad\MostrarActividad;
 use App\Livewire\Actividad\MostrarActividades;
 use App\Http\Controllers\docente\GrupoDocenteController;
-
+use App\Livewire\Archivo\MostrarArchivos;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -46,11 +46,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
     Route::post('/grupos/store', [GrupoController::class, 'store'])->name('grupos.store');
 
-    Route::get('/actividades/{actividad}', MostrarActividad::class)->name('actividades.show');
+    Route::get('/grupos/{grupo}/actividades/{actividad}', MostrarActividad::class)->name('actividades.show');
     Route::get('/grupos/{grupo}', [GrupoController::class, 'show'])->name('grupos.show');
 
     // docente
     Route::get('/docente/grupos', [GrupoDocenteController::class, 'index'])->name('docente.grupos.index');
+    Route::get('/archivos', MostrarArchivos::class)->name('archivos.index');
 
 });
 

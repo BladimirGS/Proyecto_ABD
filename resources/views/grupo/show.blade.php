@@ -8,7 +8,7 @@
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 mx-auto space-y-8">
             @foreach ($actividades as $actividad)
-            <a href="{{ route('actividades.show', $actividad) }}" class="block bg-white rounded-lg shadow-sm py-4 px-5">
+            <a href="{{ route('actividades.show', [$actividad, $grupo]) }}" class="block bg-white rounded-lg shadow-sm py-4 px-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 bg-blue-500 text-white rounded-full p-2">
                         <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" class="fill-current w-6 h-6">

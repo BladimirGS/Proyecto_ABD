@@ -53,6 +53,13 @@
                 <span>Grupos</span>
             </x-nav-link>
             @endcan
+
+            @can('ver-usuario')
+            <x-nav-link :href="route('archivos.index')" :active="request()->routeIs('archivos.index')">
+                <i class='bx bx-bookmark text-xl' ></i>
+                <span>Archivos</span>
+            </x-nav-link>
+            @endcan
         </div>
     </div>
 </nav>
