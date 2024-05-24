@@ -5,13 +5,14 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Contrato;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 // Agregamos Spatie
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -51,13 +52,32 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Agregando super administrador
         $user = User::create([
-            'nombre' => 'usuario',
+            'nombre' => 'Juan Carlos',
             'apellido' => 'admin',
             'rfc' => '2116',
             'email' => 'admin@correo.com',
             'password' => Hash::make('password'),
         ]);
         $user->assignRole($role1);
+
+        // insertar los datos para la tabla contratos
+        DB::table('contratos')->insert([
+            'nombre' => 'Planta',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('contratos')->insert([
+            'nombre' => 'Honorario',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('contratos')->insert([
+            'nombre' => 'Interino',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $permiso = Permission::create(['name'=>'ver-algo']);
         $permiso2 = Permission::create(['name'=>'crear-algo']);
@@ -67,7 +87,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Agregando un maestro
         $user1 = User::create([
-            'nombre' => 'usuario',
+            'nombre' => 'Hugo Bladimir',
             'apellido' => 'maestro',
             'rfc' => '2216',
             'email' => 'correo@correo.com',

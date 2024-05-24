@@ -31,5 +31,8 @@ class CrearActividad extends ModalComponent
 
         // Se cierra el modal
         $this->closeModal();
+
+        // Actualizar el componente Livewire
+        return redirect()->to(route('actividades.show', ['grupo' => $this->grupo, 'actividad' => $this->actividad]));
     }
 }

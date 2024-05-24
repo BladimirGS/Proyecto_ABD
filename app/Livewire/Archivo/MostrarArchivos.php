@@ -16,6 +16,28 @@ class MostrarArchivos extends Component
         return Storage::download($file->documento, $file->nombre);
     }
 
+    public function approve(Archivo $archivo)
+    {
+        if ($archivo) {
+            $archivo->status = true;
+            $archivo->save();
+        }
+
+        // Actualizar el componente Livewire
+        return redirect()->to(route('archivos.index'));
+    }
+
+    public function disapproved(Archivo $archivo)
+    {
+        if ($archivo) {
+            $archivo->status = false;
+            $archivo->save();
+        }
+
+        // Actualizar el componente Livewire
+        return redirect()->to(route('archivos.index'));
+    }
+
     public function render()
     {
         return view('livewire.archivo.mostrar-archivos', [

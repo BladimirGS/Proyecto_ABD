@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('fecha')->default(now());
             $table->string('documento');
+            $table->boolean('status')->nullable();
             $table->foreignId('grupo_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('activity_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();

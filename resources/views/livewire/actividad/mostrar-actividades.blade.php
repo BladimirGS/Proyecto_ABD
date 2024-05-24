@@ -15,7 +15,9 @@
                 >Registrar actividad</x-button>
             </div>
 
-            <div class=" md:w-2/3 mx-auto bg-white shadow-sm sm:rounded-lg overflow-x-scroll sm:overflow-hidden">
+            <livewire:Datatable.actividad-datatable>
+
+            {{-- <div class=" md:w-2/3 mx-auto bg-white shadow-sm sm:rounded-lg overflow-x-scroll sm:overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -52,11 +54,11 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-
+            </div> --}}
+{{-- 
             <div class="mt-10">
                 {{ $actividades->links() }}
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

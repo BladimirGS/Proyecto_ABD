@@ -24,6 +24,7 @@
                             <x-table-header value="Docente" />
                             <x-table-header value="Archivo" />
                             <x-table-header value="Actividad" />
+                            <x-table-header value="Estado" />
                             <x-table-header scope="col" class="relative">
                                 <span class="sr-only">Editar/Eliminar</span>
                             </x-table-header>
@@ -36,12 +37,18 @@
                             <x-table-cell value="{{ $archivo->grupo->user->nombre }}" />
                             <x-table-cell value="{{ $archivo->nombre }}" />
                             <x-table-cell value="{{ $archivo->activity->nombre }}" />
+                            <x-table-cell value="{{ $archivo->status ?? 'pendiente' }}" />
                             <x-table-cell>
                                 <div class="flex justify-around gap-4">
-                                    {{-- <a 
-                                        href="{{ route('archivos.edit', ['archivo' => $archivo]) }}"
-                                        class="px-4 py-2 text-white rounded-md font-semibold text-xs uppercase tracking-widest border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800"
-                                    >Editar</a> --}}
+                                    <x-button
+                                        wire:click="approve({{ $archivo }})"
+                                        color="violet"
+                                    >Aprobar</x-button>
+
+                                    <x-button
+                                        wire:click="disapproved({{ $archivo }})"
+                                        color="blue"
+                                    >Descartar</x-button>
 
                                     <x-button
                                         wire:click="download({{ $archivo }})"

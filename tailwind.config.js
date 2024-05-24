@@ -8,6 +8,7 @@ export default {
         "./resources/views/**/*.blade.php",
     ],
     plugins: [forms],
+    darkMode: 'class',
     // ModalUI
     safelist: [
         {

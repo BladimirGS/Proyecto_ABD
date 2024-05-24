@@ -17,11 +17,29 @@
                         <tbody>
                             <tr>
                                 <td class="border border-gray-400 px-4 py-2 font-bold">Estatus de la entrega</td>
-                                <td class="border border-gray-400 px-4 py-2">Aun no se ha hecho ninguna tarea</td>
+                                <td class="border border-gray-400 px-4 py-2">
+                                    @if ($archivoExistente)
+                                        Actividad completada
+                                    @else
+                                        Actividad no completada
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
-                                <td class="border border-gray-400 px-4 py-2 font-bold">Estatus de calificación</td>
-                                <td class="border border-gray-400 px-4 py-2">No calificado</td>
+                                <td class="border border-gray-400 px-4 py-2 font-bold">Estatus de revisión</td>
+                                <td class="border border-gray-400 px-4 py-2">
+                                    @if ($archivoExistente)
+                                        @if ($archivoExistente->status === null)
+                                            Revisión pendiente
+                                        @elseif ($archivoExistente->status === true)
+                                            Actividad aceptada
+                                        @elseif ($archivoExistente->status === false)
+                                            Actividad no aceptada
+                                        @endif
+                                    @else
+                                        Actividad no completada
+                                    @endif
+                                </td>                                
                             </tr>
                             <tr>
                                 <td class="border border-gray-400 px-4 py-2 font-bold">Tiempo restante</td>
@@ -29,7 +47,19 @@
                             </tr>
                             <tr>
                                 <td class="border border-gray-400 px-4 py-2 font-bold">Última modificación</td>
-                                <td class="border border-gray-400 px-4 py-2">-</td>
+                                <td class="border border-gray-400 px-4 py-2">
+                                    {{ $archivoExistente ? $archivoExistente->fecha : '-' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-400 px-4 py-2 font-bold">Archivo</td>
+                                <td class="border border-gray-400 px-4 py-2">
+                                    @if ($archivoExistente)
+                                        <livewire:descargas wire:click="$commit" :archivoExistente="$archivoExistente">
+                                    @else
+                                        Actividad no completada
+                                    @endif
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,7 +77,6 @@
                             
                         <x-button class="mt-8" type="submit">Submit</x-button>
                     </form> 
-                
                 </div>
             </div>
         </div>
