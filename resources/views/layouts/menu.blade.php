@@ -19,7 +19,7 @@
             @endcan
             
             @can('ver-usuario')
-            <x-nav-link :href="route('carreras')" :active="request()->routeIs('carreras')">
+            <x-nav-link :href="route('carreras.index')" :active="request()->routeIs('carreras.index')">
                 <i class='bx bx-message-square-detail text-xl' ></i>
                 <span>Carreras</span>
             </x-nav-link>

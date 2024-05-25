@@ -10,9 +10,6 @@
         <!--=============== BOXICONS ===============-->
         <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
-
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -57,8 +54,6 @@
                 {{ now()->year }}
             </footer>
         </div>
-
-        <script src="{{ asset('js/nav.js') }}"></script>
 
         @livewireScripts
         @livewire('wire-elements-modal')

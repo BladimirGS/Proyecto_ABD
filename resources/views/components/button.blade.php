@@ -7,13 +7,18 @@
         case 'red':
             $class = 'bg-red-600 hover:bg-red-700 focus:bg-red-700 active:bg-red-800';
             break;
+        case 'green':
+        $class = 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800';
+            break;
         case 'blue':
             $class = 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800';
             break;
         case 'violet':
         $class = 'bg-violet-600 hover:bg-violet-700 focus:bg-violet-700 active:bg-violet-800';
         break;
-        case 'primary':
+        case 'gray':
+            $class = 'bg-gray-500 hover:bg-gray-600 focus:bg-gray-600 active:bg-gray-700';
+            break;
         default:
             $class = 'bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900';
             break;
