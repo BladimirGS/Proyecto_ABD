@@ -26,13 +26,12 @@ class CrearActividad extends ModalComponent
             'nombre' => $datos['nombre'],
             'fecha' => $datos['fecha'],
         ]);
+        $this->dispatch('refreshDatatable');
 
         $this->dispatch('actualizar-actividad');
 
         // Se cierra el modal
         $this->closeModal();
 
-        // Actualizar el componente Livewire
-        return redirect()->to(route('actividades.show', ['grupo' => $this->grupo, 'actividad' => $this->actividad]));
     }
 }

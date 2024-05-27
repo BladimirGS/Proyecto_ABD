@@ -16,6 +16,7 @@ class Grupo extends Model
         'carrera_id',
         'materia_id',
         'periodo_id',
+        'color',
     ];
 
     public function user()
@@ -26,6 +27,11 @@ class Grupo extends Model
     public function carrera()
     {
         return $this->belongsTo(Carrera::class);
+    }
+
+    public function archivos()
+    {
+        return $this->hasMany(Archivo::class);
     }
 
     public function materia()

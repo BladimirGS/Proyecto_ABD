@@ -35,6 +35,7 @@ class EditarActividad extends ModalComponent
         $this->actividad->update($datos);
 
         // se dispara un evento
+        $this->dispatch('refreshDatatable');
         $this->dispatch('actualizar-actividad');
 
         // Se cierra el modal

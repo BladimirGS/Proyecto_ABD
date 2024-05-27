@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\docente;
 
-use App\Http\Controllers\Controller;
 use App\Models\Grupo;
+use App\Models\Archivo;
+use App\Models\Periodo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class GrupoDocenteController extends Controller
 {
@@ -13,21 +16,30 @@ class GrupoDocenteController extends Controller
      */
     public function index()
     {
-        $grupos = Grupo::where('user_id', auth()->user()->id)->get();
+        $user_id = Auth()->user()->id; // Obtener el user_id del usuario autenticado
     
-        // Asignar colores aleatorios a los grupos
-        $colores = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#ff9800', '#03a9f4', '#4caf50', '#ffeb3b', '#795548', '#9e9e9e', '#607d8b'];
-        foreach ($grupos as $grupo) {
-            $grupo->color = $colores[array_rand($colores)];
-        }
+        // Obtener el ID del último registro de periodo para el usuario autenticado
+        $ultimoPeriodoId = Periodo::orderBy('id', 'desc')->value('id');
+    
+        // Obtener los grupos del usuario autenticado que tienen el ID del último registro de periodo
+        $grupos = Grupo::where('user_id', $user_id)
+            ->where('periodo_id', $ultimoPeriodoId)
+            ->get();
     
         // Agrupar los grupos por el nombre de la carrera universitaria
         $gruposPorCarrera = $grupos->groupBy('carrera.nombre');
     
-        return view('docente.index', compact('gruposPorCarrera'));
+        // Obtener el número total de actividades completadas para cada grupo
+        $actividadesCompletadas = [];
+        foreach ($grupos as $grupo) {
+            $actividadesCompletadas[$grupo->id] = Archivo::where('grupo_id', $grupo->id)
+                ->distinct('activity_id')
+                ->count('activity_id');
+        }
+    
+        return view('docente.index', compact('gruposPorCarrera', 'actividadesCompletadas'));
     }
     
-
     /**
      * Show the form for creating a new resource.
      */

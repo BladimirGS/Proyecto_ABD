@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('rfc');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('activo')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -33,11 +33,11 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse ($archivos as $archivo)
                         <tr>
-                            <x-table-cell value="{{ $archivo->grupo->clave }}" />
-                            <x-table-cell value="{{ $archivo->grupo->user->nombre }}" />
+                            <x-table-cell value="{{ $archivo->grupo->clave ?? 'no tiene clave' }}" />
+                            <x-table-cell value="{{ $archivo->grupo->user->nombre ?? 'no tiene usuario' }}" />
                             <x-table-cell value="{{ $archivo->nombre }}" />
                             <x-table-cell value="{{ $archivo->activity->nombre }}" />
-                            <x-table-cell value="{{ $archivo->status ?? 'pendiente' }}" />
+                            <x-table-cell value="{{ $archivo->estado ?? 'pendiente' }}" />
                             <x-table-cell>
                                 <div class="flex justify-around gap-4">
                                     <x-button

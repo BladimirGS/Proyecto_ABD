@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('carrera_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('materia_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('periodo_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('color');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

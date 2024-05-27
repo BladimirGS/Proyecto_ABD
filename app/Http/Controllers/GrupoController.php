@@ -8,6 +8,7 @@ use App\Models\Carrera;
 use App\Models\Materia;
 use App\Models\Periodo;
 use App\Models\Activity;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class GrupoController extends Controller
@@ -17,7 +18,7 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        //
+        return view('grupo.index');
     }
 
     /**
@@ -46,7 +47,10 @@ class GrupoController extends Controller
             'materia_id' => 'required',
             'periodo_id' => 'required',
         ]);
-
+    
+        // Obtener un color aleatorio de la lista de colores
+        $colorAleatorio = Arr::random(['#6b7280', '#ef4444', '#f97316', '#10b981', '#14b8a6', '#0ea5e9', '#3b82f6']);
+    
         Grupo::create([
             'clave' => $datos['clave'],
             'semestre' => $datos['semestre'],
@@ -54,8 +58,9 @@ class GrupoController extends Controller
             'carrera_id' => $datos['carrera_id'],
             'materia_id' => $datos['materia_id'],
             'periodo_id' => $datos['periodo_id'],
+            'color' => $colorAleatorio, // Asignar el color aleatorio al grupo
         ]);
- 
+    
         return redirect()->route('grupos.index');
     }
 
@@ -103,5 +108,14 @@ class GrupoController extends Controller
 
         // Redireccionar
         return redirect()->route('grupos.index');
+    }
+        /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $grupo = Grupo::findOrFail($id);
+        $grupo->delete();
+        return back();
     }
 }

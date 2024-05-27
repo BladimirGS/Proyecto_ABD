@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-bold text-lg md:text-2xl leading-tight truncate">
-            {{ $grupo->clave . " - " . $grupo->materia->nombre }}
+            {{ $grupo->clave . " - " . ($grupo->materia->nombre ?? 'Nombre Desconocido') }}
         </h2>
     </x-slot>
 
@@ -17,8 +17,8 @@
                         </svg>
                     </div>
                     <div class="ml-4 truncate">
-                        <h2 class="font-semibold truncate">{{ $actividad->nombre }}</h2>
-                        <h2 class="text-gray-600 font-medium">{{ $actividad->fecha }}</h2>
+                        <h2 class="font-semibold truncate">{{ $actividad->nombre ?? ' ' }}</h2>
+                        <h2 class="text-gray-600 font-medium">{{ $actividad->fecha ?? ' ' }}</h2>
                     </div>
                 </div>
             </a>

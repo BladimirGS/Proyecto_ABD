@@ -10,4 +10,9 @@ class Activity extends Model
     use HasFactory;
 
     protected $fillable = ['nombre', 'fecha'];
+
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class);
+    }
 }

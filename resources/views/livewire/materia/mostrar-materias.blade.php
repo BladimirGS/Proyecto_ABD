@@ -3,60 +3,48 @@
         <h2 class="font-bold text-xl md:text-2xl leading-tight">Materias</h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8">
-            <div class="mb-4 text-center">
-                <h2 class="text-2xl md:text-4xl text-gray-600 text-center font-extrabold">Buscar y Filtrar Materias</h2>
+    <div class="py-10 ">
+        <!-- Mensaje de estado -->
+        <x-session-status :status="session('status')" />
 
-                <livewire:buscador evento="buscar-materia" />
+        <div class="bg-white w-full 2xl:w-3/4 mx-auto px-4 lg:px-8 py-10">
 
-                <x-button
-                    wire:click="$dispatch('openModal', { component: 'materia.crear-materia' })"
-                >Registrar Materia</x-button>
-            </div>
+            <livewire:Datatable.materia-datatable>
 
-            <div class=" md:w-1/2 mx-auto bg-white shadow-sm sm:rounded-lg overflow-x-scroll sm:overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <x-table-header value="Clave" />
-                            <x-table-header value="Nombre" />
-                            <x-table-header scope="col" class="relative">
-                                <span class="sr-only">Editar/Eliminar</span>
-                            </x-table-header>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse ($materias as $materia)
-                        <tr>
-                            <x-table-cell value="{{ $materia->clave }}" />
-                            <x-table-cell value="{{ $materia->nombre }}" />
-                            <x-table-cell>
-                                <div class="flex justify-around gap-4">
-                                    <x-button 
-                                        wire:click="$dispatch('openModal', { component: 'materia.editar-materia', arguments: { materia: {{ $materia->id }} }})"
-                                        color="blue"
-                                    >Editar</x-button>
-
-                                    <x-button
-                                        wire:click="$dispatch('eliminar-materia', { id: {{ $materia->id }} })"
-                                        color="red"
-                                    >Eliminar</x-button>
-                                </div>
-                            </x-table-cell>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-lg font-semibold" colspan="6">No hay materias</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="mt-10">
-                {{ $materias->links() }}
-            </div>
         </div>
     </div>
+
+@push('scripts')
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+        Livewire.on('mostrarAlerta', (id) => {
+            Swal.fire({
+                title: 'Eliminar usuario?',
+                text: "Una usuario eliminada no se puede recuperar",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'si, Eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Eliminar la usuario
+                    Livewire.dispatch('eliminar-materia', id)
+
+                    Swal.fire(
+                        'Se elimino la usuario',
+                        'Eliminado correctamente',
+                        'success'
+                    )
+                }
+            })
+        })
+    })
+    </script>
+
+@endpush
 </div>

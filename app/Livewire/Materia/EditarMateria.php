@@ -30,11 +30,11 @@ class EditarMateria extends ModalComponent
         // Se validan con las reglas
         $datos = $this->validate();
 
-        // Se actualiza el usuario
+        // Se actualiza la materia
         $this->materia->update($datos);
 
         // se dispara un evento
-        $this->dispatch('actualizar-materia');
+        $this->dispatch('refreshDatatable');
 
         // Se cierra el modal
         $this->closeModal();

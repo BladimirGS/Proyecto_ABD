@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('clave');
             $table->string('nombre');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }
