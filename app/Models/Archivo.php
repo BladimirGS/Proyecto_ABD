@@ -12,6 +12,7 @@ class Archivo extends Model
     protected $fillable =[
         'nombre', 
         'documento',
+        'fecha',
         'grupo_id',
         'activity_id'
     ];

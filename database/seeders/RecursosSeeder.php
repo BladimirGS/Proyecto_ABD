@@ -102,7 +102,7 @@ class RecursosSeeder extends Seeder
                 'user_id' => 1, // Ajusta según tus datos en la tabla users
                 'carrera_id' => 1, // Ajusta según tus datos en la tabla carreras
                 'materia_id' => 1, // Ajusta según tus datos en la tabla materias
-                'periodo_id' => 1, // Ajusta según tus datos en la tabla periodos
+                'periodo_id' => 6, // Ajusta según tus datos en la tabla periodos
                 'color' => '#6b7280'
             ],
             [
@@ -111,7 +111,7 @@ class RecursosSeeder extends Seeder
                 'user_id' => 1,
                 'carrera_id' => 2,
                 'materia_id' => 2,
-                'periodo_id' => 2,
+                'periodo_id' => 6,
                 'color' => '#ef4444'
             ],
             [
@@ -120,7 +120,7 @@ class RecursosSeeder extends Seeder
                 'user_id' => 1,
                 'carrera_id' => 3,
                 'materia_id' => 3,
-                'periodo_id' => 3,
+                'periodo_id' => 6,
                 'color' => '#f97316'
             ],
             [
@@ -129,7 +129,7 @@ class RecursosSeeder extends Seeder
                 'user_id' => 2,
                 'carrera_id' => 4,
                 'materia_id' => 4,
-                'periodo_id' => 4,
+                'periodo_id' => 6,
                 'color' => '#10b981'
             ],
         ];

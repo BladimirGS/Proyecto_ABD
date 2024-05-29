@@ -35,23 +35,24 @@
                     
                     // Enviar el formulario
                     form.submit();
-
-                    Swal.fire(
-                        'Se elimino el periodo',
-                        'Eliminado correctamente',
-                        'success'
-                    )
                 }
             });
         }
-    
-        function eliminarGrupo(id) {
-            // Obtener el formulario correspondiente al ID de la carrera
-            var form = document.getElementById('eliminarForm' + id);
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Verificar si existe un elemento con el ID 'alert'
+            var alertElement = document.getElementById('alert');
             
-            // Enviar el formulario
-            form.submit();
-        }
+            // Si el elemento existe, esperar 5 segundos y luego eliminarlo
+            if (alertElement) {
+                setTimeout(function() {
+                    alertElement.remove();
+                }, 5000); // 5000 milisegundos = 5 segundos
+            }
+        });
     </script>
     @endpush
 </x-app-layout>

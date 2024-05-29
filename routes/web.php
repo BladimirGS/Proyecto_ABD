@@ -15,6 +15,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Livewire\Actividad\MostrarActividad;
 use App\Livewire\Actividad\MostrarActividades;
 use App\Http\Controllers\docente\GrupoDocenteController;
+use App\Http\Controllers\RoleController;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -34,24 +35,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
     Route::get('/users/{id}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
 
-    // Route::get('/carreras', [CarreraController::class, 'index'])->name('carreras.index');
-    // Route::get('/carreras/create', [CarreraController::class, 'create'])->name('carreras.create');
-    // Route::post('/carreras/create', [CarreraController::class, 'store'])->name('carreras.store');
-    // Route::get('/carreras/{carrera}/edit', [CarreraController::class, 'edit'])->name('carreras.edit');
-    // Route::post('/carreras/{carrera}/edit', [CarreraController::class, 'update'])->name('carreras.update');
-    // Route::delete('/carreras/{id}', [CarreraController::class, 'destroy'])->name('carreras.destroy');
-
-
-
     Route::get('/carreras', MostrarCarreras::class)->name('carreras');
     Route::get('/materias', MostrarMaterias::class)->name('materias');
     Route::get('/periodos', MostrarPeriodos::class)->name('periodos');
     Route::get('/actividades', MostrarActividades::class)->name('actividades');
 
     // administrador
-    // Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
-    Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos.index');
-    // Route::get('/grupos/create', CrearGrupo::class)->name('grupos.create');
+    Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
+    // Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos.index');
     Route::get('/grupos/{grupo}/edit', [GrupoController::class, 'edit'])->name('grupos.edit');
     Route::post('/grupos/{grupo}/update', [GrupoController::class, 'update'])->name('grupos.update');
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
@@ -64,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
     // docente
     Route::get('/docente/grupos', [GrupoDocenteController::class, 'index'])->name('docente.grupos.index');
     Route::get('/archivos', MostrarArchivos::class)->name('archivos.index');
+
+    Route::resource('roles', RoleController::class)->names('roles');
 
 });
 

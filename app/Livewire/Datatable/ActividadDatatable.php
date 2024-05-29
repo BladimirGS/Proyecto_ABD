@@ -2,15 +2,16 @@
 
 namespace App\Livewire\Datatable;
 
+use App\Models\Periodo;
 use App\Models\Activity;
 use App\Exports\ActividadesExport;
-use App\Models\Periodo;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class ActividadDatatable extends DataTableComponent
@@ -46,12 +47,14 @@ class ActividadDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Nombre", "nombre")
+            ComponentColumn::make("Nombre", "nombre")
                 ->sortable()
-                ->searchable(),
-            Column::make("Fecha", "fecha")
+                ->searchable()
+                ->component('texto'),
+            ComponentColumn::make("Fecha", "fecha")
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->component('formato-fecha'),
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),

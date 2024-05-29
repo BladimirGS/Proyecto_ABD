@@ -11,6 +11,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class GrupoDatatable extends DataTableComponent
@@ -49,31 +50,29 @@ class GrupoDatatable extends DataTableComponent
             Column::make("Clave", "clave")
                 ->sortable()
                 ->searchable(),
-            Column::make("Usuario", "user.nombre")
+            ComponentColumn::make("Usuario", "user.nombre")
                 ->sortable()
                 ->searchable()
-                ->collapseOnMobile(),
-            Column::make("Carrera", "carrera.nombre")
+                ->component('texto'),
+            ComponentColumn::make("Carrera", "carrera.nombre")
                 ->sortable()
                 ->searchable()
-                ->collapseOnTablet(),
-            Column::make("Materia", "materia.nombre")
+                ->component('texto'),
+            ComponentColumn::make("Materia", "materia.nombre")
                 ->sortable()
                 ->searchable()
-                ->collapseOnTablet(),
+                ->component('texto'),
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
-                ->searchable()
-                ->collapseOnTablet(),
+                ->searchable(),
             BooleanColumn::make('activo')
-                ->sortable()
-                ->collapseOnMobile(),
+                ->sortable(),
             Column::make(' ')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'enlaceEditar' => route('grupos.edit', $row),
-                            'accionEliminar' => route('grupos.destroy', $row->id),
+                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                             'grupo' => $row,
                             
                         ]

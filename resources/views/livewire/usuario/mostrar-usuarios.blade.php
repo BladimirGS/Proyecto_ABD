@@ -50,6 +50,11 @@
                                         color="blue"
                                     >Editar</x-button>
 
+                                    <x-button 
+                                        wire:click="$dispatch('openModal', { component: 'rol.asignar-rol', arguments: { usuario: {{ $usuario->id }} }})"
+                                        color="violet"
+                                    >Roles</x-button>
+
                                     <x-button
                                         wire:click="$dispatch('eliminar-usuario', { id: {{ $usuario->id }} })"
                                         color="red"

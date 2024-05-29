@@ -24,6 +24,7 @@
                             <x-table-header value="Docente" />
                             <x-table-header value="Archivo" />
                             <x-table-header value="Actividad" />
+                            <x-table-header value="Fecha" />
                             <x-table-header value="Estado" />
                             <x-table-header scope="col" class="relative">
                                 <span class="sr-only">Editar/Eliminar</span>
@@ -37,6 +38,7 @@
                             <x-table-cell value="{{ $archivo->grupo->user->nombre ?? 'no tiene usuario' }}" />
                             <x-table-cell value="{{ $archivo->nombre }}" />
                             <x-table-cell value="{{ $archivo->activity->nombre }}" />
+                            <x-table-cell value="{{ $archivo->fecha ?? ' ' }}" />
                             <x-table-cell value="{{ $archivo->estado ?? 'pendiente' }}" />
                             <x-table-cell>
                                 <div class="flex justify-around gap-4">

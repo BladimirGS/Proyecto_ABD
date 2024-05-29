@@ -19,7 +19,7 @@ class MostrarArchivos extends Component
     public function approve(Archivo $archivo)
     {
         if ($archivo) {
-            $archivo->status = true;
+            $archivo->estado = 'Aprobado';
             $archivo->save();
         }
 
@@ -30,7 +30,7 @@ class MostrarArchivos extends Component
     public function disapproved(Archivo $archivo)
     {
         if ($archivo) {
-            $archivo->status = false;
+            $archivo->estado = "Rechazado";
             $archivo->save();
         }
 

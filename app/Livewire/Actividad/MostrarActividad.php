@@ -42,6 +42,7 @@ class MostrarActividad extends Component
         // Crear una nueva instancia de Archivo y guardarla en la base de datos
         Archivo::create([
             'nombre' => $this->files[0]['name'],
+            'fecha' => now()->setTimezone(config('app.timezone')),
             'documento' => $documento,
             'grupo_id' => $this->grupo->id,
             'activity_id' => $this->actividad->id,

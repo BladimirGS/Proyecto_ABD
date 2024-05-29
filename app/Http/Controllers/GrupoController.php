@@ -28,9 +28,9 @@ class GrupoController extends Controller
     {
         return view('grupo.create', [
             'users' => User::all(),
-            'carreras' => Carrera::all(),
-            'materias' => Materia::all(),
-            'periodos' => Periodo::all(),
+            'carreras' => Carrera::where('activo', true)->get(),
+            'materias' => Materia::where('activo', true)->get(),
+            'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -61,7 +61,7 @@ class GrupoController extends Controller
             'color' => $colorAleatorio, // Asignar el color aleatorio al grupo
         ]);
     
-        return redirect()->route('grupos.index');
+        return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
 
     /**
@@ -71,7 +71,7 @@ class GrupoController extends Controller
     {
         return view('grupo.show', [
             'grupo' => $grupo, 
-            'actividades' => Activity::all()
+            'actividades' => Activity::where('periodo_id', $grupo->periodo_id)->get()
         ]);
     }
 
@@ -83,9 +83,9 @@ class GrupoController extends Controller
         return view('grupo.edit', [
             'grupo' => $grupo,
             'users' => User::all(),
-            'carreras' => Carrera::all(),
-            'materias' => Materia::all(),
-            'periodos' => Periodo::all(),
+            'carreras' => Carrera::where('activo', true)->get(),
+            'materias' => Materia::where('activo', true)->get(),
+            'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -107,7 +107,7 @@ class GrupoController extends Controller
         $grupo->update($datos);
 
         // Redireccionar
-        return redirect()->route('grupos.index');
+        return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
         /**
      * Remove the specified resource from storage.
@@ -116,6 +116,6 @@ class GrupoController extends Controller
     {
         $grupo = Grupo::findOrFail($id);
         $grupo->delete();
-        return back();
+        return back()->with('status', 'Operación exitosa');
     }
 }

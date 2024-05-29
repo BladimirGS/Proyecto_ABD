@@ -8,6 +8,10 @@
             >Editar</x-button>
         @endif
 
+        @isset ( $enlaceEditar )
+            <x-link color="blue" href="{{ $enlaceEditar }}">Editar</x-link>
+        @endif
+
         @isset ( $eventoEliminar )
             <x-button
             wire:click="{{ $eventoEliminar }}"
@@ -15,7 +19,7 @@
             >Eliminar</x-button>
         @endif
 
-        @isset ( $eventoEstado )
+        {{-- @isset ( $eventoEstado )
             <x-button
                 class="w-32"
                 wire:click="{{ $eventoEstado }}"
@@ -27,14 +31,8 @@
                 Activar
             @endif
             </x-button>
-        @endif
-    </div>
+        @endif --}}
 
-    {{-- enlaces tradicionales --}}
-    <div class="flex justify-around gap-4">
-        @isset ( $enlaceEditar )
-            <x-link color="blue" href="{{ $enlaceEditar }}">Editar</x-link>
-        @endif
 
         @isset ( $accionEliminar )
         <form 

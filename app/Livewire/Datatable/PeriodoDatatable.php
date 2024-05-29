@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class PeriodoDatatable extends DataTableComponent
 {
@@ -36,10 +37,12 @@ class PeriodoDatatable extends DataTableComponent
         return [
             Column::make("Nombre", "nombre")
                 ->sortable(),
-            Column::make("Fecha inicio", "fecha_inicio")
-                ->sortable(),
-            Column::make("Fecha fin", "fecha_fin")
-                ->sortable(),
+            ComponentColumn::make("Fecha inicio", "fecha_inicio")
+                ->sortable()
+                ->component('formato-fecha'),
+            ComponentColumn::make("Fecha fin", "fecha_fin")
+                ->sortable()
+                ->component('formato-fecha'),
             BooleanColumn::make('activo')
                 ->sortable()
                 ->collapseOnMobile(),

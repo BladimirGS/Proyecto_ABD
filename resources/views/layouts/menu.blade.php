@@ -47,7 +47,7 @@
             </x-nav-link>
             @endcan
 
-            @can('ver-algo')
+            @can('ver-usuario')
             <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')">
                 <i class='bx bx-bar-chart-alt-2 text-xl' ></i>
                 <span>Grupos</span>
