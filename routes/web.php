@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Gestion de usuarios
     Route::get('/users', MostrarUsuarios::class)->name('users.index');
+    
     Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
     Route::get('/users/{id}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
 
@@ -42,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
 
     // administrador
     Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
-    // Route::get('/grupos', [GrupoController::class, 'index'])->name('grupos.index');
     Route::get('/grupos/{grupo}/edit', [GrupoController::class, 'edit'])->name('grupos.edit');
     Route::post('/grupos/{grupo}/update', [GrupoController::class, 'update'])->name('grupos.update');
     Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
@@ -57,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archivos', MostrarArchivos::class)->name('archivos.index');
 
     Route::resource('roles', RoleController::class)->names('roles');
+    // Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    // Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    // Route::post('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
 
 });
 

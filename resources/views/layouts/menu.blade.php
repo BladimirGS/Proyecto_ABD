@@ -60,6 +60,13 @@
                 <span>Archivos</span>
             </x-nav-link>
             @endcan
+
+            @can('ver-usuario')
+            <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                <i class='bx bx-bookmark text-xl' ></i>
+                <span>Roles</span>
+            </x-nav-link>
+            @endcan
         </div>
     </div>
 </nav>

@@ -65,8 +65,6 @@ class GrupoDatatable extends DataTableComponent
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
-            BooleanColumn::make('activo')
-                ->sortable(),
             Column::make(' ')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(

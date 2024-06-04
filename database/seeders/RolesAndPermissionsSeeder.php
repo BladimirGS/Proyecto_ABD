@@ -26,25 +26,54 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Crear permisos
         $permisos = [
-            //Operaciones sobre tabla roles
-            'ver-rol',
-            'crear-rol',
-            'editar-rol',
-            'borrar-rol',
+            ['name' => 'roles.index', 'description' => 'Ver lista de roles'],
+            ['name' => 'roles.create', 'description' => 'Agregar roles'],
+            ['name' => 'roles.edit', 'description' => 'editar roles'],
+            ['name' => 'roles.destroy', 'description' => 'borrar roles'],
+            ['name' => 'roles.users', 'description' => 'Asignar roles'],
 
-            //Operacions sobre tabla usuarios
-            'ver-usuario',
-            'crear-usuario',
-            'editar-usuario',
-            'borrar-usuario',
+            ['name' => 'users.index', 'description' => 'Ver lista de usuarios'],
+            ['name' => 'users.create', 'description' => 'Agregar usuarios'],
+            ['name' => 'users.edit', 'description' => 'Editar usuarios'],
+            ['name' => 'users.destroy', 'description' => 'borrar usuarios'],
 
+            ['name' => 'carreras.index', 'description' => 'Ver lista de carreras'],
+            ['name' => 'carreras.create', 'description' => 'Agregar carreras'],
+            ['name' => 'carreras.edit', 'description' => 'Editar carreras'],
+            ['name' => 'carreras.destroy', 'description' => 'borrar carreras'],
+
+            ['name' => 'materias.index', 'description' => 'Ver lista de materias'],
+            ['name' => 'materias.create', 'description' => 'Agregar materias'],
+            ['name' => 'materias.edit', 'description' => 'Editar materias'],
+            ['name' => 'materias.destroy', 'description' => 'borrar materias'],
+
+            ['name' => 'periodos.index', 'description' => 'Ver lista de periodos'],
+            ['name' => 'periodos.create', 'description' => 'Agregar periodos'],
+            ['name' => 'periodos.edit', 'description' => 'Editar periodos'],
+            ['name' => 'periodos.destroy', 'description' => 'borrar periodos'],
+
+            ['name' => 'grupos.index', 'description' => 'Ver lista de grupos'],
+            ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
+            ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
+            ['name' => 'grupos.destroy', 'description' => 'borrar grupos'],
+
+            ['name' => 'actividades.index', 'description' => 'Ver lista de actividades'],
+            ['name' => 'actividades.create', 'description' => 'Agregar actividades'],
+            ['name' => 'actividades.edit', 'description' => 'Editar actividades'],
+            ['name' => 'actividades.destroy', 'description' => 'borrar actividades'],
+
+            ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
+            ['name' => 'archivos.status', 'description' => 'Cambiar estado de archivos'],
+            ['name' => 'archivos.download', 'description' => 'Descargar archivos'],
+
+            ['name' => 'admin.index', 'description' => 'Panel administrativo'],
         ];
-
-        foreach($permisos as $permiso) {
-            Permission::create(['name'=>$permiso]);
+        
+        foreach ($permisos as $permiso) {
+            Permission::create($permiso);
         }
+        
 
 
         // Rol de super administrador
@@ -79,8 +108,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        $permiso = Permission::create(['name'=>'ver-algo']);
-        $permiso2 = Permission::create(['name'=>'crear-algo']);
+        $permiso = Permission::create(['name'=>'ver lista de-algo']);
+        $permiso2 = Permission::create(['name'=>'Agregar-algo']);
         $role2 = Role::create(['name' => 'profe']);
         $role2->givePermissionTo($permiso);
         $role2->givePermissionTo($permiso2);
