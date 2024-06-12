@@ -3,6 +3,7 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Materia;
+use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -24,7 +25,7 @@ class MateriaDatatable extends DataTableComponent
         ->setConfigurableAreas([
             'toolbar-left-start' => [
                 'livewire.datatable.create-area', [
-                    'eventoCrear' => '$dispatch(\'openModal\', { component: \'materia.crear-materia\'})',
+                    'CrearMateria' => '$dispatch(\'openModal\', { component: \'materia.crear-materia\'})',
                 ],
             ],
         ]);
@@ -37,20 +38,17 @@ class MateriaDatatable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             ComponentColumn::make("Nombre", "nombre")
+                ->component('break-normal')
                 ->sortable()
-                ->searchable()
-                ->component('texto'),
+                ->searchable(),
             BooleanColumn::make('activo')
-                ->sortable()
-                ->collapseOnMobile(),
+                ->sortable(),
             Column::make(' ')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            // 'eventoEditar' => route('grupos.edit', $row),
-                            'eventoEditar' => '$dispatch(\'openModal\', { component: \'materia.editar-materia\', arguments: { materia: ' . $row->id . ' }})',
-                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            // 'grupo' => $row,
+                            'EditarMateria' => '$dispatch(\'openModal\', { component: \'materia.editar-materia\', arguments: { materia: ' . $row->id . ' }})',
+                            'EliminarMateria' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
             )->html(),
@@ -82,5 +80,14 @@ class MateriaDatatable extends DataTableComponent
         Materia::whereIn('id', $this->getSelected())->update(['activo' => false]);
 
         $this->clearSelected();
+    }
+    
+    #[On('eliminar-materia')]
+    public function EliminarMaterio(Materia $id) 
+    {
+        $id->delete();
+
+        // se dispara un evento
+        $this->dispatch('refreshDatatable');
     }
 }

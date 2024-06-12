@@ -52,6 +52,7 @@
             <input
                     x-ref="input"
                     wire:model="upload"
+                    name="archivo"
                     type="file"
                     class="dz-hidden"
                     x-on:livewire-upload-start="isLoading = true"

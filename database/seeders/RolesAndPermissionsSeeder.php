@@ -31,12 +31,12 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.create', 'description' => 'Agregar roles'],
             ['name' => 'roles.edit', 'description' => 'editar roles'],
             ['name' => 'roles.destroy', 'description' => 'borrar roles'],
-            ['name' => 'roles.users', 'description' => 'Asignar roles'],
 
-            ['name' => 'users.index', 'description' => 'Ver lista de usuarios'],
-            ['name' => 'users.create', 'description' => 'Agregar usuarios'],
-            ['name' => 'users.edit', 'description' => 'Editar usuarios'],
-            ['name' => 'users.destroy', 'description' => 'borrar usuarios'],
+            ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
+            ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
+            ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
+            ['name' => 'usuarios.destroy', 'description' => 'borrar usuarios'],
+            ['name' => 'usuarios.roles', 'description' => 'Asignar roles'],
 
             ['name' => 'carreras.index', 'description' => 'Ver lista de carreras'],
             ['name' => 'carreras.create', 'description' => 'Agregar carreras'],
@@ -75,15 +75,12 @@ class RolesAndPermissionsSeeder extends Seeder
         }
         
 
-
         // Rol de super administrador
-        $role1 = Role::create(['name' => 'Super-Admin']);
+        $role1 = Role::create(['name' => 'Super-Admin', 'description' => 'Acceso a todo']);
 
         // Agregando super administrador
         $user = User::create([
-            'nombre' => 'Juan Carlos',
-            'apellido' => 'admin',
-            'rfc' => '2116',
+            'nombre' => 'Super Administrador',
             'email' => 'admin@correo.com',
             'password' => Hash::make('password'),
         ]);
@@ -92,27 +89,15 @@ class RolesAndPermissionsSeeder extends Seeder
         // insertar los datos para la tabla contratos
         DB::table('contratos')->insert([
             'nombre' => 'Planta',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         DB::table('contratos')->insert([
             'nombre' => 'Honorario',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         DB::table('contratos')->insert([
             'nombre' => 'Interino',
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
-
-        $permiso = Permission::create(['name'=>'ver lista de-algo']);
-        $permiso2 = Permission::create(['name'=>'Agregar-algo']);
-        $role2 = Role::create(['name' => 'profe']);
-        $role2->givePermissionTo($permiso);
-        $role2->givePermissionTo($permiso2);
 
         // Agregando un maestro
         $user1 = User::create([
@@ -122,10 +107,5 @@ class RolesAndPermissionsSeeder extends Seeder
             'email' => 'correo@correo.com',
             'password' => Hash::make('password'),
         ]);
-        $contrato = Contrato::find(1);
-        $user1->contratos()->attach($contrato->id);
-        $contrato1 = Contrato::find(3);
-        $user1->contratos()->attach($contrato1->id);
-        $user1->assignRole($role2);
     }
 }

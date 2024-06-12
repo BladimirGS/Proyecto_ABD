@@ -25,6 +25,6 @@
     }
 @endphp
 
-<a href="{{ $href }}" {{ $attributes->merge(['class' => 'px-4 py-2 text-white rounded-md font-semibold text-xs uppercase tracking-widest border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 ' . $class]) }}>
+<a href="{{ $href }}" {{ $attributes->merge(['class' => 'px-4 py-2 text-center text-white rounded-md font-semibold text-xs uppercase tracking-widest border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150 ' . $class]) }}>
     {{ $slot }}
 </a>

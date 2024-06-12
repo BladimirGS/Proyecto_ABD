@@ -18,6 +18,19 @@
             </div>
 
             <div class="mt-5">
+                <x-input-label for="descripcion" value="Descripción" />
+
+                <x-text-area 
+                    id="descripcion"
+                    wire:model="descripcion"
+                    placeholder="Descripcion del role"
+                    rows="4" 
+                ></x-text-area> 
+            
+                <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
+            </div>
+
+            <div class="mt-5">
                 <x-input-label for="fecha" value="Fecha programada" />
     
                 <x-text-input
@@ -27,6 +40,23 @@
                     placeholder="Fecha de la actividad"
                 />
                 <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
+            </div>
+
+            <div class="mt-5">
+                <x-input-label for="periodo_id" value="Periodo" />
+        
+                <select 
+                    id="periodo_id" 
+                    wire:model="periodo_id" 
+                    class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                >
+                    <option selected disabled value="null">Selecciona un periodo</option>
+                    @foreach ($periodos as $periodo)
+                        <option value="{{ $periodo->id }}"  {{ old('periodo_id') == $periodo->id ? 'selected' : '' }}>{{ $periodo->nombre }}</option>
+                    @endforeach
+                </select>
+            
+                <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
             </div>
             
             <div class="mt-5 text-center">

@@ -9,7 +9,7 @@ class Activity extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'fecha'];
+    protected $fillable = ['nombre', 'descripcion', 'fecha', 'periodo_id'];
 
     public function periodo()
     {

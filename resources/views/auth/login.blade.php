@@ -5,12 +5,12 @@
         </h2>
     </x-slot>
 
-    <div class="md:flex md:justify-start md:gap-10 md:items-center py-12">
-        <div class="md:w-3/6 p-5">
+    <div class="w-full lg:flex lg:justify-start md:gap-10 lg:items-center py-12">
+        <div class="w-full lg:w-3/6 p-5">
             <img src="{{ asset('img/login.jpg') }}" alt="Imagen login de usuarios">
         </div>
 
-        <div class="md:w-4/12 bg-white p-6 rounded-lg shadow-xl">
+        <div class="w-full lg:w-4/12 bg-white p-6 rounded-lg shadow-xl">
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 

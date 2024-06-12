@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('descripcion')->nullable();
             $table->date('fecha');
             $table->foreignId('periodo_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('activo')->default(true);

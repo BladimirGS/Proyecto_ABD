@@ -1,21 +1,18 @@
 <?php
 
+use App\Http\Controllers\admin\ActividadController;
 use App\Livewire\Prueba;
-use App\Livewire\Grupo\MostrarGrupos;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\GrupoController;
-use App\Livewire\Archivo\MostrarArchivos;
-use App\Livewire\Carrera\MostrarCarreras;
-use App\Livewire\Materia\MostrarMaterias;
-use App\Livewire\Periodo\MostrarPeriodos;
-use App\Livewire\Usuario\MostrarUsuarios;
-use App\Http\Controllers\CarreraController;
-use App\Http\Controllers\UsuarioController;
-use App\Livewire\Actividad\MostrarActividad;
-use App\Livewire\Actividad\MostrarActividades;
-use App\Http\Controllers\docente\GrupoDocenteController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\GrupoController;
+use App\Http\Controllers\Admin\ArchivoController;
+use App\Http\Controllers\admin\CarreraController;
+use App\Http\Controllers\admin\MateriaController;
+use App\Http\Controllers\admin\PeriodoController;
+use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\Docente\DocenteController;
+use App\Http\Controllers\Docente\DocenteGrupoActividadController;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -30,36 +27,27 @@ Route::middleware(['auth'])->group(function () {
     // Cerrar sesión
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 
-    // Gestion de usuarios
-    Route::get('/users', MostrarUsuarios::class)->name('users.index');
+    // Gestion por parte del admin
+    Route::get('/usuarios', UsuarioController::class)->middleware('can:usuarios.index')->name('usuarios.index');
+    Route::get('/carreras', CarreraController::class)->middleware('can:carreras.index')->name('carreras.index');
+    Route::get('/materias', MateriaController::class)->middleware('can:materias.index')->name('materias.index');
+    Route::get('/periodos', PeriodoController::class)->middleware('can:periodos.index')->name('periodos.index');
+    Route::get('/actividades', ActividadController::class)->middleware('can:actividades.index')->name('actividades.index');
+    Route::resource('/grupos', GrupoController::class)->except(['show', 'destroy'])->names('grupos');
     
-    Route::get('/users/create', [UsuarioController::class, 'create'])->name('users.create');
-    Route::get('/users/{id}/edit', [UsuarioController::class, 'edit'])->name('users.edit');
+    // Ver los archivos subidos
+    Route::get('/archivos', ArchivoController::class)->name('archivos.index');
 
-    Route::get('/carreras', MostrarCarreras::class)->name('carreras');
-    Route::get('/materias', MostrarMaterias::class)->name('materias');
-    Route::get('/periodos', MostrarPeriodos::class)->name('periodos');
-    Route::get('/actividades', MostrarActividades::class)->name('actividades');
+    // Tablero del docente
+    Route::get('/docente/', DocenteController::class)->name('docente.index');   // Muestra los grupos actuales del docente
+    
+    // Rutas para actividades del grupo del docente
+    Route::get('/docente/grupos/{grupo}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
+    Route::get('/docente/grupos/{grupo}/actividades/{actividad}', [DocenteGrupoActividadController::class, 'show'])->name('docente.grupo.actividades.show');
+    Route::get('/docente/grupos/{grupo}/actividades/{actividad}/descargar/{archivo}', [DocenteGrupoActividadController::class, 'descargar'])->name('docente.grupo.actividades.descargar');
+    Route::post('/docente/grupos/{grupo}/actividades/{actividad}/subir/', [DocenteGrupoActividadController::class, 'subir'])->name('docente.grupo.actividades.subir');
 
-    // administrador
-    Route::get('/grupos', MostrarGrupos::class)->name('grupos.index');
-    Route::get('/grupos/{grupo}/edit', [GrupoController::class, 'edit'])->name('grupos.edit');
-    Route::post('/grupos/{grupo}/update', [GrupoController::class, 'update'])->name('grupos.update');
-    Route::get('/grupos/create', [GrupoController::class, 'create'])->name('grupos.create');
-    Route::post('/grupos/store', [GrupoController::class, 'store'])->name('grupos.store');
-    Route::delete('/grupos/{id}', [GrupoController::class, 'destroy'])->name('grupos.destroy');
-
-    Route::get('/grupos/{grupo}/actividades/{actividad}', MostrarActividad::class)->name('actividades.show');
-    Route::get('/grupos/{grupo}', [GrupoController::class, 'show'])->name('grupos.show');
-
-    // docente
-    Route::get('/docente/grupos', [GrupoDocenteController::class, 'index'])->name('docente.grupos.index');
-    Route::get('/archivos', MostrarArchivos::class)->name('archivos.index');
-
-    Route::resource('roles', RoleController::class)->names('roles');
-    // Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
-    // Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    // Route::post('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
-
+    // Gestion de roels
+    Route::resource('roles', RoleController::class)->except(['show', 'destroy'])->names('roles');
 });
 

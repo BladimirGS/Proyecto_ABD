@@ -4,11 +4,13 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
 use App\Models\Activity;
+use Livewire\Attributes\On;
 use App\Exports\ActividadesExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
@@ -38,7 +40,7 @@ class ActividadDatatable extends DataTableComponent
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
                     'livewire.datatable.create-area', [
-                        'eventoCrear' => '$dispatch(\'openModal\', { component: \'actividad.crear-actividad\'})',
+                        'CrearActividad' => '$dispatch(\'openModal\', { component: \'actividad.crear-actividad\'})',
                     ],
                 ],
             ]);
@@ -48,27 +50,26 @@ class ActividadDatatable extends DataTableComponent
     {
         return [
             ComponentColumn::make("Nombre", "nombre")
+                ->component('break-normal')
                 ->sortable()
-                ->searchable()
-                ->component('texto'),
-            ComponentColumn::make("Fecha", "fecha")
+                ->searchable(),
+            ComponentColumn::make("Descripción", "descripcion")
+                ->component('truncade')
                 ->sortable()
-                ->searchable()
-                ->component('formato-fecha'),
+                ->searchable(),
+            DateColumn::make('Fecha', 'fecha')
+                ->outputFormat('d/m/Y'),
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
             BooleanColumn::make('activo')
-                ->sortable()
-                ->collapseOnMobile(),
-            Column::make(' ')
+                ->sortable(),
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'eventoEditar' => '$dispatch(\'openModal\', { component: \'actividad.editar-actividad\', arguments: { actividad: ' . $row . ' }})',
-                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            // 'eventoEstado' => '$dispatch(\'cambiar-estado\', { id: ' . $row->id . '})',
-                            'actividad' => $row
+                            'EditarActividad' => '$dispatch(\'openModal\', { component: \'actividad.editar-actividad\', arguments: { actividad: ' . $row->id . ' }})',
+                            'EliminarActividad' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
             )->html(),
@@ -130,5 +131,12 @@ class ActividadDatatable extends DataTableComponent
         Activity::whereIn('id', $this->getSelected())->update(['activo' => false]);
 
         $this->clearSelected();
+    }
+    
+    #[On('eliminar-actividad')]
+    public function EliminarActividad(Activity $id) 
+    {
+        $id->delete();
+        $this->dispatch('refreshDatatable');
     }
 }

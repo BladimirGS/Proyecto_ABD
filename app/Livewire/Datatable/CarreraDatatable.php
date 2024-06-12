@@ -3,10 +3,12 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Carrera;
+use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class CarreraDatatable extends DataTableComponent
 {
@@ -23,7 +25,7 @@ class CarreraDatatable extends DataTableComponent
         ->setConfigurableAreas([
             'toolbar-left-start' => [
                 'livewire.datatable.create-area', [
-                    'eventoCrear' => '$dispatch(\'openModal\', { component: \'carrera.crear-carrera\'})',
+                    'CrearCarrera' => '$dispatch(\'openModal\', { component: \'carrera.crear-carrera\'})',
                 ],
             ],
         ]);
@@ -32,8 +34,10 @@ class CarreraDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Nombre", "nombre")
-                ->sortable(),
+            ComponentColumn::make("Nombre", "nombre")
+                ->component('break-normal')
+                ->sortable()
+                ->searchable(),
             BooleanColumn::make('activo')
                 ->sortable()
                 ->collapseOnMobile(),
@@ -42,8 +46,8 @@ class CarreraDatatable extends DataTableComponent
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             // 'eventoEditar' => route('grupos.edit', $row),
-                            'eventoEditar' => '$dispatch(\'openModal\', { component: \'carrera.editar-carrera\', arguments: { carrera: ' . $row->id . ' }})',
-                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+                            'EditarCarrera' => '$dispatch(\'openModal\', { component: \'carrera.editar-carrera\', arguments: { carrera: ' . $row->id . ' }})',
+                            'EliminarCarrera' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                             // 'grupo' => $row,
                         ]
                     )
@@ -76,5 +80,12 @@ class CarreraDatatable extends DataTableComponent
         Carrera::whereIn('id', $this->getSelected())->update(['activo' => false]);
 
         $this->clearSelected();
+    }
+
+    #[On('eliminar-carrera')]
+    public function EliminarCarrera(Carrera $id) 
+    {
+        $id->delete();
+        $this->dispatch('refreshDatatable');
     }
 }

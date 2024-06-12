@@ -5,4 +5,4 @@
     $fechaformateada = \Carbon\Carbon::parse($slot)->format('d/m/Y');
 @endphp
 
-<span>{{ $fechaformateada }}</span>
+<span>{{ $fechaformateada ?? $slot }}</span>

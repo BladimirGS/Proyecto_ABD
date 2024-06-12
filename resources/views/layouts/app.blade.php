@@ -30,7 +30,7 @@
                 @endauth
 
                 @if (isset($header))
-                    <div class="mx-auto">
+                    <div class="flex-1 w-52 sm:w-full">
                         {{ $header }}
                     </div>
                 @endif

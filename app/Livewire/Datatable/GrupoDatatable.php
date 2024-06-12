@@ -4,20 +4,17 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Grupo;
 use App\Models\Periodo;
-use App\Exports\GruposExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
-use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class GrupoDatatable extends DataTableComponent
 {
     public string $tableName = 'grupos';
-    public array $grupos = [];
 
     public ?int $searchFilterDebounce = 600;
 
@@ -34,11 +31,10 @@ class GrupoDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['grupos.id as id'])
-            ->setHideBulkActionsWhenEmptyEnabled()
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
                     'livewire.datatable.create-area', [
-                        'enlaceCrear' => route('grupos.create'),
+                        'CrearGrupo' => route('grupos.create'),
                     ],
                 ],
             ]);
@@ -51,28 +47,26 @@ class GrupoDatatable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             ComponentColumn::make("Usuario", "user.nombre")
+                ->component('break-normal')
                 ->sortable()
-                ->searchable()
-                ->component('texto'),
+                ->searchable(),
             ComponentColumn::make("Carrera", "carrera.nombre")
+                ->component('break-normal')
                 ->sortable()
-                ->searchable()
-                ->component('texto'),
+                ->searchable(),
             ComponentColumn::make("Materia", "materia.nombre")
+                ->component('break-normal')
                 ->sortable()
-                ->searchable()
-                ->component('texto'),
+                ->searchable(),
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
-            Column::make(' ')
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'enlaceEditar' => route('grupos.edit', $row),
-                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            'grupo' => $row,
-                            
+                            'EditarGrupo' => route('grupos.edit', $row),
+                            'EliminarGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
             )->html(),
@@ -93,19 +87,19 @@ class GrupoDatatable extends DataTableComponent
                 )->filter(function (Builder $builder, array $values) {
                     $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
                 }),
-            SelectFilter::make('Estado')
-                ->options([
-                    '' => 'Todo',
-                    '1' => 'Activo',
-                    '0' => 'Inactivo',
-                ])
-                ->filter(function (Builder $builder, string $value) {
-                    if ($value === '1') {
-                        $builder->where('activities.activo', true);
-                    } elseif ($value === '0') {
-                        $builder->where('activities.activo', false);
-                    }
-                })
+            // SelectFilter::make('Estado')
+            //     ->options([
+            //         '' => 'Todo',
+            //         '1' => 'Activo',
+            //         '0' => 'Inactivo',
+            //     ])
+            //     ->filter(function (Builder $builder, string $value) {
+            //         if ($value === '1') {
+            //             $builder->where('activities.activo', true);
+            //         } elseif ($value === '0') {
+            //             $builder->where('activities.activo', false);
+            //         }
+            //     })
         ];
     }
 
@@ -114,35 +108,42 @@ class GrupoDatatable extends DataTableComponent
         return Grupo::query();
     }
 
-    public function bulkActions(): array
+    // public function bulkActions(): array
+    // {
+    //     return [
+    //         'activate' => 'Activar',
+    //         'deactivate' => 'Desactivar',
+    //         'export' => 'Exportar',
+    //     ];
+    // }
+
+    // public function export()
+    // {
+    //     $grupos = $this->getSelected();
+
+    //     $this->clearSelected();
+
+    //     return Excel::download(new GruposExport($grupos), 'grupos.xlsx');
+    // }
+
+    // public function activate()
+    // {
+    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => true]);
+
+    //     $this->clearSelected();
+    // }
+
+    // public function deactivate()
+    // {
+    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => false]);
+
+    //     $this->clearSelected();
+    // }
+
+    #[On('eliminar-grupo')]
+    public function EliminarGrupo(Grupo $id) 
     {
-        return [
-            'activate' => 'Activar',
-            'deactivate' => 'Desactivar',
-            'export' => 'Exportar',
-        ];
-    }
-
-    public function export()
-    {
-        $grupos = $this->getSelected();
-
-        $this->clearSelected();
-
-        return Excel::download(new GruposExport($grupos), 'grupos.xlsx');
-    }
-
-    public function activate()
-    {
-        Grupo::whereIn('id', $this->getSelected())->update(['activo' => true]);
-
-        $this->clearSelected();
-    }
-
-    public function deactivate()
-    {
-        Grupo::whereIn('id', $this->getSelected())->update(['activo' => false]);
-
-        $this->clearSelected();
+        $id->delete();
+        $this->dispatch('refreshDatatable');
     }
 }

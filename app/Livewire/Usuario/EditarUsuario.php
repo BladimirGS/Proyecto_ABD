@@ -57,8 +57,8 @@ class EditarUsuario extends ModalComponent
         // Actualizar tabla intermedia
         $this->usuario->contratos()->sync($datos['contratosUsuario']);
 
-        // Se dispara un evento
-        $this->dispatch('actualizar-usuario');
+        // se dispara un evento
+        $this->dispatch('refreshDatatable');
 
         // Se cierra el modal
         $this->closeModal();

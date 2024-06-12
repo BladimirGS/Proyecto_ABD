@@ -3,7 +3,7 @@
     <x-dropdown width="48">
         <x-slot name="trigger">
             <button class="inline-flex items-center px-3 py-2 border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                <span class="hidden md:inline-block">{{ Auth::user()->nombre }}</span>
+                <span class="hidden md:inline-block w-32 truncate">{{ Auth::user()->nombre }}</span>
         
                 <div class="ml-1">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

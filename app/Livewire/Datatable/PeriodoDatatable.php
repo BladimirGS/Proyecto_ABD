@@ -3,11 +3,13 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
+use Livewire\Attributes\On;
 use App\Exports\PeriodosExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
@@ -26,7 +28,7 @@ class PeriodoDatatable extends DataTableComponent
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
                     'livewire.datatable.create-area', [
-                        'eventoCrear' => '$dispatch(\'openModal\', { component: \'periodo.crear-periodo\'})',
+                        'CrearPeriodo' => '$dispatch(\'openModal\', { component: \'periodo.crear-periodo\'})',
                     ],
                 ],
             ]);
@@ -37,12 +39,10 @@ class PeriodoDatatable extends DataTableComponent
         return [
             Column::make("Nombre", "nombre")
                 ->sortable(),
-            ComponentColumn::make("Fecha inicio", "fecha_inicio")
-                ->sortable()
-                ->component('formato-fecha'),
-            ComponentColumn::make("Fecha fin", "fecha_fin")
-                ->sortable()
-                ->component('formato-fecha'),
+            DateColumn::make('Fecha', 'fecha_inicio')
+                ->outputFormat('d/m/Y'),
+            DateColumn::make('Fecha', 'fecha_fin')
+                ->outputFormat('d/m/Y'),
             BooleanColumn::make('activo')
                 ->sortable()
                 ->collapseOnMobile(),
@@ -50,10 +50,8 @@ class PeriodoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'eventoEditar' => '$dispatch(\'openModal\', { component: \'periodo.editar-periodo\', arguments: { periodo: ' . $row . ' }})',
-                            'eventoEliminar' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            // 'eventoEstado' => '$dispatch(\'cambiar-estado\', { id: ' . $row->id . '})',
-                            'periodo' => $row
+                            'EditarPeriodo' => '$dispatch(\'openModal\', { component: \'periodo.editar-periodo\', arguments: { periodo: ' . $row . ' }})',
+                            'EliminarPeriodo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
             )->html(),
@@ -85,5 +83,12 @@ class PeriodoDatatable extends DataTableComponent
         Periodo::whereIn('id', $this->getSelected())->update(['activo' => false]);
 
         $this->clearSelected();
+    }
+
+    #[On('eliminar-periodo')]
+    public function EliminarPeriodo(Periodo $id) 
+    {
+        $id->delete();
+        $this->dispatch('refreshDatatable');
     }
 }

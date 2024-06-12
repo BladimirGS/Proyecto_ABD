@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('archivos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('fecha')->default(now());
+            $table->date('fecha')->default(now());
             $table->string('documento');
             $table->foreignId('grupo_id')->constrained()->cascadeOnDelete();
             $table->foreignId('activity_id')->constrained()->cascadeOnDelete();

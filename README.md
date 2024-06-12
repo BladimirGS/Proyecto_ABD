@@ -46,35 +46,36 @@
     DB_PASSWORD=tu_contraseña_mysql
     ```
 
-7. Crea una nueva base de datos en tu servidor MySQL.
-
-8. Creamos la base de datos:
+7. Crea una nueva base de datos en tu servidor MySQL:
     ```sql
     CREATE DATABASE name_database;
     ```
 
-9.  Ejecuta las migraciones y semillas de la base de datos:
+8.  Ejecuta las migraciones y semillas de la base de datos:
     ```
     php artisan migrate:refresh --seed
     ```
 
-10. Genera una clave de aplicación:
+9. Genera una clave de aplicación:
     ```
     php artisan key:generate
     ```
 
-11. Ejecuta el servidor local:
+10. Ejecuta el servidor local:
     ```
     php artisan serve
     ```
 
-12. Compila los estilos de Tailwind CSS:
+11. Compila los estilos de Tailwind CSS:
     ```
     npm run dev
     ```
+12. Ahora puedes acceder al proyecto en tu navegador en la dirección:
+
+    [http://localhost:8000](http://localhost:8000)
 
 Inicia sesión con las siguientes credenciales:
 - Correo electrónico: `admin@correo.com`
 - Contraseña: `password`
   
-Ahora puedes acceder al proyecto en tu navegador en la dirección `http://localhost:8000`.
+

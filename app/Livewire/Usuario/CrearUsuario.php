@@ -45,11 +45,11 @@ class CrearUsuario extends ModalComponent
         // tabla intermedia
         $user->contratos()->attach($datos['contratosUsuario']);
 
-        // Crear un mensaje
-        session()->flash('mensaje', 'El Usuario se añadio correctamente');
+        // se dispara un evento
+        $this->dispatch('refreshDatatable');
 
-        // Redireccionar al usuario
-        return redirect()->route('users.index');
+        // Se cierra el modal
+        $this->closeModal();
     }
 
     public function render()

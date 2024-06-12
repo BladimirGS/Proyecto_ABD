@@ -13,8 +13,23 @@ class RecursosSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
+        // Carreras 
+        $carreras = [
+            ['nombre' => 'Ingeniería en Sistemas Computacionales'],
+            ['nombre' => 'Ingeniería en Tecnologías de la Información'],
+            ['nombre' => 'Ingeniería Industrial'],
+            ['nombre' => 'Ingeniería Mecánica'],
+            ['nombre' => 'Ingeniería Electrónica'],
+            ['nombre' => 'Ingeniería Civil'],
+            ['nombre' => 'Ingeniería Química'],
+            ['nombre' => 'Arquitectura'],
+            ['nombre' => 'Licenciatura en Administración'],
+            ['nombre' => 'Licenciatura en Contaduría'],
+            ['nombre' => 'Ingeniería en Gestión Empresarial'],
+        ];
 
+        DB::table('carreras')->insert($carreras);
         
 
         // Materias 
@@ -47,22 +62,6 @@ class RecursosSeeder extends Seeder
 
         DB::table('materias')->insert($materias);
 
-        // Carreras 
-        $carreras = [
-            ['nombre' => 'Ingeniería en Sistemas Computacionales'],
-            ['nombre' => 'Ingeniería en Tecnologías de la Información'],
-            ['nombre' => 'Ingeniería Industrial'],
-            ['nombre' => 'Ingeniería Mecánica'],
-            ['nombre' => 'Ingeniería Electrónica'],
-            ['nombre' => 'Ingeniería Civil'],
-            ['nombre' => 'Ingeniería Química'],
-            ['nombre' => 'Arquitectura'],
-            ['nombre' => 'Licenciatura en Administración'],
-            ['nombre' => 'Licenciatura en Contaduría'],
-            ['nombre' => 'Ingeniería en Gestión Empresarial'],
-        ];
-
-        DB::table('carreras')->insert($carreras);
 
         // Periodos
         $periodos = [
@@ -75,6 +74,7 @@ class RecursosSeeder extends Seeder
         ];
 
         DB::table('periodos')->insert($periodos);
+
 
         // Actividades
         $activities = [
@@ -95,6 +95,7 @@ class RecursosSeeder extends Seeder
         DB::table('activities')->insert($activities);
 
         
+        // Grupos
         $grupos = [
             [
                 'clave' => '4SA',
