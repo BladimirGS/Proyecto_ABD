@@ -5,6 +5,7 @@ namespace App\Livewire\Datatable;
 use App\Models\Grupo;
 use App\Models\Periodo;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -12,7 +13,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
-class GrupoDatatable extends DataTableComponent
+class DocenteGrupoDatatable extends DataTableComponent
 {
     public string $tableName = 'grupos';
 
@@ -24,7 +25,7 @@ class GrupoDatatable extends DataTableComponent
         $ultimoPeriodo = Periodo::latest('nombre')->first();
 
         // Aplicar el primer periodo como filtro predeterminado
-        $this->setFilter('periodos', [$ultimoPeriodo->id]);
+        $this->setFilter('periodo', $ultimoPeriodo->id);
     }
 
     public function configure(): void
@@ -34,13 +35,13 @@ class GrupoDatatable extends DataTableComponent
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
                     'livewire.datatable.create-area', [
-                        'CrearGrupo' => route('grupos.create'),
+                        'CrearGrupo' => route('docente.grupos.create'),
                     ],
                 ],
             ])
             // Dar click en fila
             ->setTableRowUrl(function($row) {
-                return route('grupos.show', $row);
+                return route('docente.grupos.show', $row);
             })
             // Abrir en otra ventana
             ->setTableRowUrlTarget(function($row) {
@@ -73,8 +74,8 @@ class GrupoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'EditarGrupo' => route('grupos.edit', $row),
-                            'EliminarGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+                            'EditarDocenteGrupo' => route('docente.grupos.edit', $row),
+                            'EliminarDocenteGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
             )->html(),
@@ -84,72 +85,29 @@ class GrupoDatatable extends DataTableComponent
     public function filters(): array
     {
         return [
-            MultiSelectFilter::make('Periodos')
+            SelectFilter::make('Periodo')
                 ->options(
                     Periodo::query()
-                        ->orderBy('nombre', 'desc')
+                        ->orderBy('nombre')
                         ->get()
                         ->keyBy('id')
-                        ->map(fn ($periodo) => $periodo->nombre)
+                        ->map(fn($periodo) => $periodo->nombre)
                         ->toArray()
-                )->filter(function (Builder $builder, array $values) {
-                    $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
+                )
+                ->filter(function(Builder $builder, string $value) {
+                    $builder->whereHas('periodo', fn($query) => $query->where('periodos.id', $value));
                 }),
-            // SelectFilter::make('Estado')
-            //     ->options([
-            //         '' => 'Todo',
-            //         '1' => 'Activo',
-            //         '0' => 'Inactivo',
-            //     ])
-            //     ->filter(function (Builder $builder, string $value) {
-            //         if ($value === '1') {
-            //             $builder->where('activities.activo', true);
-            //         } elseif ($value === '0') {
-            //             $builder->where('activities.activo', false);
-            //         }
-            //     })
         ];
     }
 
     public function builder(): Builder
     {
-        return Grupo::query();
+
+        return Grupo::query()->where('user_id', Auth::user()->id);
     }
 
-    // public function bulkActions(): array
-    // {
-    //     return [
-    //         'activate' => 'Activar',
-    //         'deactivate' => 'Desactivar',
-    //         'export' => 'Exportar',
-    //     ];
-    // }
-
-    // public function export()
-    // {
-    //     $grupos = $this->getSelected();
-
-    //     $this->clearSelected();
-
-    //     return Excel::download(new GruposExport($grupos), 'grupos.xlsx');
-    // }
-
-    // public function activate()
-    // {
-    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => true]);
-
-    //     $this->clearSelected();
-    // }
-
-    // public function deactivate()
-    // {
-    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => false]);
-
-    //     $this->clearSelected();
-    // }
-
-    #[On('eliminar-grupo')]
-    public function EliminarGrupo(Grupo $id) 
+    #[On('eliminar-docente-grupo')]
+    public function EliminarDocenteGrupo(Grupo $id) 
     {
         $id->delete();
         $this->dispatch('refreshDatatable');

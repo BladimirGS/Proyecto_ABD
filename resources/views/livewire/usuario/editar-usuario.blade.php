@@ -45,7 +45,7 @@
             </div>
     
             <div class="mt-5">
-                <x-input-label for="contratosUsuario" value="Contrato" />
+                <x-input-label value="Contrato" />
             
                 @foreach ($contratos as $contrato)
                     <div class="flex items-center mt-2">

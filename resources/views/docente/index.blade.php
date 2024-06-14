@@ -4,14 +4,17 @@
     </x-slot>
     
     <div class="py-8">
-        <div class="flex justify-around md:justify-end mb-6">
-            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2">
-                Mis grupos
-            </button>
-            <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
-                Agregar grupo
-            </button>
+        <div class="flex flex-col items-center md:flex-row md:justify-between mb-6">
+            <div class="mb-4 md:mb-0 md:mr-auto">
+                <x-link href="{{ route('reportes.index') }}">Reportes</x-link>
+            </div>
+        
+            <div class="flex justify-around w-full md:w-auto md:gap-8">
+                <x-link color="violet" href="{{ route('docente.grupos.index') }}">Mis Grupos</x-link>
+                <x-link color="green" href="{{ route('docente.grupos.create') }}">Nuevo Grupo</x-link>
+            </div>
         </div>
+        
 
         @forelse ($gruposPorCarrera as $carrera => $gruposCarrera)
         <div class="mb-6">

@@ -51,7 +51,6 @@
                         <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
                     </div>
 
-
                     <div class="mt-5">
                         <x-input-label for="carrera_id" value="Carrera" />
     
@@ -64,7 +63,6 @@
 
                         <x-input-error :messages="$errors->get('carrera_id')" class="mt-2" />
                     </div>
-
 
                     <div class="mt-5">
                         <x-input-label for="materia_id" value="Materia" />
@@ -79,7 +77,6 @@
                         <x-input-error :messages="$errors->get('materia_id')" class="mt-2" />
                     </div>
 
-
                     <div class="mt-5">
                         <x-input-label for="periodo_id" value="Periodo" />
     
@@ -92,7 +89,6 @@
                     
                         <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
                     </div>
-
             
                     <div class="mt-5 text-center">
                         <x-button type="submit">

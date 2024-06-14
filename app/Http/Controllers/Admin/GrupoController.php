@@ -13,6 +13,13 @@ use App\Http\Controllers\Controller;
 
 class GrupoController extends Controller
 {
+    public function __construct() 
+    {
+        $this->middleware('can:grupos.index')->only('index');
+        $this->middleware('can:grupos.create')->only('create');
+        $this->middleware('can:grupos.edit')->only('edit');
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -67,10 +74,10 @@ class GrupoController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(Grupo $grupo)
-    // {
-    //     //
-    // }
+    public function show(Grupo $grupo)
+    {
+        return view('admin.grupo.show', ['grupo' => $grupo]);
+    }
 
     /**
      * Show the form for editing the specified resource.

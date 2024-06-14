@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('apellido')->nullable();
+            $table->string('genero')->nullable();
+            $table->string('edad')->nullable();
             $table->string('rfc')->nullable();
+            $table->string('grado_estudio')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('placa')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('activo')->default(true);

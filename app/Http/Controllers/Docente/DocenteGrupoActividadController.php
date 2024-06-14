@@ -7,6 +7,7 @@ use App\Models\Archivo;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DocenteGrupoActividadController extends Controller
@@ -16,6 +17,11 @@ class DocenteGrupoActividadController extends Controller
      */
     public function index(Grupo $grupo)
     {
+        // Verificar si el grupo pertenece al usuario autenticado
+        if ($grupo->user_id !== Auth::user()->id) {
+            return redirect()->route('docentes.index');
+        }
+        
         return view('docente.grupo.actividad.index', [
             'grupo' => $grupo, 
             'actividades' => Activity::where('periodo_id', $grupo->periodo_id)->get()
@@ -27,6 +33,11 @@ class DocenteGrupoActividadController extends Controller
      */
     public function show(Grupo $grupo, Activity $actividad)
     {
+        // Verificar si el grupo pertenece al usuario autenticado
+        if ($grupo->user_id !== Auth::user()->id) {
+            return redirect()->route('docentes.index');
+        }
+        
         $archivoExistente = Archivo::where('grupo_id', $grupo->id)
             ->where('activity_id', $actividad->id)
             ->first();
@@ -34,12 +45,17 @@ class DocenteGrupoActividadController extends Controller
         return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente'));
     }
 
-    public function descargar($grupoId, $actividadId, $archivoId)
+    public function descargar(Grupo $grupo, Activity $actividad, Archivo $archivo)
     {
+        // Verificar si el grupo pertenece al usuario autenticado
+        if ($grupo->user_id !== Auth::user()->id) {
+            return redirect()->route('docentes.index');
+        }
+        
         // Busca el archivo por su ID
-        $archivo = Archivo::where('id', $archivoId)
-            ->where('grupo_id', $grupoId)
-            ->where('activity_id', $actividadId)
+        $archivo = Archivo::where('id', $archivo->id)
+            ->where('grupo_id', $grupo->id)
+            ->where('activity_id', $actividad->id)
             ->firstOrFail();
 
         return Storage::download($archivo->documento, $archivo->nombre);

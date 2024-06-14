@@ -12,8 +12,11 @@ use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    public function __construct() {
-        $this;
+    public function __construct() 
+    {
+        $this->middleware('can:roles.index')->only('index');
+        $this->middleware('can:roles.create')->only('create');
+        $this->middleware('can:roles.edit')->only('edit');
     }
 
     /**
@@ -62,14 +65,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    // public function show(Role $role)
-    // {
-    //     //
-    // }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role)
@@ -102,12 +97,4 @@ class RoleController extends Controller
         
         return redirect()->route('roles.index')->with('status', 'Operacion exitosa');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(Role $id)
-    // {
-    //     // 
-    // }
 }

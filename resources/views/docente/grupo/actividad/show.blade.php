@@ -12,6 +12,9 @@
             <div class="bg-white shadow-sm sm:rounded-lg py-10 px-8 md:px-20 mx-auto">
                 <div class="mb-4 space-y-4">
                     <h1 class="text-2xl font-bold">{{ $actividad->nombre }}</h1>
+
+                    <p class="text-base text-gray-600 font-medium whitespace-pre-line break-normal">{{ $actividad->descripcion }}</p>
+
                     <h2 class="text-lg font-bold">Fecha programada:
                         <x-formato-fecha fechaformateada="{{ $actividad->fecha }}"></x-formato-fecha>
                     </span></h2>
@@ -22,8 +25,8 @@
                     <table class="w-full table-auto border border-collapse border-gray-400 mx-auto">
                         <tbody>
                             <tr>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-bold">Estatus de la entrega</x-table-cell>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-semibold">
+                                <x-table-cell class="font-bold">Estatus de la entrega</x-table-cell>
+                                <x-table-cell class="font-semibold">
                                     @if ($archivoExistente)
                                         Actividad completada
                                     @else
@@ -32,8 +35,8 @@
                                 </x-table-cell>
                             </tr>
                             <tr>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-bold">Estatus de revisión</x-table-cell>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-semibold">
+                                <x-table-cell class="font-bold">Estatus de revisión</x-table-cell>
+                                <x-table-cell class="font-semibold">
                                     @if ($archivoExistente)
                                         {{$archivoExistente->estado}}
                                     @else
@@ -42,14 +45,14 @@
                                 </x-table-cell>                                
                             </tr>
                             <tr>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-bold">Última modificación</x-table-cell>
-                                <x-table-cell>
+                                <x-table-cell class="font-bold">Última modificación</x-table-cell>
+                                <x-table-cell class="font-semibold">
                                     {{ $archivoExistente ? $archivoExistente->fecha : '-' }}
                                 </x-table-cell>
                             </tr>
                             <tr>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-bold">Archivo</x-table-cell>
-                                <x-table-cell class="border border-gray-400 px-4 py-2 font-semibold">
+                                <x-table-cell class="font-bold">Archivo</x-table-cell>
+                                <x-table-cell class="font-semibold">
                                     @if ($archivoExistente)
                                     <x-truncade>
                                         <a href="{{ route('docente.grupo.actividades.descargar', ['grupo' => $grupo->id, 'actividad' => $actividad->id, 'archivo' => $archivoExistente->id]) }}" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">

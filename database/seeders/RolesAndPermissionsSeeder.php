@@ -53,21 +53,21 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'periodos.edit', 'description' => 'Editar periodos'],
             ['name' => 'periodos.destroy', 'description' => 'borrar periodos'],
 
-            ['name' => 'grupos.index', 'description' => 'Ver lista de grupos'],
-            ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
-            ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
-            ['name' => 'grupos.destroy', 'description' => 'borrar grupos'],
-
             ['name' => 'actividades.index', 'description' => 'Ver lista de actividades'],
             ['name' => 'actividades.create', 'description' => 'Agregar actividades'],
             ['name' => 'actividades.edit', 'description' => 'Editar actividades'],
             ['name' => 'actividades.destroy', 'description' => 'borrar actividades'],
 
-            ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
-            ['name' => 'archivos.status', 'description' => 'Cambiar estado de archivos'],
-            ['name' => 'archivos.download', 'description' => 'Descargar archivos'],
+            ['name' => 'grupos.index', 'description' => 'Ver lista de grupos'],
+            ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
+            ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
+            ['name' => 'grupos.destroy', 'description' => 'borrar grupos'],
 
-            ['name' => 'admin.index', 'description' => 'Panel administrativo'],
+            ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
+            ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
+
+            ['name' => 'reportes.index', 'description' => 'Ver listado de reportes'],
+            ['name' => 'reportes.descargar', 'description' => 'Descargar reportes'],
         ];
         
         foreach ($permisos as $permiso) {

@@ -6,7 +6,8 @@
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 shadow-sm sm:rounded-lg mx-auto">
             <div class="bg-white md:flex md:justify-center p-10">
-                <form class="md:w-3/4 lg:w-4/5" action="{{ route('grupos.update', ['grupo' => $grupo]) }}" method="POST">
+                <form class="md:w-3/4 lg:w-4/5" action="{{ route('docente.grupos.update', ['grupo' => $grupo]) }}" method="POST">
+                    @method('PUT')
                     @csrf
             
                     <legend class="block font-bold text-lg text-gray-700 text-center">Editar grupo</legend>
@@ -36,20 +37,6 @@
                         />
                         <x-input-error :messages="$errors->get('semestre')" class="mt-2" />
                     </div>
-            
-                    <div class="mt-5">
-                        <x-input-label for="user_id" value="Docente" />
-        
-                        <select name="user_id" id="user_id" class="selectUsers">
-                            <option></option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ $grupo->user_id == $user->id ? 'selected' : '' }}>{{ $user->nombre }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
-                    </div>
-
 
                     <div class="mt-5">
                         <x-input-label for="carrera_id" value="Carrera" />
@@ -64,7 +51,6 @@
                         <x-input-error :messages="$errors->get('carrera_id')" class="mt-2" />
                     </div>
 
-
                     <div class="mt-5">
                         <x-input-label for="materia_id" value="Materia" />
     
@@ -78,7 +64,6 @@
                         <x-input-error :messages="$errors->get('materia_id')" class="mt-2" />
                     </div>
 
-
                     <div class="mt-5">
                         <x-input-label for="periodo_id" value="Periodo" />
     
@@ -91,7 +76,6 @@
                     
                         <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
                     </div>
-
             
                     <div class="mt-5 text-center">
                         <x-button type="submit">

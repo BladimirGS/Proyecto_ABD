@@ -2,36 +2,25 @@
 
 namespace App\Livewire\Datatable;
 
+use App\Models\Grupo;
 use App\Models\Archivo;
-use App\Models\Periodo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
-use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
-class ArchivoDatatable extends DataTableComponent
+class GrupoArchivoDatatable extends DataTableComponent
 {
-    public string $tableName = 'archivos';
-
-    public ?int $searchFilterDebounce = 600;
+    public Grupo $grupo;
     
-    public function mount()
-    {
-        // Obtener el ultimo periodo
-        $ultimoPeriodo = Periodo::latest('nombre')->first();
-
-        // Aplicar el primer periodo como filtro predeterminado
-        $this->setFilter('periodo', $ultimoPeriodo->id);
-    }
+    public ?int $searchFilterDebounce = 600;
 
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-            ->setAdditionalSelects(['archivos.id as id'])
-            ->setHideBulkActionsWhenEmptyEnabled();
+        ->setAdditionalSelects(['archivos.id as id']);
     }
 
     public function columns(): array
@@ -71,45 +60,11 @@ class ArchivoDatatable extends DataTableComponent
         ];
     }
     
-    public function filters(): array
-    {
-        return [
-            SelectFilter::make('Periodo')
-                ->options(
-                    Periodo::query()
-                        ->orderBy('nombre')
-                        ->get()
-                        ->keyBy('id')
-                        ->map(fn($periodo) => $periodo->nombre)
-                        ->toArray()
-                )
-                ->filter(function(Builder $builder, string $value) {
-                    $builder->whereHas('grupo.periodo', fn($query) => $query->where('periodos.id', $value));
-                }),
-            SelectFilter::make('Estado')
-            ->options([
-                '' => 'Todo',
-                'aprobado' => 'Aprobado',
-                'rechazado' => 'Rechazado',
-                'pendiente' => 'Pendiente',
-            ])
-            ->filter(function (Builder $builder, string $value) {
-                if ($value === 'aprobado') {
-                    $builder->where('archivos.estado', 'Aprobado');
-                } elseif ($value === 'rechazado') {
-                    $builder->where('archivos.estado', 'Rechazado');
-                } elseif ($value === 'pendiente') {
-                    $builder->where('archivos.estado', 'Pendiente');
-                }
-            })
-        ];
-    }
-
     public function builder(): Builder
     {
-        return Archivo::query();
+        return Archivo::query()->where('grupo_id', $this->grupo->id);
     }
-
+    
     public function bulkActions(): array
     {
         return [
@@ -118,7 +73,7 @@ class ArchivoDatatable extends DataTableComponent
             'pendiente' => 'Pendiente',
         ];
     }
-
+    
     public function aprobado()
     {
         Archivo::whereIn('id', $this->getSelected())->update(['estado' => 'Aprobado']);
