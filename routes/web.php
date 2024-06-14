@@ -1,15 +1,14 @@
 <?php
 
 use App\Http\Controllers\admin\ActividadController;
-use App\Livewire\Prueba;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\GrupoController;
 use App\Http\Controllers\Admin\ArchivoController;
-use App\Http\Controllers\admin\CarreraController;
-use App\Http\Controllers\admin\MateriaController;
-use App\Http\Controllers\admin\PeriodoController;
+use App\Http\Controllers\Admin\CarreraController;
+use App\Http\Controllers\Admin\MateriaController;
+use App\Http\Controllers\Admin\PeriodoController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Docente\DocenteController;
