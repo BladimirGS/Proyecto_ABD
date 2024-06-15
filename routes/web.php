@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archivos', ArchivoController::class)->name('archivos.index');
 
     // Tablero del docente
-    Route::get('/docente/', DocenteController::class)->name('docentes.index'); 
+    Route::get('/', DocenteController::class)->name('docentes.index'); 
 
     // Reportes por periodo
     Route::get('/reportes/', ReporteController::class)->name('reportes.index'); 
