@@ -32,13 +32,13 @@ class DocenteGrupoDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['grupos.id as id'])
-            ->setConfigurableAreas([
-                'toolbar-left-start' => [
-                    'livewire.datatable.create-area', [
-                        'CrearGrupo' => route('docente.grupos.create'),
-                    ],
-                ],
-            ])
+            // ->setConfigurableAreas([
+            //     'toolbar-left-start' => [
+            //         'livewire.datatable.create-area', [
+            //             'CrearGrupo' => route('docente.grupos.create'),
+            //         ],
+            //     ],
+            // ])
             // Dar click en fila
             ->setTableRowUrl(function($row) {
                 return route('docente.grupos.show', $row);
@@ -70,15 +70,16 @@ class DocenteGrupoDatatable extends DataTableComponent
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
-            Column::make('Acciones')
-                ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-                        [
-                            'EditarDocenteGrupo' => route('docente.grupos.edit', $row),
-                            'EliminarDocenteGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                        ]
-                    )
-            )->html(),
+            // Column::make('Acciones')
+            //     ->unclickable()
+            //     ->label(
+            //         fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+            //             [
+            //                 'EditarDocenteGrupo' => route('docente.grupos.edit', $row),
+            //                 'EliminarDocenteGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+            //             ]
+            //         )
+            // )->html(),
         ];
     }
 

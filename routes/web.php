@@ -45,7 +45,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reportes/', ReporteController::class)->name('reportes.index'); 
     
     // Grupos del docente
-    Route::resource('/docente/grupos', DocenteGrupoController::class)->except('destroy')->names('docente.grupos');
+    // Route::resource('/docente/grupos', DocenteGrupoController::class)->except('destroy')->names('docente.grupos');
+    Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->name('docente.grupos.index');
+    Route::get('/docente/grupos/{grupo}', [DocenteGrupoController::class, 'show'])->name('docente.grupos.show');
     
     // Rutas para actividades del grupo del docente
     Route::get('/docente/grupos/{grupo}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
@@ -59,5 +61,8 @@ Route::middleware(['auth'])->group(function () {
     // Editar perfil
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Ver perfil
+    Route::get('perfil/{usuario}', [ProfileController::class, 'show'])->name('profile.show');
 });
 

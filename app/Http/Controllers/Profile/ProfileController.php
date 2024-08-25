@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Profile;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -53,5 +54,10 @@ class ProfileController extends Controller
         ]);
 
         return redirect()->route('docentes.index')->with('success', 'Perfil actualizado con éxito');
+    }
+
+    public function show(User $usuario)
+    {
+        return view('profile.show', ['usuario' => $usuario]);
     }
 }

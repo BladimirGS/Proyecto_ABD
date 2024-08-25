@@ -11,7 +11,7 @@
         
             <div class="flex justify-around w-full md:w-auto md:gap-8">
                 <x-link color="violet" href="{{ route('docente.grupos.index') }}">Mis Grupos</x-link>
-                <x-link color="green" href="{{ route('docente.grupos.create') }}">Nuevo Grupo</x-link>
+                {{-- <x-link color="green" href="{{ route('docente.grupos.create') }}">Nuevo Grupo</x-link> --}}
             </div>
         </div>
         

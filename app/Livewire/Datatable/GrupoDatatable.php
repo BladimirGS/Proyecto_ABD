@@ -70,6 +70,7 @@ class GrupoDatatable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make('Acciones')
+                ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
