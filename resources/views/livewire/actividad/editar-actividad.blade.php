@@ -63,7 +63,7 @@
 
             <div class="mt-5 text-center">
                 <x-button type="submit">
-                    Editar Actividad
+                    Guardar cambio
                 </x-button>
             </div>
         </form>

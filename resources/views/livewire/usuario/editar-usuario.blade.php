@@ -93,7 +93,7 @@
     
             <div class="mt-5 text-center">
                 <x-button type="submit">
-                    Actualizar Usuario
+                    Guardar cambio
                 </x-button>
             </div>
         </form>

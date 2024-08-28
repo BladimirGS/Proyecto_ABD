@@ -46,10 +46,10 @@ class ReporteDatatable extends DataTableComponent
     {
         return Periodo::query();
     }
-    
+
     #[On('exportar')]
-    public function exportar(Periodo $id) 
+    public function exportar(int $id) 
     {
-        return Excel::download(new PeriodoExport, 'periodos.xlsx');
+        return Excel::download(new PeriodoExport($id), 'periodo_' . $id . '.xlsx');
     }
 }

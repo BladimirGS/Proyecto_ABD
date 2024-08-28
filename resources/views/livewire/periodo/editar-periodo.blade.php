@@ -46,7 +46,7 @@
     
             <div class="mt-5 text-center">
                 <x-button type="submit">
-                    Registrar Periodo
+                    Guardar cambio
                 </x-button>
             </div>
         </form>

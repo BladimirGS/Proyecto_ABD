@@ -17,7 +17,7 @@
                         id="nombre"
                         type="text"
                         name="nombre"
-                        value="{{ $usuario->nombre }}"
+                        value="{{ old('nombre', $usuario->nombre) }}"
                         placeholder="Nombre del usuario"
                     />
                     <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
@@ -30,7 +30,7 @@
                         id="apellido"
                         type="text"
                         name="apellido"
-                        value="{{ $usuario->apellido }}"
+                        value="{{ old('apellido', $usuario->apellido) }}"
                         placeholder="Apellido del usuario"
                     />
                     <x-input-error :messages="$errors->get('apellido')" class="mt-2" />
@@ -39,16 +39,16 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="mt-5">
-                    <x-input-label for="genero" value="genero" />
+                    <x-input-label for="genero" value="Género" />
                     <select
                         id="genero"
                         name="genero"
                         class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
-                        <option value="" selected disabled>Genero del usuario</option>
-                        <option value="Hombre" {{ $usuario->genero == 'Hombre' ? 'selected' : '' }}>Hombre</option>
-                        <option value="Mujer" {{ $usuario->genero == 'Mujer' ? 'selected' : '' }}>Mujer</option>
-                        <option value="Otro" {{ $usuario->genero == 'Otro' ? 'selected' : '' }}>Otro</option>
+                        <option value="" disabled>Género del usuario</option>
+                        <option value="Hombre" {{ old('genero', $usuario->genero) == 'Hombre' ? 'selected' : '' }}>Hombre</option>
+                        <option value="Mujer" {{ old('genero', $usuario->genero) == 'Mujer' ? 'selected' : '' }}>Mujer</option>
+                        <option value="Otro" {{ old('genero', $usuario->genero) == 'Otro' ? 'selected' : '' }}>Otro</option>
                     </select>
                     <x-input-error :messages="$errors->get('genero')" class="mt-2" />
                 </div>
@@ -60,7 +60,7 @@
                         id="edad"
                         type="number"
                         name="edad"
-                        value="{{ $usuario->edad }}"
+                        value="{{ old('edad', $usuario->edad) }}"
                         placeholder="Edad del usuario"
                     />
                     <x-input-error :messages="$errors->get('edad')" class="mt-2" />
@@ -75,27 +75,27 @@
                         id="rfc"
                         type="text"
                         name="rfc"
-                        value="{{ $usuario->rfc }}"
+                        value="{{ old('rfc', $usuario->rfc) }}"
                         placeholder="RFC del usuario"
                     />
                     <x-input-error :messages="$errors->get('rfc')" class="mt-2" />
                 </div>
 
                 <div class="mt-5">
-                    <x-input-label for="grado_estudio" value="Ultimo grado de estudio" />
+                    <x-input-label for="grado_estudio" value="Último grado de estudio" />
                     <select
                         id="grado_estudio"
                         name="grado_estudio"
                         class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
-                        <option value="" selected disabled>Ultimo grado de estudio</option>
-                        <option value="Primaria" {{ $usuario->grado_estudio == 'Primaria' ? 'selected' : '' }}>Primaria</option>
-                        <option value="Secundaria" {{ $usuario->grado_estudio == 'Secundaria' ? 'selected' : '' }}>Secundaria</option>
-                        <option value="Bachillerato" {{$usuario->grado_estudio == 'Bachillerato' ? 'selected' : '' }}>Bachillerato</option>
-                        <option value="Licenciatura" {{$usuario->grado_estudio == 'Licenciatura' ? 'selected' : '' }}>Licenciatura</option>
-                        <option value="Maestría" {{$usuario->grado_estudio == 'Maestría' ? 'selected' : '' }}>Maestría</option>
-                        <option value="Doctorado" {{$usuario->grado_estudio == 'Doctorado' ? 'selected' : '' }}>Doctorado</option>
-                        <option value="Otro" {{$usuario->grado_estudio == 'Otro' ? 'selected' : '' }}>Otro</option>
+                        <option value="" disabled>Último grado de estudio</option>
+                        <option value="Primaria" {{ old('grado_estudio', $usuario->grado_estudio) == 'Primaria' ? 'selected' : '' }}>Primaria</option>
+                        <option value="Secundaria" {{ old('grado_estudio', $usuario->grado_estudio) == 'Secundaria' ? 'selected' : '' }}>Secundaria</option>
+                        <option value="Bachillerato" {{ old('grado_estudio', $usuario->grado_estudio) == 'Bachillerato' ? 'selected' : '' }}>Bachillerato</option>
+                        <option value="Licenciatura" {{ old('grado_estudio', $usuario->grado_estudio) == 'Licenciatura' ? 'selected' : '' }}>Licenciatura</option>
+                        <option value="Maestría" {{ old('grado_estudio', $usuario->grado_estudio) == 'Maestría' ? 'selected' : '' }}>Maestría</option>
+                        <option value="Doctorado" {{ old('grado_estudio', $usuario->grado_estudio) == 'Doctorado' ? 'selected' : '' }}>Doctorado</option>
+                        <option value="Otro" {{ old('grado_estudio', $usuario->grado_estudio) == 'Otro' ? 'selected' : '' }}>Otro</option>
                     </select>
                     <x-input-error :messages="$errors->get('grado_estudio')" class="mt-2" />
                 </div>
@@ -109,7 +109,7 @@
                         id="telefono"
                         type="text"
                         name="telefono"
-                        value="{{ $usuario->telefono }}"
+                        value="{{ old('telefono', $usuario->telefono) }}"
                         placeholder="Teléfono del usuario"
                     />
                     <x-input-error :messages="$errors->get('telefono')" class="mt-2" />
@@ -122,12 +122,13 @@
                         id="placa_vehicular"
                         type="text"
                         name="placa_vehicular"
-                        value="{{ $usuario->placa_vehicular }}"
+                        value="{{ old('placa_vehicular', $usuario->placa_vehicular) }}"
                         placeholder="Placa Vehicular del usuario"
                     />
                     <x-input-error :messages="$errors->get('placa_vehicular')" class="mt-2" />
                 </div>
             </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="mt-5">
                     <x-input-label for="email" value="Correo" />
@@ -136,7 +137,7 @@
                         id="email"
                         type="text"
                         name="email"
-                        value="{{ $usuario->email }}"
+                        value="{{ old('email', $usuario->email) }}"
                         placeholder="Correo del usuario"
                     />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -156,9 +157,13 @@
                 </div>
             </div>
             
-            <div class="mt-5 text-center">
+            <div class="mt-5 flex justify-end gap-8">
+                <x-link color="red" href="{{ route('docentes.index') }}">
+                    Cancelar
+                </x-link>
+                
                 <x-button type="submit">
-                    Registrar Usuario
+                    Guardar cambios
                 </x-button>
             </div>
         </form>

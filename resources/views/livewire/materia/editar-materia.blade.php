@@ -33,7 +33,7 @@
     
             <div class="mt-5 text-center">
                 <x-button type="submit">
-                    Registrar materia
+                    Guardar cambio
                 </x-button>
             </div>
         </form>
