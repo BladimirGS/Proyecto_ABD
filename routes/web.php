@@ -36,13 +36,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/grupos', GrupoController::class)->except('destroy')->names('grupos');
     
     // Ver los archivos subidos
-    Route::get('/archivos', ArchivoController::class)->name('archivos.index');
+    Route::get('/archivos', ArchivoController::class)->middleware('can:reportes.index')->name('archivos.index');
 
     // Tablero del docente
     Route::get('/', DocenteController::class)->name('docentes.index'); 
 
     // Reportes por periodo
-    Route::get('/reportes/', ReporteController::class)->name('reportes.index'); 
+    Route::get('/reportes/', ReporteController::class)->middleware('can:reportes.index')->name('reportes.index'); 
     
     // Grupos del docente
     // Route::resource('/docente/grupos', DocenteGrupoController::class)->except('destroy')->names('docente.grupos');

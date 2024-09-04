@@ -5,9 +5,11 @@
     
     <div class="py-8">
         <div class="flex flex-col items-center md:flex-row md:justify-between mb-6">
-            <div class="mb-4 md:mb-0 md:mr-auto">
-                <x-link href="{{ route('reportes.index') }}">Reportes</x-link>
-            </div>
+            @can('reportes.index')
+                <div class="mb-4 md:mb-0 md:mr-auto">
+                    <x-link href="{{ route('reportes.index') }}">Reportes</x-link>
+                </div>
+            @endcan
         
             <div class="flex justify-around w-full md:w-auto md:gap-8">
                 <x-link color="violet" href="{{ route('docente.grupos.index') }}">Mis Grupos</x-link>

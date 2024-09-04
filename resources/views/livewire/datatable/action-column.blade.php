@@ -11,7 +11,7 @@
             @endif
         @endcan
 
-        @can('usuarios.delete')
+        @can('usuarios.destroy')
             @isset($EliminarUsuario)
                 <x-button
                     wire:click="{{ $EliminarUsuario }}"
@@ -38,7 +38,7 @@
             @endif
         @endcan
 
-        @can('carreras.delete')
+        @can('carreras.destroy')
             @isset($EliminarCarrera)
                 <x-button
                     wire:click="{{ $EliminarCarrera }}"
@@ -56,7 +56,7 @@
             @endif
         @endcan
 
-        @can('materias.delete')
+        @can('materias.destroy')
             @isset($EliminarMateria)
                 <x-button
                     wire:click="{{ $EliminarMateria }}"
@@ -74,7 +74,7 @@
             @endif
         @endcan
 
-        @can('periodos.delete')
+        @can('periodos.destroy')
             @isset($EliminarPeriodo)
                 <x-button
                     wire:click="{{ $EliminarPeriodo }}"
@@ -92,7 +92,7 @@
             @endif
         @endcan
 
-        @can('actividades.delete')
+        @can('actividades.destroy')
             @isset($EliminarActividad)
             <x-button
                 wire:click="{{ $EliminarActividad }}"
@@ -108,7 +108,7 @@
             @endif
         @endcan
 
-        @can('grupos.delete')
+        @can('grupos.destroy')
             @isset($EliminarGrupo)
                 <x-button
                     wire:click="{{ $EliminarGrupo }}"
@@ -123,7 +123,7 @@
             @endif
         @endcan
 
-        @can('roles.delete')
+        @can('roles.destroy')
             @isset($EliminarRole)
             <x-button
                 wire:click="{{ $EliminarRole }}"
@@ -142,7 +142,7 @@
             @endisset
         @endcan
         
-        @isset ( $EditarDocenteGrupo )
+        {{-- @isset ( $EditarDocenteGrupo )
             <x-link color="blue" href="{{ $EditarDocenteGrupo }}">Editar</x-link>
         @endif
 
@@ -151,7 +151,7 @@
                 wire:click="{{ $EliminarDocenteGrupo }}"
                 color="red"
             >Eliminar</x-button>
-        @endisset
+        @endisset --}}
 
         @isset($DescargarGrupoArchivo)
             <x-button

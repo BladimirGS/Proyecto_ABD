@@ -62,18 +62,20 @@ class UsuarioDatatable extends DataTableComponent
                     ])
                 )->html(),
             Column::make("Email", "email")
-                ->sortable(),
-                Column::make(' ')
-                    ->label(
-                        fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-                            [
-                                'EditarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.editar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
-                                'EliminarUsuario' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                                'AsignarRoles' => '$dispatch(\'openModal\', { component: \'usuario.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
-                            ]
-                        )
-                )->html(),
-            ];
+                ->sortable()
+                ->searchable(),
+            Column::make(' ')
+            ->unclickable()
+                ->label(
+                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                        [
+                            'EditarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.editar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
+                            'EliminarUsuario' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+                            'AsignarRoles' => '$dispatch(\'openModal\', { component: \'usuario.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
+                        ]
+                    )
+            )->html(),
+        ];
     }
     
     public function filters(): array

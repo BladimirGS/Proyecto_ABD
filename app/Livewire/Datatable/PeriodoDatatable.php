@@ -50,7 +50,7 @@ class PeriodoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'EditarPeriodo' => '$dispatch(\'openModal\', { component: \'periodo.editar-periodo\', arguments: { periodo: ' . $row . ' }})',
+                            'EditarPeriodo' => '$dispatch(\'openModal\', { component: \'periodo.editar-periodo\', arguments: { periodo: ' . $row->id . ' }})',
                             'EliminarPeriodo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
