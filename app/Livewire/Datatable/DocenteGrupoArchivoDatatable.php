@@ -24,7 +24,7 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
         ->setAdditionalSelects(['archivos.id as id'])
         // Dar click en fila
         ->setTableRowUrl(function($row) {
-            return route('docente.grupo.actividades.show', [$row['grupo.id'], $row['activity.id']]);
+            return route('docente.grupo.actividades.show', [$row['grupo.id'], $row['actividad.id']]);
         })
         // Abrir en otra ventana
         ->setTableRowUrlTarget(function($row) {
@@ -50,11 +50,11 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Actividad", "activity.nombre")
+            ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            Column::make("activity_id", "activity.id")
+            Column::make("actividad_id", "actividad.id")
                 ->hideIf(true)
                 ->sortable()
                 ->searchable(),

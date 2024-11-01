@@ -2,15 +2,15 @@
 
 namespace App\Livewire\Actividad;
 
+use App\Models\Actividad;
 use App\Models\Periodo;
 use Livewire\Component;
-use App\Models\Activity;
 use LivewireUI\Modal\ModalComponent;
 
 class EditarActividad extends ModalComponent
 {
 
-    public Activity $actividad;
+    public Actividad $actividad;
 
     public $nombre;
     public $descripcion;

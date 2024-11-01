@@ -14,7 +14,7 @@ class Archivo extends Model
         'documento',
         'fecha',
         'grupo_id',
-        'activity_id'
+        'actividad_id'
     ];
 
     public function grupo()
@@ -22,8 +22,8 @@ class Archivo extends Model
         return $this->belongsTo(Grupo::class);
     }
     
-    public function activity()
+    public function actividad()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(Actividad::class);
     }
 }

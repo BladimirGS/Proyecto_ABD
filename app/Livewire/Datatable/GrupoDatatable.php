@@ -96,19 +96,6 @@ class GrupoDatatable extends DataTableComponent
                 )->filter(function (Builder $builder, array $values) {
                     $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
                 }),
-            // SelectFilter::make('Estado')
-            //     ->options([
-            //         '' => 'Todo',
-            //         '1' => 'Activo',
-            //         '0' => 'Inactivo',
-            //     ])
-            //     ->filter(function (Builder $builder, string $value) {
-            //         if ($value === '1') {
-            //             $builder->where('activities.activo', true);
-            //         } elseif ($value === '0') {
-            //             $builder->where('activities.activo', false);
-            //         }
-            //     })
         ];
     }
 
@@ -116,38 +103,6 @@ class GrupoDatatable extends DataTableComponent
     {
         return Grupo::query();
     }
-
-    // public function bulkActions(): array
-    // {
-    //     return [
-    //         'activate' => 'Activar',
-    //         'deactivate' => 'Desactivar',
-    //         'export' => 'Exportar',
-    //     ];
-    // }
-
-    // public function export()
-    // {
-    //     $grupos = $this->getSelected();
-
-    //     $this->clearSelected();
-
-    //     return Excel::download(new GruposExport($grupos), 'grupos.xlsx');
-    // }
-
-    // public function activate()
-    // {
-    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => true]);
-
-    //     $this->clearSelected();
-    // }
-
-    // public function deactivate()
-    // {
-    //     Grupo::whereIn('id', $this->getSelected())->update(['activo' => false]);
-
-    //     $this->clearSelected();
-    // }
 
     #[On('eliminar-grupo')]
     public function EliminarGrupo(Grupo $id) 

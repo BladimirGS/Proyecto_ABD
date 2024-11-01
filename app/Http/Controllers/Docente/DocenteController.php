@@ -32,8 +32,8 @@ class DocenteController extends Controller
         $actividadesCompletadas = [];
         foreach ($grupos as $grupo) {
             $actividadesCompletadas[$grupo->id] = Archivo::where('grupo_id', $grupo->id)
-                ->distinct('activity_id')
-                ->count('activity_id');
+                ->distinct('actividad_id')
+                ->count('actividad_id');
         }
     
         return view('docente.index', compact('gruposPorCarrera', 'actividadesCompletadas'));

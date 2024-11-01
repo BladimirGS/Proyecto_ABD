@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('fecha')->default(now());
             $table->string('documento');
             $table->foreignId('grupo_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('activity_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();
             $table->string('estado')->nullable()->default('Pendiente');
             $table->timestamps();
         });

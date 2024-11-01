@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Docente;
 
 use App\Models\Grupo;
 use App\Models\Archivo;
-use App\Models\Activity;
+use App\Models\Actividad;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,14 +24,14 @@ class DocenteGrupoActividadController extends Controller
         
         return view('docente.grupo.actividad.index', [
             'grupo' => $grupo, 
-            'actividades' => Activity::where('periodo_id', $grupo->periodo_id)->get()
+            'actividades' => Actividad::where('periodo_id', $grupo->periodo_id)->get()
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Grupo $grupo, Activity $actividad)
+    public function show(Grupo $grupo, Actividad $actividad)
     {
         // Verificar si el grupo pertenece al usuario autenticado
         if ($grupo->user_id !== Auth::user()->id) {
@@ -39,13 +39,13 @@ class DocenteGrupoActividadController extends Controller
         }
         
         $archivoExistente = Archivo::where('grupo_id', $grupo->id)
-            ->where('activity_id', $actividad->id)
+            ->where('actividad_id', $actividad->id)
             ->first();
 
         return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente'));
     }
 
-    public function descargar(Grupo $grupo, Activity $actividad, Archivo $archivo)
+    public function descargar(Grupo $grupo, Actividad $actividad, Archivo $archivo)
     {
         // Verificar si el grupo pertenece al usuario autenticado
         if ($grupo->user_id !== Auth::user()->id) {
@@ -55,13 +55,13 @@ class DocenteGrupoActividadController extends Controller
         // Busca el archivo por su ID
         $archivo = Archivo::where('id', $archivo->id)
             ->where('grupo_id', $grupo->id)
-            ->where('activity_id', $actividad->id)
+            ->where('actividad_id', $actividad->id)
             ->firstOrFail();
 
         return Storage::download($archivo->documento, $archivo->nombre);
     }
 
-    public function subir(Request $request, Grupo $grupo, Activity $actividad)
+    public function subir(Request $request, Grupo $grupo, Actividad $actividad)
     {
         $request->validate([
             'archivo' => 'required|file|mimes:pdf|max:20840',
@@ -71,7 +71,7 @@ class DocenteGrupoActividadController extends Controller
         
         // Si existe un archivo asociado, eliminarlo
         $archivoExistente = Archivo::where('grupo_id', $grupo->id)
-            ->where('activity_id', $actividad->id)
+            ->where('actividad_id', $actividad->id)
             ->first();
 
         if ($archivoExistente) {
@@ -91,7 +91,7 @@ class DocenteGrupoActividadController extends Controller
             'fecha' => now()->setTimezone(config('app.timezone')),
             'documento' => $documento,
             'grupo_id' => $grupo->id,
-            'activity_id' => $actividad->id,
+            'actividad_id' => $actividad->id,
         ]);
 
         return redirect()

@@ -40,7 +40,7 @@ class GrupoArchivoDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Actividad", "activity.nombre")
+            ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),

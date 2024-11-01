@@ -3,9 +3,9 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
-use App\Models\Activity;
 use Livewire\Attributes\On;
 use App\Exports\ActividadesExport;
+use App\Models\Actividad;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -35,7 +35,7 @@ class ActividadDatatable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-            ->setAdditionalSelects(['activities.id as id'])
+            ->setAdditionalSelects(['actividades.id as id'])
             ->setHideBulkActionsWhenEmptyEnabled()
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
@@ -98,9 +98,9 @@ class ActividadDatatable extends DataTableComponent
                 ])
                 ->filter(function (Builder $builder, string $value) {
                     if ($value === '1') {
-                        $builder->where('activities.activo', true);
+                        $builder->where('actividades.activo', true);
                     } elseif ($value === '0') {
-                        $builder->where('activities.activo', false);
+                        $builder->where('actividades.activo', false);
                     }
                 })
         ];
@@ -108,7 +108,7 @@ class ActividadDatatable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Activity::query();
+        return Actividad::query();
     }
 
     public function bulkActions(): array
@@ -121,20 +121,20 @@ class ActividadDatatable extends DataTableComponent
 
     public function activate()
     {
-        Activity::whereIn('id', $this->getSelected())->update(['activo' => true]);
+        Actividad::whereIn('id', $this->getSelected())->update(['activo' => true]);
 
         $this->clearSelected();
     }
 
     public function deactivate()
     {
-        Activity::whereIn('id', $this->getSelected())->update(['activo' => false]);
+        Actividad::whereIn('id', $this->getSelected())->update(['activo' => false]);
 
         $this->clearSelected();
     }
     
     #[On('eliminar-actividad')]
-    public function EliminarActividad(Activity $id) 
+    public function EliminarActividad(Actividad $id) 
     {
         $id->delete();
         $this->dispatch('refreshDatatable');

@@ -77,7 +77,7 @@ class RecursosSeeder extends Seeder
 
 
         // Actividades
-        $activities = [
+        $actividades = [
             ['nombre' => 'Temario', 'fecha' => '2023-01-10', 'periodo_id' => 5],
             ['nombre' => 'Reporte Inicio de Semestre', 'fecha' => '2023-01-15', 'periodo_id' => 5],
             ['nombre' => 'Reporte Intermedio', 'fecha' => '2023-03-15', 'periodo_id' => 5],
@@ -92,50 +92,50 @@ class RecursosSeeder extends Seeder
             // Añade más actividades según sea necesario
         ];
 
-        DB::table('activities')->insert($activities);
+        DB::table('actividades')->insert($actividades);
 
         
         // Grupos
-        $grupos = [
-            [
-                'clave' => '4SA',
-                'semestre' => '4',
-                'user_id' => 1, // Ajusta según tus datos en la tabla users
-                'carrera_id' => 1, // Ajusta según tus datos en la tabla carreras
-                'materia_id' => 1, // Ajusta según tus datos en la tabla materias
-                'periodo_id' => 6, // Ajusta según tus datos en la tabla periodos
-                'color' => '#6b7280'
-            ],
-            [
-                'clave' => '2IS',
-                'semestre' => '2',
-                'user_id' => 1,
-                'carrera_id' => 2,
-                'materia_id' => 2,
-                'periodo_id' => 6,
-                'color' => '#ef4444'
-            ],
-            [
-                'clave' => '3SF',
-                'semestre' => '3',
-                'user_id' => 1,
-                'carrera_id' => 3,
-                'materia_id' => 3,
-                'periodo_id' => 6,
-                'color' => '#f97316'
-            ],
-            [
-                'clave' => '2SE',
-                'semestre' => '2',
-                'user_id' => 2,
-                'carrera_id' => 4,
-                'materia_id' => 4,
-                'periodo_id' => 6,
-                'color' => '#10b981'
-            ],
-        ];
+        // $grupos = [
+        //     [
+        //         'clave' => '4SA',
+        //         'semestre' => '4',
+        //         'user_id' => 1, // Ajusta según tus datos en la tabla users
+        //         'carrera_id' => 1, // Ajusta según tus datos en la tabla carreras
+        //         'materia_id' => 1, // Ajusta según tus datos en la tabla materias
+        //         'periodo_id' => 6, // Ajusta según tus datos en la tabla periodos
+        //         'color' => '#6b7280'
+        //     ],
+        //     [
+        //         'clave' => '2IS',
+        //         'semestre' => '2',
+        //         'user_id' => 1,
+        //         'carrera_id' => 2,
+        //         'materia_id' => 2,
+        //         'periodo_id' => 6,
+        //         'color' => '#ef4444'
+        //     ],
+        //     [
+        //         'clave' => '3SF',
+        //         'semestre' => '3',
+        //         'user_id' => 1,
+        //         'carrera_id' => 3,
+        //         'materia_id' => 3,
+        //         'periodo_id' => 6,
+        //         'color' => '#f97316'
+        //     ],
+        //     [
+        //         'clave' => '2SE',
+        //         'semestre' => '2',
+        //         'user_id' => 2,
+        //         'carrera_id' => 4,
+        //         'materia_id' => 4,
+        //         'periodo_id' => 6,
+        //         'color' => '#10b981'
+        //     ],
+        // ];
 
-        DB::table('grupos')->insert($grupos);
+        // DB::table('grupos')->insert($grupos);
         
     }
 }

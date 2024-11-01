@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Actividad;
 
+use App\Models\Actividad;
 use App\Models\Periodo;
 use Livewire\Component;
-use App\Models\Activity;
 use LivewireUI\Modal\ModalComponent;
 
 class CrearActividad extends ModalComponent
@@ -26,8 +26,8 @@ class CrearActividad extends ModalComponent
         // Se validan con las reglas
         $datos = $this->validate();
 
-        // crear usuario
-        $activity = Activity::create([
+        // crear Actividad
+        Actividad::create([
             'nombre' => $datos['nombre'],
             'descripcion' => $datos['descripcion'],
             'fecha' => $datos['fecha'],
