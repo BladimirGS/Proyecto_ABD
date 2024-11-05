@@ -7,6 +7,7 @@ use App\Models\Actividad;
 use App\Models\Archivo;
 use App\Models\Comentario;
 use App\Models\Grupo;
+use App\Notifications\EvaluarActividad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -58,6 +59,8 @@ class ArchivoController extends Controller
     
         // Actualizar el estado del archivo
         $archivo->update(['estado' => $datos['estado']]);
+
+        $archivo->grupo->user->notify(new EvaluarActividad($archivo));
     
         return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
     }

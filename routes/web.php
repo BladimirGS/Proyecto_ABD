@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ActividadController;
 use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Docente\DocenteGrupoActividadController;
+use App\Http\Controllers\NotificacionController;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -65,5 +66,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Ver perfil
     Route::get('perfil/{usuario}', [ProfileController::class, 'show'])->name('profile.show');
+
+    // Notificaciones
+    Route::get('/notificaciones', NotificacionController::class)->name('notificaciones');
 });
 
