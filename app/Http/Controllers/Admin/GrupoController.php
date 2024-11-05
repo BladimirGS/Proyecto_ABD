@@ -10,6 +10,7 @@ use App\Models\Periodo;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Actividad;
 
 class GrupoController extends Controller
 {
@@ -58,7 +59,7 @@ class GrupoController extends Controller
         // Obtener un color aleatorio de la lista de colores
         $colorAleatorio = Arr::random(['#6b7280', '#ef4444', '#f97316', '#10b981', '#14b8a6', '#0ea5e9', '#3b82f6']);
     
-        Grupo::create([
+        $grupo = Grupo::create([
             'clave' => $datos['clave'],
             'semestre' => $datos['semestre'],
             'user_id' => $datos['user_id'],
@@ -67,6 +68,10 @@ class GrupoController extends Controller
             'periodo_id' => $datos['periodo_id'],
             'color' => $colorAleatorio, // Asignar el color aleatorio al grupo
         ]);
+
+        // Buscar grupos que tengan el mismo periodo_id y asociarlos a la actividad
+        $actividades = Actividad::where('periodo_id', $datos['periodo_id'])->get();
+        $grupo->actividades()->attach($actividades->pluck('id'));
     
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
@@ -106,6 +111,16 @@ class GrupoController extends Controller
             'materia_id' => 'required',
             'periodo_id' => 'required',
         ]);
+
+        // Verificar si cambió el periodo_id
+        if ($grupo->periodo_id != $datos['periodo_id']) {
+            // Eliminar relaciones actuales que no coincidan con el nuevo periodo_id
+            $grupo->actividades()->where('periodo_id', '!=', $datos['periodo_id'])->detach();
+    
+            // Asociar nuevos grupos que tengan el nuevo periodo_id
+            $nuevasActividades = Grupo::where('periodo_id', $datos['periodo_id'])->get();
+            $grupo->actividades()->syncWithoutDetaching($nuevasActividades->pluck('id'));
+        }
 
         // Se actualiza el usuario
         $grupo->update($datos);

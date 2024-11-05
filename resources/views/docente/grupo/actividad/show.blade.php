@@ -64,6 +64,19 @@
                                     @endif
                                 </x-table-cell>
                             </tr>
+
+                            <tr>
+                                <x-table-cell class="font-bold">Comentario</x-table-cell>
+                                <x-table-cell class="font-semibold">
+                                    @if ($comentario)
+                                        <x-truncade>
+                                            {{ $comentario->comentario }}
+                                        </x-truncade>
+                                    @else
+                                        No hay comentarios
+                                    @endif
+                                </x-table-cell>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -73,7 +86,7 @@
                             @csrf
                             <livewire:dropzone
                                 {{-- El name interno es name="archivo" --}}
-                                :rules="['file','extensions:pdf','max:20840']"
+                                :rules="['file','extensions:pdf,doc,docx','max:20840']"
                                 :multiple="false" 
                             />
                 

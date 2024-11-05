@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('actividad_grupo', function (Blueprint $table) {
+        Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('actividad_id')->constrained('actividades')->onDelete('cascade');
-            $table->foreignId('grupo_id')->constrained('grupos')->onDelete('cascade');
+            $table->string('comentario');
+            $table->date('fecha')->default(now());
+            $table->foreignId('grupo_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('actividad_grupo');
+        Schema::dropIfExists('comentarios');
     }
 };

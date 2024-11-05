@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Actividad;
 
-use App\Models\Actividad;
+use App\Models\Grupo;
 use App\Models\Periodo;
 use Livewire\Component;
+use App\Models\Actividad;
 use LivewireUI\Modal\ModalComponent;
 
 class CrearActividad extends ModalComponent
@@ -23,23 +24,27 @@ class CrearActividad extends ModalComponent
 
     public function CrearActividad()
     {
-        // Se validan con las reglas
+        // Validar datos
         $datos = $this->validate();
-
-        // crear Actividad
-        Actividad::create([
+    
+        // Crear Actividad
+        $actividad = Actividad::create([
             'nombre' => $datos['nombre'],
             'descripcion' => $datos['descripcion'],
             'fecha' => $datos['fecha'],
             'periodo_id' => $datos['periodo_id'],
         ]);
-        
+    
+        // Buscar grupos que tengan el mismo periodo_id y asociarlos a la actividad
+        $grupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
+        $actividad->grupos()->attach($grupos->pluck('id'));
+    
         // Actualizar el datatable
         $this->dispatch('refreshDatatable');
-
-        // Se cierra el modal
+    
+        // Cerrar el modal
         $this->closeModal();
-    }
+    }    
 
     public function render()
     {

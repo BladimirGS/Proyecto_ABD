@@ -65,6 +65,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
             ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
+            ['name' => 'archivos.evaluar', 'description' => 'Evaluar archivos'],
 
             ['name' => 'reportes.index', 'description' => 'Ver listado de reportes'],
             ['name' => 'reportes.descargar', 'description' => 'Descargar reportes'],

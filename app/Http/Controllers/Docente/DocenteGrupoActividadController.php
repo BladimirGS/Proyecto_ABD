@@ -7,6 +7,7 @@ use App\Models\Archivo;
 use App\Models\Actividad;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,7 +43,11 @@ class DocenteGrupoActividadController extends Controller
             ->where('actividad_id', $actividad->id)
             ->first();
 
-        return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente'));
+        $comentario = Comentario::where('grupo_id', $grupo->id)
+            ->where('actividad_id', $actividad->id)
+            ->first();
+
+        return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente', 'comentario'));
     }
 
     public function descargar(Grupo $grupo, Actividad $actividad, Archivo $archivo)
@@ -64,7 +69,7 @@ class DocenteGrupoActividadController extends Controller
     public function subir(Request $request, Grupo $grupo, Actividad $actividad)
     {
         $request->validate([
-            'archivo' => 'required|file|mimes:pdf|max:20840',
+            'archivo' => 'required|file|mimes:pdf,doc,docx|max:20840',
         ]);
         
         $archivo = $request->file('archivo');

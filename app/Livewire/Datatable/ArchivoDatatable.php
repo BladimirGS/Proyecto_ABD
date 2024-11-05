@@ -31,7 +31,15 @@ class ArchivoDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['archivos.id as id'])
-            ->setHideBulkActionsWhenEmptyEnabled();
+            ->setHideBulkActionsWhenEmptyEnabled()
+            // Dar click en fila
+            ->setTableRowUrl(function($row) {
+                return route('archivos.show', $row);
+            })
+            // Abrir en otra ventana
+            ->setTableRowUrlTarget(function($row) {
+                return '_blank';
+            });
     }
 
     public function columns(): array

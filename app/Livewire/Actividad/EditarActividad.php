@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Actividad;
 
-use App\Models\Actividad;
+use App\Models\Grupo;
 use App\Models\Periodo;
 use Livewire\Component;
+use App\Models\Actividad;
 use LivewireUI\Modal\ModalComponent;
 
 class EditarActividad extends ModalComponent
@@ -35,18 +36,28 @@ class EditarActividad extends ModalComponent
 
     public function EditarActividad()
     {
-        // Se validan con las reglas
+        // Validar datos
         $datos = $this->validate();
-
-        // Se actualiza el usuario
+    
+        // Verificar si cambió el periodo_id
+        if ($this->actividad->periodo_id != $datos['periodo_id']) {
+            // Eliminar relaciones actuales que no coincidan con el nuevo periodo_id
+            $this->actividad->grupos()->where('periodo_id', '!=', $datos['periodo_id'])->detach();
+    
+            // Asociar nuevos grupos que tengan el nuevo periodo_id
+            $nuevosGrupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
+            $this->actividad->grupos()->syncWithoutDetaching($nuevosGrupos->pluck('id'));
+        }
+    
+        // Actualizar la actividad
         $this->actividad->update($datos);
-
-        // se dispara un evento
+    
+        // Actualizar el datatable
         $this->dispatch('refreshDatatable');
-
-        // Se cierra el modal
+    
+        // Cerrar el modal
         $this->closeModal();
-    }
+    }    
 
     public function render()
     {

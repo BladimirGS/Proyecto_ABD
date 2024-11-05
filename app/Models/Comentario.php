@@ -5,18 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Archivo extends Model
+class Comentario extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
-        'nombre', 
-        'documento',
-        'fecha',
-        'grupo_id',
-        'actividad_id',
-        'estado'
-    ];
+    protected $fillable = ['comentario', 'grupo_id', 'actividad_id', 'fecha'];
 
     public function grupo()
     {

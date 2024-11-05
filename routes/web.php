@@ -1,20 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\ActividadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\GrupoController;
+use App\Http\Controllers\DocenteGrupoController;
 use App\Http\Controllers\Admin\ArchivoController;
 use App\Http\Controllers\Admin\CarreraController;
 use App\Http\Controllers\Admin\MateriaController;
 use App\Http\Controllers\Admin\PeriodoController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\Admin\ActividadController;
 use App\Http\Controllers\Docente\DocenteController;
-use App\Http\Controllers\Docente\DocenteGrupoActividadController;
-use App\Http\Controllers\Docente\DocenteGrupoController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Docente\DocenteGrupoActividadController;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -36,7 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/grupos', GrupoController::class)->except('destroy')->names('grupos');
     
     // Ver los archivos subidos
-    Route::get('/archivos', ArchivoController::class)->middleware('can:reportes.index')->name('archivos.index');
+    Route::get('/archivos', [ArchivoController::class, 'index'])->middleware('can:archivos.index')->name('archivos.index');
+    Route::get('/archivos/{archivo}', [ArchivoController::class, 'show'])->middleware('can:archivos.index')->name('archivos.show');
+    Route::post('/archivos/{archivo}', [ArchivoController::class, 'evaluar'])->middleware('can:archivos.evaluar')->name('archivos.evaluar');
 
     // Tablero del docente
     Route::get('/', DocenteController::class)->name('docentes.index'); 
@@ -45,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reportes/', ReporteController::class)->middleware('can:reportes.index')->name('reportes.index'); 
     
     // Grupos del docente
-    // Route::resource('/docente/grupos', DocenteGrupoController::class)->except('destroy')->names('docente.grupos');
     Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->name('docente.grupos.index');
     Route::get('/docente/grupos/{grupo}', [DocenteGrupoController::class, 'show'])->name('docente.grupos.show');
     
