@@ -13,6 +13,7 @@ class CrearActividad extends ModalComponent
     public $nombre;
     public $descripcion;
     public $fecha;
+    public $firma;
     public $periodo_id;
 
     protected $rules = [
@@ -20,6 +21,7 @@ class CrearActividad extends ModalComponent
         'descripcion' => 'required',
         'fecha' => 'required',
         'periodo_id' => 'required',
+        'firma' => 'required|boolean',
     ];
 
     public function CrearActividad()
@@ -28,23 +30,16 @@ class CrearActividad extends ModalComponent
         $datos = $this->validate();
     
         // Crear Actividad
-        $actividad = Actividad::create([
-            'nombre' => $datos['nombre'],
-            'descripcion' => $datos['descripcion'],
-            'fecha' => $datos['fecha'],
-            'periodo_id' => $datos['periodo_id'],
-        ]);
+        $actividad = Actividad::create($datos);
     
-        // Buscar grupos que tengan el mismo periodo_id y asociarlos a la actividad
+        // Asociar grupos al periodo
         $grupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
         $actividad->grupos()->attach($grupos->pluck('id'));
     
-        // Actualizar el datatable
+        // Refrescar datatable y cerrar modal
         $this->dispatch('refreshDatatable');
-    
-        // Cerrar el modal
         $this->closeModal();
-    }    
+    }
 
     public function render()
     {

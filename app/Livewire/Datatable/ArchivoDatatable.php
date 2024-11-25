@@ -55,10 +55,10 @@ class ArchivoDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Archivo", "nombre")
-                ->component('break-normal')
-                ->sortable()
-                ->searchable(),
+            // ComponentColumn::make("Archivo", "nombre")
+            //     ->component('break-normal')
+            //     ->sortable()
+            //     ->searchable(),
             ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()
@@ -68,7 +68,8 @@ class ArchivoDatatable extends DataTableComponent
             Column::make("Estado", "estado")
                 ->sortable()
                 ->searchable(),
-            Column::make('Descargar')
+            Column::make(' ')
+                ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [

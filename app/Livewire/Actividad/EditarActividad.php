@@ -16,12 +16,14 @@ class EditarActividad extends ModalComponent
     public $nombre;
     public $descripcion;
     public $fecha;
+    public $firma;
     public $periodo_id;
 
     protected $rules = [
         'nombre' => 'required',
         'descripcion' => 'required',
         'fecha' => 'required',
+        'firma' => 'required|boolean', 
         'periodo_id' => 'required',
     ];
 
@@ -31,6 +33,7 @@ class EditarActividad extends ModalComponent
         $this->nombre = $this->actividad->nombre;
         $this->descripcion = $this->actividad->descripcion;
         $this->fecha = $this->actividad->fecha;
+        $this->firma = $this->actividad->firma;
         $this->periodo_id = $this->actividad->periodo_id;
     }
 

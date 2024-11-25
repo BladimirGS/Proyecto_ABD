@@ -11,7 +11,7 @@ class Actividad extends Model
 
     protected $table = 'actividades';
 
-    protected $fillable = ['nombre', 'descripcion', 'fecha', 'periodo_id'];
+    protected $fillable = ['nombre', 'descripcion', 'fecha', 'firma', 'periodo_id'];
 
     public function periodo()
     {

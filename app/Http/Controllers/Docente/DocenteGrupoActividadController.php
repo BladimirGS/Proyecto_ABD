@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Docente;
 use App\Models\Grupo;
 use App\Models\Archivo;
 use App\Models\Actividad;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Comentario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -71,36 +72,58 @@ class DocenteGrupoActividadController extends Controller
         $request->validate([
             'archivo' => 'required|file|mimes:pdf,doc,docx|max:20840',
         ]);
-        
-        $archivo = $request->file('archivo');
-        
-        // Si existe un archivo asociado, eliminarlo
-        $archivoExistente = Archivo::where('grupo_id', $grupo->id)
-            ->where('actividad_id', $actividad->id)
-            ->first();
-
-        if ($archivoExistente) {
-            Storage::delete($archivoExistente->documento);
-            $archivoExistente->delete();
+    
+        DB::beginTransaction();
+    
+        try {
+            $archivo = $request->file('archivo');
+    
+            // Generar el nombre del directorio
+            $directorio = 'archivos/' . $grupo->user->nombre . '_' . $grupo->user->apellido . '/' . $grupo->clave . '_' . $grupo->periodo->nombre;
+            $directorio = str_replace([' ', '/', '\\'], '_', $directorio); // Normaliza caracteres no válidos
+    
+            // Subir el nuevo archivo
+            $documento = Storage::put($directorio, $archivo);
+    
+            // Actualizar o crear el registro en la base de datos
+            $archivoExistente = Archivo::where('grupo_id', $grupo->id)
+                ->where('actividad_id', $actividad->id)
+                ->first();
+    
+            if ($archivoExistente) {
+                // Eliminar el archivo físico si existe
+                if (Storage::exists($archivoExistente->documento)) {
+                    Storage::delete($archivoExistente->documento);
+                }
+    
+                // Actualizar el registro existente
+                $archivoExistente->update([
+                    'nombre' => $archivo->getClientOriginalName(),
+                    'fecha' => now()->setTimezone(config('app.timezone')),
+                    'documento' => $documento,
+                ]);
+            } else {
+                // Crear un nuevo registro
+                Archivo::create([
+                    'nombre' => $archivo->getClientOriginalName(),
+                    'fecha' => now()->setTimezone(config('app.timezone')),
+                    'documento' => $documento,
+                    'grupo_id' => $grupo->id,
+                    'actividad_id' => $actividad->id,
+                ]);
+            }
+    
+            DB::commit();
+    
+            return redirect()
+                ->back()
+                ->with('status', 'Archivo subido exitosamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+    
+            return redirect()
+                ->back()
+                ->withErrors('Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.');
         }
-
-        $directorio = 'archivos/' . $grupo->user->nombre . '_' . $grupo->user->apellido . '/' . $grupo->clave . '_' . $grupo->periodo->nombre;
-        $directorio = str_replace(' ', '_', $directorio); // Reemplaza caracteres no permitidos
-
-        // Subir el nuevo archivo
-        $documento = Storage::put($directorio, $archivo);
-
-        // Crear una nueva instancia de Archivo y guardarla en la base de datos
-        Archivo::create([
-            'nombre' => $archivo->getClientOriginalName(),
-            'fecha' => now()->setTimezone(config('app.timezone')),
-            'documento' => $documento,
-            'grupo_id' => $grupo->id,
-            'actividad_id' => $actividad->id,
-        ]);
-
-        return redirect()
-            ->route('docente.grupo.actividades.show', ['grupo' => $grupo, 'actividad' => $actividad])
-            ->with('status', 'Archivo subido exitosamente.');
     }
 }

@@ -13,6 +13,9 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class GrupoArchivoDatatable extends DataTableComponent
 {
+
+    // no esta implementado esta tabla
+    
     public Grupo $grupo;
     
     public ?int $searchFilterDebounce = 600;
@@ -29,17 +32,17 @@ class GrupoArchivoDatatable extends DataTableComponent
             Column::make("Grupo", "grupo.clave")
                 ->sortable()
                 ->searchable(),
-            Column::make("Periodo", "grupo.periodo.nombre")
-                ->sortable()
-                ->searchable(),
-            ComponentColumn::make("Docente", "grupo.user.nombre")
-                ->component('break-normal')
-                ->sortable()
-                ->searchable(),
-            ComponentColumn::make("Archivo", "nombre")
-                ->component('break-normal')
-                ->sortable()
-                ->searchable(),
+            // Column::make("Periodo", "grupo.periodo.nombre")
+            //     ->sortable()
+            //     ->searchable(),
+            // ComponentColumn::make("Docente", "grupo.user.nombre")
+            //     ->component('break-normal')
+            //     ->sortable()
+            //     ->searchable(),
+            // ComponentColumn::make("Archivo", "nombre")
+            //     ->component('break-normal')
+            //     ->sortable()
+            //     ->searchable(),
             ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()

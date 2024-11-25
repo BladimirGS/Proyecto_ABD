@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('descripcion')->nullable();
             $table->date('fecha');
+            $table->boolean('firma')->default(false);
             $table->foreignId('periodo_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('activo')->default(true);
             $table->timestamps();

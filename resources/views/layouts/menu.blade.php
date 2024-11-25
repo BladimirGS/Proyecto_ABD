@@ -1,13 +1,20 @@
 <nav class="h-full flex-col overflow-hidden">
-    <x-nav-link>
+    {{-- <x-nav-link>
         <i class='bx bx-layer text-xl text-white'></i>
         <span class="font-bold text-white">Tecito</span>
-    </x-nav-link>
+    </x-nav-link> --}}
 
         <x-nav-link :href="route('docentes.index')" :active="request()->routeIs('docentes.index')">
-            <i class='bx bx-bookmark text-xl' ></i>
-            <span>Tablero</span>
+            <i class='bx bx-layer text-xl text-white'></i>
+            <span class="font-bold text-white">Tecito</span>
         </x-nav-link>
+
+        @can('firma.index')
+        <x-nav-link :href="route('firma.index')" :active="request()->routeIs('firma.index')">
+            <i class='bx bx-bookmark text-xl' ></i>
+            <span>Jefe</span>
+        </x-nav-link>
+        @endcan
 
         @can('usuarios.index')
         <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">

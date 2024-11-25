@@ -31,6 +31,35 @@
                 <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
             </div>
 
+            <div class="mt-5">
+                <x-input-label for="firma" value="¿Requiere firma del jefe?" />
+            
+                <div class="flex items-center space-x-4 mt-2">
+                    <label class="flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            id="firma-si"
+                            value="1"
+                            wire:model="firma"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        >
+                        <span class="text-gray-700">Sí</span>
+                    </label>
+            
+                    <label class="flex items-center space-x-2">
+                        <input
+                            type="radio"
+                            id="firma-no"
+                            value="0"
+                            wire:model="firma"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                        >
+                        <span class="text-gray-700">No</span>
+                    </label>
+                </div>
+            
+                <x-input-error :messages="$errors->get('firma')" class="mt-2" />
+            </div>            
 
             <div class="mt-5">
                 <x-input-label for="fecha" value="Fecha programada" />

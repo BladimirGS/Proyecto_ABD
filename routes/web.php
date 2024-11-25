@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ActividadController;
 use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Docente\DocenteGrupoActividadController;
+use App\Http\Controllers\Jefe\JefeDocenciaController;
 use App\Http\Controllers\NotificacionController;
 
 Route::middleware('guest')->group(function () {
@@ -46,6 +47,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Reportes por periodo
     Route::get('/reportes/', ReporteController::class)->middleware('can:reportes.index')->name('reportes.index'); 
+    
+    // Jefe
+    Route::get('/jefe/firma/', [JefeDocenciaController::class, 'index'])->middleware('can:firma.index')->name('firma.index'); 
+    Route::get('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'show'])->middleware('can:firma.index')->name('firma.show');
+    // Route::post('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'evaluar'])->middleware('can:firma.evaluar')->name('firma.evaluar');
+    // Route::post('/jefe/firma/{grupo}/{actividad}/subir/', [JefeDocenciaController::class, 'subir'])->name('docente.grupo.actividades.subir');
+
     
     // Grupos del docente
     Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->name('docente.grupos.index');

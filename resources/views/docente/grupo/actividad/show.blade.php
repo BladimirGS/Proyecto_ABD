@@ -66,16 +66,20 @@
                             </tr>
 
                             <tr>
-                                <x-table-cell class="font-bold">Comentario</x-table-cell>
-                                <x-table-cell class="font-semibold">
+                                <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold" colspan="2">
+                                    <label class="font-bold mb-2">Comentario :</label>
+
                                     @if ($comentario)
-                                        <x-truncade>
-                                            {{ $comentario->comentario }}
-                                        </x-truncade>
-                                    @else
-                                        No hay comentarios
+                                    <x-formato-fecha fechaformateada="{{ $comentario->fecha }}"></x-formato-fecha>
                                     @endif
-                                </x-table-cell>
+                                    <div class="mb-4">
+                                        @if ($comentario)
+                                            <p class="whitespace-pre-line">{{ $comentario->comentario }}</p>
+                                        @else
+                                            <p>No hay comentarios</p>
+                                        @endif
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

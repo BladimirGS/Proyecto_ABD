@@ -32,6 +32,8 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.edit', 'description' => 'editar roles'],
             ['name' => 'roles.destroy', 'description' => 'borrar roles'],
 
+            ['name' => 'firma.index', 'description' => 'Jefe'],
+
             ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
             ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
             ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
