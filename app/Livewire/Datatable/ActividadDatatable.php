@@ -53,10 +53,10 @@ class ActividadDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Descripción", "descripcion")
-                ->component('truncade')
-                ->sortable()
-                ->searchable(),
+            // ComponentColumn::make("Descripción", "descripcion")
+            //     ->component('truncade')
+            //     ->sortable()
+            //     ->searchable(),
             DateColumn::make('Fecha', 'fecha')
                 ->outputFormat('d/m/Y'),
             Column::make("Periodo", "periodo.nombre")

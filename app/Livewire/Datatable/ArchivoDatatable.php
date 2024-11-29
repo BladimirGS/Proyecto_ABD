@@ -116,7 +116,10 @@ class ArchivoDatatable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Archivo::query();
+        return Archivo::query()
+            ->whereHas('actividad', function (Builder $query) {
+                $query->where('firma', false);
+            });
     }
 
     public function bulkActions(): array

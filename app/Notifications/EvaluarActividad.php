@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Actividad;
 use App\Models\Archivo;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +13,8 @@ class EvaluarActividad extends Notification
 {
     use Queueable;
     public $id_archivo;
+    public $id_actividad;
+    public $id_grupo;
     public $nombre_actividad;
     public $clave_grupo;
 
@@ -21,6 +24,8 @@ class EvaluarActividad extends Notification
     public function __construct(Archivo $archivo)
     {
         $this->id_archivo = $archivo->id;
+        $this->id_actividad = $archivo->actividad_id;
+        $this->id_grupo = $archivo->grupo_id;
         $this->nombre_actividad = $archivo->actividad->nombre; 
         $this->clave_grupo = $archivo->grupo->clave;
     }
@@ -51,6 +56,8 @@ class EvaluarActividad extends Notification
     {
         return [
             'id_archivo' => $this->id_archivo,
+            'id_actividad' => $this->id_actividad,
+            'id_grupo' => $this->id_grupo,
             'nombre_actividad' => $this->nombre_actividad,
             'clave_grupo' => $this->clave_grupo
         ];

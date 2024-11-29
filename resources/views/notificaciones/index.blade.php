@@ -8,31 +8,66 @@
             <h1 class="text-2xl font-bold text-center my-5 py-10">Mis Notificaciones</h1>
 
             <div class="bg-white px-10 pb-10">
-                @forelse ($notificaciones as $notificacion)
+                <h2 class="text-xl font-bold">Notificaciones no leídas</h2>
+                @forelse ($notificacionesNoLeidas as $notificacion)
                     <div class="p-5 border border-gray-200 sm:flex sm:justify-between sm:items-center">
                         <div>
-                            <p>tienes una revisión en:
-                                <span class="font-bold">{{ $notificacion->data['nombre_actividad'] }}</span>
-                            </p>
+                            <p>Revisión en:</p>
                             <p>Grupo:
-                                <span class="font-bolf">{{ $notificacion->data['clave_grupo'] }}</span>
+                                <span class="font-bold">{{ $notificacion->data['clave_grupo'] }}</span>
                             </p>
                             <p>
                                 <span class="font-bold">{{ $notificacion->created_at->diffForHumans() }}</span>
                             </p>
                         </div>
-
-                        <div class="mt-5 lg:mt-0"> 
-                            <a href="#" class="bg-indigo-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
-                                Ver revision
+                        <div class="mt-5 lg:mt-0">
+                            <a href="{{ route('docente.grupo.actividades.show', [
+                                'grupo' => $notificacion->data['id_grupo'],
+                                'actividad' => $notificacion->data['id_actividad']
+                            ]) }}" class="bg-indigo-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
+                                Ver revisión
                             </a>
                         </div>
                     </div>
                 @empty
-                    
+                    <p>No tienes notificaciones no leídas.</p>
                 @endforelse
+
+                {{-- Enlace de paginación --}}
+                <div class="mt-4">
+                    {{ $notificacionesNoLeidas->links() }}
+                </div>
+
+                <h2 class="text-xl font-bold mt-10">Notificaciones leídas</h2>
+                @forelse ($notificacionesLeidas as $notificacion)
+                    <div class="p-5 border border-gray-200 sm:flex sm:justify-between sm:items-center">
+                        <div>
+                            <p>Revisión en:</p>
+                            <p>Grupo:
+                                <span class="font-bold">{{ $notificacion->data['clave_grupo'] }}</span>
+                            </p>
+                            <p>
+                                <span class="font-bold">{{ $notificacion->created_at->diffForHumans() }}</span>
+                            </p>
+                        </div>
+                        <div class="mt-5 lg:mt-0">
+                            <a href="{{ route('docente.grupo.actividades.show', [
+                                'grupo' => $notificacion->data['id_grupo'],
+                                'actividad' => $notificacion->data['id_actividad']
+                            ]) }}" class="bg-gray-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
+                                Ver revisión
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <p>No tienes notificaciones leídas.</p>
+                @endforelse
+
+                {{-- Enlace de paginación para las notificaciones leídas --}}
+                <div class="mt-4">
+                    {{ $notificacionesLeidas->links() }}
+                </div>
             </div>
-        </div>
+        </div>            
     </div>
 </x-app-layout>
-

@@ -11,13 +11,18 @@ class NotificacionController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $notificaciones = auth()->user()->unreadNotifications;
+        // Paginación para notificaciones no leídas (5 por página)
+        $notificacionesNoLeidas = auth()->user()->unreadNotifications()->latest()->paginate(5);
 
-        // Limpiar notificaciones
-        auth()->user()->unreadNotifications->markAsRead();
-
+        // Paginación para notificaciones leídas (5 por página)
+        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->paginate(5);        
+        
+        // Marcar como leídas las notificaciones no leídas
+        $notificacionesNoLeidas->markAsRead();
+    
         return view('notificaciones.index', [
-            'notificaciones' => $notificaciones
+            'notificacionesNoLeidas' => $notificacionesNoLeidas,
+            'notificacionesLeidas' => $notificacionesLeidas,
         ]);
-    }
+    }    
 }

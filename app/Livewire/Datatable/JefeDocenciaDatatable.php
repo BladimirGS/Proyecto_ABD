@@ -4,6 +4,7 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Archivo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
@@ -62,6 +63,14 @@ class JefeDocenciaDatatable extends DataTableComponent
                     )
             )->html(),
         ];
+    }
+
+    public function builder(): Builder
+    {
+        return Archivo::query()
+            ->whereHas('actividad', function (Builder $query) {
+                $query->where('firma', true);
+            });
     }
     
     public function descargar(Archivo $file)
