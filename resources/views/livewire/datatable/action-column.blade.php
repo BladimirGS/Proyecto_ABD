@@ -19,6 +19,15 @@
                 >Eliminar</x-button>
             @endisset
         @endcan    
+        
+        @can('usuarios.show')
+            @isset($MostarUsuario)
+                <x-button
+                    wire:click="{{ $MostarUsuario }}"
+                    color="violet"
+                >Ver mas</x-button>
+            @endisset
+        @endcan  
 
         @can('usuarios.roles')
             @isset($AsignarRoles)
@@ -27,7 +36,7 @@
                     color="violet"
                 >Roles</x-button>
             @endisset
-        @endcan    
+        @endcan     
 
         @can('carreras.edit')
             @isset ( $EditarCarrera )
@@ -89,6 +98,15 @@
                     wire:click="{{ $EditarActividad }}"
                     color="blue"
                 >Editar</x-button>
+            @endif
+        @endcan
+
+        @can('actividades.show')
+            @isset ( $MostrarActividad )
+                <x-button
+                    wire:click="{{ $MostrarActividad }}"
+                    color="blue"
+                >Ver</x-button>
             @endif
         @endcan
 

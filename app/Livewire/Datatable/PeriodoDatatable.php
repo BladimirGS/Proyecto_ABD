@@ -39,9 +39,9 @@ class PeriodoDatatable extends DataTableComponent
         return [
             Column::make("Nombre", "nombre")
                 ->sortable(),
-            DateColumn::make('Fecha', 'fecha_inicio')
+            DateColumn::make('Inicio', 'fecha_inicio')
                 ->outputFormat('d/m/Y'),
-            DateColumn::make('Fecha', 'fecha_fin')
+            DateColumn::make('Fin', 'fecha_fin')
                 ->outputFormat('d/m/Y'),
             BooleanColumn::make('activo')
                 ->sortable()

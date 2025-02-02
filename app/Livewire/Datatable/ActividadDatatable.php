@@ -68,6 +68,7 @@ class ActividadDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
+                            'MostrarActividad' => '$dispatch(\'openModal\', { component: \'actividad.mostrar-actividad\', arguments: { actividad: ' . $row->id . ' }})',
                             'EditarActividad' => '$dispatch(\'openModal\', { component: \'actividad.editar-actividad\', arguments: { actividad: ' . $row->id . ' }})',
                             'EliminarActividad' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]

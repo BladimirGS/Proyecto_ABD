@@ -42,7 +42,7 @@ class RoleDatatable extends DataTableComponent
                 ->component('truncade')
                 ->sortable()
                 ->searchable(),
-            Column::make(' ')
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [

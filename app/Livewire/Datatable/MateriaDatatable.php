@@ -43,7 +43,7 @@ class MateriaDatatable extends DataTableComponent
                 ->searchable(),
             BooleanColumn::make('activo')
                 ->sortable(),
-            Column::make(' ')
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [

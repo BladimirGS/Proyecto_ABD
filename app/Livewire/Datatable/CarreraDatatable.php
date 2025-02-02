@@ -41,7 +41,7 @@ class CarreraDatatable extends DataTableComponent
             BooleanColumn::make('activo')
                 ->sortable()
                 ->collapseOnMobile(),
-            Column::make(' ')
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [

@@ -68,7 +68,7 @@ class ArchivoDatatable extends DataTableComponent
             Column::make("Estado", "estado")
                 ->sortable()
                 ->searchable(),
-            Column::make(' ')
+            Column::make('Acciones')
                 ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(

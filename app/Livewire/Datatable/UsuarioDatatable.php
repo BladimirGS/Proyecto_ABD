@@ -52,25 +52,26 @@ class UsuarioDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            Column::make("Rfc", "rfc")
-                ->sortable()
-                ->searchable(),
+            // Column::make("Rfc", "rfc")
+            //     ->sortable()
+            //     ->searchable(),
             Column::make('Contratos')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.contratos')->with([
                         'usuario' => $row,
                     ])
                 )->html(),
-            Column::make("Email", "email")
-                ->sortable()
-                ->searchable(),
-            Column::make(' ')
+            // Column::make("Email", "email")
+            //     ->sortable()
+            //     ->searchable(),
+            Column::make('Acciones')
             ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'EditarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.editar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                             'EliminarUsuario' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+                            'MostarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.mostrar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                             'AsignarRoles' => '$dispatch(\'openModal\', { component: \'usuario.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
                         ]
                     )
