@@ -89,7 +89,11 @@
                         <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
                     </div>
             
-                    <div class="mt-5 text-center">
+                    <div class="mt-5 text-center space-x-4">
+                        <x-link href="{{ route('grupos.index') }}" color="red">
+                            Cancelar
+                        </x-link>
+
                         <x-button type="submit">
                             Registrar grupo
                         </x-button>

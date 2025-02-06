@@ -18,7 +18,11 @@
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
     
-            <div class="mt-5 text-center">
+            <div class="mt-5 text-center space-x-4">
+                <x-button wire:click="$dispatch('closeModal')" color="red">
+                    Cancelar
+                </x-button>
+                
                 <x-button type="submit">
                     Registrar carrera
                 </x-button>

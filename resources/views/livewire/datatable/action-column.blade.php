@@ -1,6 +1,14 @@
 <div>
     {{-- Eventos de livewire --}}
-    <div class="flex justify-start gap-4 xl:gap-8">
+    <div class="flex justify-start gap-4 xl:gap-8">       
+        @can('usuarios.show')
+            @isset($MostarUsuario)
+                <x-button
+                    wire:click="{{ $MostarUsuario }}"
+                    color="amber"
+                >Ver</x-button>
+            @endisset
+        @endcan  
 
         @can('usuarios.edit')
             @isset ( $EditarUsuario )
@@ -19,15 +27,6 @@
                 >Eliminar</x-button>
             @endisset
         @endcan    
-        
-        @can('usuarios.show')
-            @isset($MostarUsuario)
-                <x-button
-                    wire:click="{{ $MostarUsuario }}"
-                    color="violet"
-                >Ver mas</x-button>
-            @endisset
-        @endcan  
 
         @can('usuarios.roles')
             @isset($AsignarRoles)
@@ -91,6 +90,15 @@
                 >Eliminar</x-button>
             @endisset
         @endcan
+
+        @can('actividades.show')
+            @isset ( $MostrarActividad )
+                <x-button
+                    wire:click="{{ $MostrarActividad }}"
+                    color="amber"
+                >Ver</x-button>
+            @endif
+        @endcan
         
         @can('actividades.edit')
             @isset ( $EditarActividad )
@@ -98,15 +106,6 @@
                     wire:click="{{ $EditarActividad }}"
                     color="blue"
                 >Editar</x-button>
-            @endif
-        @endcan
-
-        @can('actividades.show')
-            @isset ( $MostrarActividad )
-                <x-button
-                    wire:click="{{ $MostrarActividad }}"
-                    color="blue"
-                >Ver</x-button>
             @endif
         @endcan
 

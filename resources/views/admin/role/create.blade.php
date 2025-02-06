@@ -57,7 +57,11 @@
                     </div>
                     
         
-                    <div class="mt-5 flex justify-between">
+                    <div class="mt-5 text-center space-x-4">
+                        <x-link href="{{ route('roles.index') }}" color="red">
+                            Cancelar
+                        </x-link>
+
                         <x-button type="submit" color="green">
                             Registrar role
                         </x-button>

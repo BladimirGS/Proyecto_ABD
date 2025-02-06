@@ -19,6 +19,9 @@
         case 'gray':
             $class = 'bg-gray-500 hover:bg-gray-600 focus:bg-gray-500 active:bg-gray-700';
             break;
+        case 'amber':
+            $class = 'bg-amber-500 hover:bg-amber-600 focus:bg-amber-400 active:bg-amber-700';
+            break;
         default:
             $class = 'bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900';
             break;
