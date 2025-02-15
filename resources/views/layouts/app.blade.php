@@ -7,6 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <link rel="icon" type="image/png" href="{{ asset('img/tea.png') }}">
+
         <!--=============== BOXICONS ===============-->
         <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
@@ -24,7 +26,7 @@
                         <i class="bx bx-menu p-2 sm:pr-8" id="header-toggle"></i>
                     </div>
                     
-                    <div class="l-navbar show  bg-violet-700" id="nav-bar">
+                    <div class="l-navbar show  bg-indigo-700" id="nav-bar">
                         @include('layouts.menu')
                     </div>
                 @endauth
@@ -49,8 +51,8 @@
                 {{ $slot }}
             </main>
 
-            <footer class="text-center p-5 text-gray-500 font-bold uppercase">
-                PruebaDev - Todos los derechos reservados
+            <footer class="w-full bg-indigo-600 text-center p-5 text-gray-500 font-bold uppercase">
+                Tecito - Todos los derechos reservados
                 {{ now()->year }}
             </footer>
         </div>
