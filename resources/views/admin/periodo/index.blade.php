@@ -14,37 +14,43 @@
         </div>
     </div>
 
-@push('scripts')
+    @push('scripts')
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.addEventListener('livewire:init', () => {
-        Livewire.on('mostrarAlerta', (id) => {
-            Swal.fire({
-                title: 'Eliminar periodo?',
-                text: "Una periodo eliminada no se puede recuperar",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'si, Eliminar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Eliminar la periodo
-                    Livewire.dispatch('eliminar-periodo', id)
+            Livewire.on('mostrarAlerta', (id) => {
+                Swal.fire({
+                    title: 'Eliminar periodo?',
+                    text: "Una periodo eliminada no se puede recuperar",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'si, Eliminar!',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        confirmButton: 'custom-swal-confirm',
+                        cancelButton: 'custom-swal-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Eliminar la periodo
+                        Livewire.dispatch('eliminar-periodo', id)
 
-                    Swal.fire(
-                        'Se elimino el periodo',
-                        'Eliminado correctamente',
-                        'success'
-                    )
-                }
+                        Swal.fire({
+                            title: 'Se eliminó el periodo',
+                            text: 'Eliminado correctamente',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'custom-swal-ok'
+                            }
+                        });
+                    }
+                })
             })
         })
-    })
     </script>
 
-@endpush
+    @endpush
 </x-app-layout>

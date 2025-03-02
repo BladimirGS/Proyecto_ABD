@@ -37,7 +37,7 @@ class EditarPeriodo extends ModalComponent
         $this->periodo->update($datos);
 
         // se dispara un evento
-        $this->dispatch('actualizar-periodo');
+        $this->dispatch('refreshDatatable');
 
         // Se cierra el modal
         $this->closeModal();

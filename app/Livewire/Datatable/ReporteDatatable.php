@@ -4,7 +4,7 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
 use Livewire\Attributes\On;
-use App\Exports\PeriodoExport;
+// use App\Exports\PeriodoExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;

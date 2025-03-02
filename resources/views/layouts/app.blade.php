@@ -7,10 +7,7 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/png" href="{{ asset('img/tea.png') }}">
-
-        <!--=============== BOXICONS ===============-->
-        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="icon" type="image/svg" href="{{ asset('svg/tecito.svg') }}">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,43 +15,17 @@
         @livewireStyles
         @stack('styles')
     </head>
-    <body class="antialiased body-pd text-gray-900 bg-gray-100" id="body-pd">
-        <div class="min-h-screen flex flex-col">
-            <header class="header body-pd bg-white" id="header">
-                @auth
-                    <div class="header__toggle">
-                        <i class="bx bx-menu p-2 sm:pr-8" id="header-toggle"></i>
-                    </div>
-                    
-                    <div class="l-navbar show  bg-indigo-700" id="nav-bar">
-                        @include('layouts.menu')
-                    </div>
-                @endauth
+    <body>
+        <div class="flex flex-col min-h-screen">
+            @include('layouts.header')
 
-                @if (isset($header))
-                    <div class="flex-1 w-52 sm:w-full">
-                        {{ $header }}
-                    </div>
-                @endif
-                
-                @auth
-                    <div class="header__toggle">
-                        @include('layouts.navigation')
-                    </div>
-                @endauth
-                
-            </header>
-
-
-            <!-- Page Content -->
-            <main class="flex-1 container mx-auto md:mt-28 mt-10">
-                {{ $slot }}
+            <main class="flex-1 bg-gray-100">
+                <div class="container mx-auto px-4 py-8">
+                    {{ $slot }}
+                </div>
             </main>
-
-            <footer class="w-full bg-indigo-600 text-center p-5 text-gray-500 font-bold uppercase">
-                Tecito - Todos los derechos reservados
-                {{ now()->year }}
-            </footer>
+            
+            @include('layouts.footer')
         </div>
 
         @livewireScripts

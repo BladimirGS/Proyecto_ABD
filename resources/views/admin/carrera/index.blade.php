@@ -26,25 +26,31 @@
                     text: "Una carrera eliminada no se puede recuperar",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'si, Eliminar!',
-                    cancelButtonText: 'Cancelar'
+                    confirmButtonText: 'Sí, Eliminar!',
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        confirmButton: 'custom-swal-confirm',
+                        cancelButton: 'custom-swal-cancel'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Eliminar la carrera
                         Livewire.dispatch('eliminar-carrera', id)
-
-                        Swal.fire(
-                            'Se elimino la carrera',
-                            'Eliminado correctamente',
-                            'success'
-                        )
+    
+                        Swal.fire({
+                            title: 'Se eliminó la carrera',
+                            text: 'Eliminado correctamente',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'custom-swal-ok'
+                            }
+                        });
                     }
                 })
             })
         })
     </script>
-
+    
     @endpush
 </x-app-layout>

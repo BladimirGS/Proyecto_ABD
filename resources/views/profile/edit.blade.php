@@ -157,7 +157,7 @@
                 </div>
             </div>
             
-            <div class="mt-5 flex justify-end gap-8">
+            <div class="mt-5 flex justify-center gap-8">
                 <x-link color="red" href="{{ route('docentes.index') }}">
                     Cancelar
                 </x-link>

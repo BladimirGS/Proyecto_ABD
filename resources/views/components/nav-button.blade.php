@@ -9,7 +9,7 @@ $classes = ($active ?? false)
 @endphp
 
 <li class="relative">
-    <a {{ $attributes->merge(['class' => $classes]) }}>
+    <button {{ $attributes->merge(['class' => $classes]) }}>
         {{ $slot }}
-    </a>
+    </button>
 </li>

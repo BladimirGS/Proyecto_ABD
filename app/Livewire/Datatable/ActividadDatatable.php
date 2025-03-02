@@ -6,7 +6,6 @@ use App\Models\Periodo;
 use Livewire\Attributes\On;
 use App\Exports\ActividadesExport;
 use App\Models\Actividad;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;

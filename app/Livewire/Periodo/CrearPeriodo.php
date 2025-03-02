@@ -31,6 +31,7 @@ class CrearPeriodo extends ModalComponent
         ]);
 
         $this->dispatch('actualizar-periodo');
+        $this->dispatch('refreshDatatable');
 
         // Se cierra el modal
         $this->closeModal();
