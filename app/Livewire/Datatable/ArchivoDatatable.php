@@ -20,11 +20,13 @@ class ArchivoDatatable extends DataTableComponent
     
     public function mount()
     {
-        // Obtener el ultimo periodo
+        // Obtener el último periodo
         $ultimoPeriodo = Periodo::latest('nombre')->first();
-
-        // Aplicar el primer periodo como filtro predeterminado
-        $this->setFilter('periodo', $ultimoPeriodo->id);
+    
+        // Verificar si hay algún período antes de aplicar el filtro
+        if ($ultimoPeriodo) {
+            $this->setFilter('periodos', [$ultimoPeriodo->id]);
+        }
     }
 
     public function configure(): void

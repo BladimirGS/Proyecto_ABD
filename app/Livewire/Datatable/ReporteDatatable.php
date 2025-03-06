@@ -4,13 +4,11 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
 use Livewire\Attributes\On;
-// use App\Exports\PeriodoExport;
+use App\Exports\PeriodoExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
-use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class ReporteDatatable extends DataTableComponent
 {
@@ -50,6 +48,9 @@ class ReporteDatatable extends DataTableComponent
     #[On('exportar')]
     public function exportar(int $id) 
     {
-        return Excel::download(new PeriodoExport($id), 'periodo_' . $id . '.xlsx');
-    }
+        $periodo = Periodo::findOrFail($id);
+        $fileName = 'reporte ' . $periodo->nombre . '.xlsx';
+    
+        return Excel::download(new PeriodoExport($id), $fileName);
+    }    
 }
