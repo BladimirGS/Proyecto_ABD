@@ -7,30 +7,25 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
+        <link rel="icon" type="image/svg" href="{{ asset('svg/tecito.svg') }}">
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        @livewireStyles
+        @stack('styles')
     </head>
-    <body class="antialiased text-gray-900 bg-gray-100">
-        <div class="min-h-screen flex flex-col">
-            <header class="header bg-white">
-                @if (isset($header))
-                    <div class="mx-auto">
-                        {{ $header }}
-                    </div>
-                @endif  
-            </header>
-
+    <body>
+        <div class="min-h-screen bg-gray-100 flex flex-col">
+            @include('layouts.header-guest')
 
             <!-- Page Content -->
-            <main class="flex-1 container mx-auto md:mt-28 mt-10">
-                {{ $slot }}
+            <main class="flex-grow flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+                <div class="w-full max-w-md space-y-8">
+                    {{ $slot }}
+                </div>
             </main>
 
-            <footer class="text-center p-5 text-gray-500 font-bold uppercase">
-                Tecito - Todos los derechos reservados
-                {{ now()->year }}
-            </footer>
+            @include('layouts.footer')
         </div>
     </body>
 </html>

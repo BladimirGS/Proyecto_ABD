@@ -29,6 +29,7 @@
                 <x-dropdown-link 
                     onclick="event.preventDefault();
                     this.closest('form').submit();"
+                    class="cursor-pointer"
                 >
                     Cerrar Sesión
                 </x-dropdown-link>
