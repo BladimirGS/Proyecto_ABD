@@ -34,6 +34,9 @@ class CrearActividad extends ModalComponent
         $actividad->grupos()->attach($grupos->pluck('id'));
     
         $this->dispatch('refreshDatatable');
+
+        $this->dispatch('exito'); 
+        
         $this->closeModal();
     }
 
