@@ -1,15 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Roles</h2>
-    </x-slot>
-
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 shadow-sm sm:rounded-lg mx-auto">
             <div class="bg-white md:flex md:justify-center p-10">
                 <form class="md:w-3/4 lg:w-4/5" action="{{ route('roles.store') }}" method="POST">
                     @csrf
             
-                    <legend class="block font-bold text-lg text-gray-700 text-center">Registrar role</legend>
+                    <h2 class="block font-bold text-lg text-gray-700 text-center">Registrar role</h2>
             
                     <div class="mt-5">
                         <x-input-label for="nombre" value="Nombre" />
@@ -55,14 +51,13 @@
                             </div>
                         @endforeach
                     </div>
-                    
-        
-                    <div class="mt-5 text-center space-x-4">
-                        <x-link href="{{ route('roles.index') }}" color="red">
+            
+                    <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+                        <x-link href="{{ route('roles.index') }}" color="red"  class="w-full md:w-auto">
                             Cancelar
                         </x-link>
 
-                        <x-button type="submit" color="green">
+                        <x-button type="submit" class="w-full md:w-auto">
                             Registrar role
                         </x-button>
                     </div>

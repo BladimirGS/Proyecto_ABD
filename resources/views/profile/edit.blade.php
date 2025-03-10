@@ -1,11 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Perfil</h2>
-    </x-slot>
-
     <div class="bg-white mx-auto max-w-2xl p-10">
         
-        <legend class="block font-bold text-lg text-gray-700 text-center">Editar perfil</legend>
+        <h2 class="block font-bold text-lg text-gray-700 text-center">Editar perfil</h2>
         
         <form action="{{ route('profile.update') }}" method="POST">
             @csrf
@@ -157,12 +153,12 @@
                 </div>
             </div>
             
-            <div class="mt-5 flex justify-center gap-8">
-                <x-link color="red" href="{{ route('docentes.index') }}">
+            <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+                <x-link href="{{ route('docentes.index') }}" color="red"  class="w-full md:w-auto">
                     Cancelar
                 </x-link>
                 
-                <x-button type="submit">
+                <x-button type="submit" class="w-full md:w-auto">
                     Guardar cambios
                 </x-button>
             </div>

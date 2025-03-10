@@ -40,8 +40,4 @@
             <x-link color="green" class="w-full" href="{{ $CrearRole }}">Nuevo</x-link>
         @endisset
     @endcan
-
-    @isset($CrearDocenteGrupo)
-        <x-link color="green" class="w-full" href="{{ $CrearDocenteGrupo }}">Nuevo</x-link>
-    @endisset
 </div>

@@ -1,5 +1,4 @@
 <div>
-    {{-- Eventos de livewire --}}
     <div class="flex justify-start gap-4 xl:gap-8">       
         @can('usuarios.show')
             @isset($MostarUsuario)
@@ -32,7 +31,6 @@
             @isset($AsignarRoles)
                 <x-button
                     wire:click="{{ $AsignarRoles }}"
-                    color="violet"
                 >Roles</x-button>
             @endisset
         @endcan     
@@ -154,38 +152,22 @@
             @isset($DescargarArchivo)
                 <x-button
                     wire:click="{{ $DescargarArchivo }}"
-                    color="violet"
                 >Descargar</x-button>
             @endisset
         @endcan
-        
-        {{-- @isset ( $EditarDocenteGrupo )
-            <x-link color="blue" href="{{ $EditarDocenteGrupo }}">Editar</x-link>
-        @endif
-
-        @isset($EliminarDocenteGrupo)
-            <x-button
-                wire:click="{{ $EliminarDocenteGrupo }}"
-                color="red"
-            >Eliminar</x-button>
-        @endisset --}}
 
         @isset($DescargarGrupoArchivo)
             <x-button
                 wire:click="{{ $DescargarGrupoArchivo }}"
-                color="violet"
             >Descargar</x-button>
         @endisset
 
-        
         @can('reportes.descargar')
             @isset($Exportar)
                 <x-button
                     wire:click="{{ $Exportar }}"
-                    color="violet"
                 >Exportar</x-button>
             @endisset
         @endcan
-        
     </div>
 </div>

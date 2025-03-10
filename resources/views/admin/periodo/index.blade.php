@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Periodos</h2>
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de periodos
+    </h1>
 
     <div class="py-10 ">
         <!-- Mensaje de estado -->
@@ -26,31 +26,32 @@
                     text: "Una periodo eliminada no se puede recuperar",
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'si, Eliminar!',
                     cancelButtonText: 'Cancelar',
-                    customClass: {
-                        confirmButton: 'custom-swal-confirm',
-                        cancelButton: 'custom-swal-cancel'
-                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Eliminar la periodo
-                        Livewire.dispatch('eliminar-periodo', id)
-
-                        Swal.fire({
-                            title: 'Se eliminó el periodo',
-                            text: 'Eliminado correctamente',
-                            icon: 'success',
-                            confirmButtonText: 'OK',
-                            customClass: {
-                                confirmButton: 'custom-swal-ok'
-                            }
-                        });
+                        Livewire.dispatch('eliminar-periodo', id);
+                        
+                        Livewire.dispatch('exito');
                     }
                 })
             })
         })
     </script>
 
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('exito', () => { 
+                Swal.fire({
+                    title: "Operación Exitosa",
+                    icon: "success",
+                    confirmButtonColor: '#7066e0',
+                    confirmButtonText: 'Bien',
+                });
+            });
+        });
+    </script>
     @endpush
 </x-app-layout>

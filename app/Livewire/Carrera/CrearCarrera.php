@@ -16,17 +16,16 @@ class CrearCarrera extends ModalComponent
 
     public function CrearCarrera()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // crear usuario
         Carrera::create([
             'nombre' => $datos['nombre'],
         ]);
 
-        $this->dispatch('actualizar-carrera');
+        $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito');
+
         $this->closeModal();
     }
 }

@@ -1,12 +1,10 @@
 <div>
     <div class="bg-white mx-auto max-w-2xl p-8 rounded-lg shadow-lg relative">
-
-        <!-- Botón para cerrar el modal -->
-        <button wire:click="$dispatch('closeModal')" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
+        <button wire:click="$dispatch('closeModal')" type="button" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
             ✖
         </button>
 
-        <legend class="block font-extrabold text-xl text-gray-800 text-center mb-6">Información del Usuario</legend>
+        <h2 class="block font-extrabold text-xl text-gray-800 text-center mb-6">Información del Usuario</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div class="bg-gray-100 p-4 rounded-md">

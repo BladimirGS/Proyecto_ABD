@@ -77,5 +77,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Notificaciones
     Route::get('/notificaciones', NotificacionController::class)->name('notificaciones');
+
+    Route::get('/archivo/ver/{file}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
 });
 

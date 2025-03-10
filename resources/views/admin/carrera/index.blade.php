@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Carreras</h2>
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de carreras
+    </h1>
 
     <div class="py-10 ">
         <!-- Mensaje de estado -->
@@ -26,31 +26,33 @@
                     text: "Una carrera eliminada no se puede recuperar",
                     icon: 'warning',
                     showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Sí, Eliminar!',
                     cancelButtonText: 'Cancelar',
-                    customClass: {
-                        confirmButton: 'custom-swal-confirm',
-                        cancelButton: 'custom-swal-cancel'
-                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Eliminar la carrera
-                        Livewire.dispatch('eliminar-carrera', id)
-    
-                        Swal.fire({
-                            title: 'Se eliminó la carrera',
-                            text: 'Eliminado correctamente',
-                            icon: 'success',
-                            confirmButtonText: 'OK',
-                            customClass: {
-                                confirmButton: 'custom-swal-ok'
-                            }
-                        });
+                        Livewire.dispatch('eliminar-carrera', id);
+                        
+                        Livewire.dispatch('exito');
                     }
                 })
             })
         })
     </script>
     
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('exito', () => { 
+                Swal.fire({
+                    title: "Operación Exitosa",
+                    icon: "success",
+                    confirmButtonColor: '#7066e0',
+                    confirmButtonText: 'Bien',
+                });
+            });
+        });
+    </script>
     @endpush
 </x-app-layout>

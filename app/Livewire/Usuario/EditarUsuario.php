@@ -9,10 +9,8 @@ use LivewireUI\Modal\ModalComponent;
 
 class EditarUsuario extends ModalComponent
 {
-    // Usuario antes de actualizar
     public User $usuario;
 
-    // Nuevos valores
     public $nombre;
     public $apellido;
     public $rfc;
@@ -20,7 +18,6 @@ class EditarUsuario extends ModalComponent
     public $email;
     public $password;
 
-    // Reglas de validación
     protected $rules = [
         'nombre' => 'required',
         'apellido' => 'required',
@@ -32,7 +29,6 @@ class EditarUsuario extends ModalComponent
 
     public function mount()
     {
-        // Rellena los nuevos valores
         $this->nombre = $this->usuario->nombre;
         $this->apellido = $this->usuario->apellido;
         $this->rfc = $this->usuario->rfc;
@@ -59,6 +55,9 @@ class EditarUsuario extends ModalComponent
 
         // se dispara un evento
         $this->dispatch('refreshDatatable');
+
+        // Se dispara un evento para notificar la acción exitosa
+        $this->dispatch('exito');  
 
         // Se cierra el modal
         $this->closeModal();

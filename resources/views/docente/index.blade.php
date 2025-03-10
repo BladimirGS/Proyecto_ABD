@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        Panel Administrativo
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Tablero
+    </h1>
     
     <div class="py-8">
         <div class="flex flex-col items-center md:flex-row md:justify-between mb-6">
@@ -12,8 +12,7 @@
             @endcan
         
             <div class="flex justify-around w-full md:w-auto md:gap-8">
-                <x-link color="violet" href="{{ route('docente.grupos.index') }}">Mis Grupos</x-link>
-                {{-- <x-link color="green" href="{{ route('docente.grupos.create') }}">Nuevo Grupo</x-link> --}}
+                <x-link href="{{ route('docente.grupos.index') }}">Mis Grupos</x-link>
             </div>
         </div>
         

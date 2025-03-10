@@ -1,9 +1,13 @@
 <div>
     <div class="md:flex md:justify-center p-10">
+        <button wire:click="$dispatch('closeModal')" type="button" class="absolute top-3 right-3">
+            ✖
+        </button>
+
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="CrearUsuario">
             @csrf
 
-            <legend class="block font-bold text-lg text-gray-700 text-center">Registrar Usuario</legend>
+            <h2 class="block font-bold text-lg text-gray-700 text-center">Registrar Usuario</h2>
 
             <div class="mt-5">
                 <x-input-label for="nombre" value="Nombre" />
@@ -29,16 +33,15 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="contratosUsuario" value="Contrato" />
+                <span class="block font-medium text-sm text-gray-700 cursor-default">Contrato</span>
 
                 @foreach ($contratos as $contrato)
                 <div class="flex items-center mt-2">
-                    <input type="checkbox" id="contratosUsuario_{{ $contrato->id }}" value="{{ $contrato->id }}"
-                        wire:model="contratosUsuario" {{ $contrato->id }}
-                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    >
-                    <label for="contratosUsuario_{{ $contrato->id }}" class="ml-2 text-gray-700">{{ $contrato->nombre
-                        }}</label>
+                    <label class="ml-2 text-gray-700">
+                        <input type="checkbox" value="{{ $contrato->id }}" wire:model="contratosUsuario"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <span>{{ $contrato->nombre }}</span>
+                    </label>
                 </div>
                 @endforeach
 
@@ -61,12 +64,12 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
-            <div class="mt-5 text-center space-x-4">
-                <x-button wire:click="$dispatch('closeModal')" color="red">
+            <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+                <x-button wire:click="$dispatch('closeModal')" type="button" color="red" class="w-full md:w-auto">
                     Cancelar
                 </x-button>
 
-                <x-button type="submit">
+                <x-button type="submit" class="w-full md:w-auto">
                     Registrar Usuario
                 </x-button>
             </div>

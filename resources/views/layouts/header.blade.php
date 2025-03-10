@@ -50,15 +50,9 @@
             sideMenuBackdrop.classList.add('hidden');  // Oculta el fondo
         }
 
-        function handleLogout() {
-            alert('Cerrando sesión...');
-            window.location.href = '/login';
-        }
-
         menuButton.addEventListener('click', openSideMenu);
         closeMenuButton.addEventListener('click', closeSideMenu);
         sideMenuBackdrop.addEventListener('click', closeSideMenu);  // Cierra el menú al hacer clic fuera de él
-        logoutButton.addEventListener('click', handleLogout);
     });
 </script>
 

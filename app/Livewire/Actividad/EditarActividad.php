@@ -29,7 +29,6 @@ class EditarActividad extends ModalComponent
 
     public function mount()
     {
-        // rellena los nuevos valores
         $this->nombre = $this->actividad->nombre;
         $this->descripcion = $this->actividad->descripcion;
         $this->fecha = $this->actividad->fecha;
@@ -39,26 +38,19 @@ class EditarActividad extends ModalComponent
 
     public function EditarActividad()
     {
-        // Validar datos
         $datos = $this->validate();
     
-        // Verificar si cambió el periodo_id
         if ($this->actividad->periodo_id != $datos['periodo_id']) {
-            // Eliminar relaciones actuales que no coincidan con el nuevo periodo_id
             $this->actividad->grupos()->where('periodo_id', '!=', $datos['periodo_id'])->detach();
     
-            // Asociar nuevos grupos que tengan el nuevo periodo_id
             $nuevosGrupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
             $this->actividad->grupos()->syncWithoutDetaching($nuevosGrupos->pluck('id'));
         }
     
-        // Actualizar la actividad
         $this->actividad->update($datos);
     
-        // Actualizar el datatable
         $this->dispatch('refreshDatatable');
     
-        // Cerrar el modal
         $this->closeModal();
     }    
 

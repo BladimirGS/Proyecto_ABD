@@ -18,22 +18,19 @@ class EditarCarrera extends ModalComponent
 
     public function mount()
     {
-        // rellena los nuevos valores
         $this->nombre = $this->carrera->nombre;
     }
 
     public function EditarCarrera()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // Se actualiza el usuario
         $this->carrera->update($datos);
 
-        // se dispara un evento
-        $this->dispatch('actualizar-carrera');
+        $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito');
+
         $this->closeModal();
     }
 }

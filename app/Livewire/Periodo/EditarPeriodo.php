@@ -22,7 +22,6 @@ class EditarPeriodo extends ModalComponent
 
     public function mount()
     {
-        // rellena los nuevos valores
         $this->nombre = $this->periodo->nombre;
         $this->fecha_inicio = $this->periodo->fecha_inicio;
         $this->fecha_fin = $this->periodo->fecha_fin;
@@ -30,16 +29,14 @@ class EditarPeriodo extends ModalComponent
 
     public function EditarPeriodo()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // Se actualiza el usuario
         $this->periodo->update($datos);
 
-        // se dispara un evento
         $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito');     
+
         $this->closeModal();
     }
 }

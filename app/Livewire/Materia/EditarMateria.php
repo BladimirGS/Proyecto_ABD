@@ -20,23 +20,20 @@ class EditarMateria extends ModalComponent
 
     public function mount()
     {
-        // rellena los nuevos valores
         $this->clave = $this->materia->clave;
         $this->nombre = $this->materia->nombre;
     }
 
     public function EditarMateria()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // Se actualiza la materia
         $this->materia->update($datos);
 
-        // se dispara un evento
         $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito'); 
+
         $this->closeModal();
     }
 }

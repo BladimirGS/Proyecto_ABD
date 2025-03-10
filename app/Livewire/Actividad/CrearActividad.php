@@ -26,17 +26,13 @@ class CrearActividad extends ModalComponent
 
     public function CrearActividad()
     {
-        // Validar datos
         $datos = $this->validate();
     
-        // Crear Actividad
         $actividad = Actividad::create($datos);
     
-        // Asociar grupos al periodo
         $grupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
         $actividad->grupos()->attach($grupos->pluck('id'));
     
-        // Refrescar datatable y cerrar modal
         $this->dispatch('refreshDatatable');
         $this->closeModal();
     }

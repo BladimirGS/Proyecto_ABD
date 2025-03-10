@@ -30,15 +30,7 @@ class UsuarioDatatable extends DataTableComponent
                         'CrearUsuario' => '$dispatch(\'openModal\', { component: \'usuario.crear-usuario\'})',
                     ],
                 ],
-            ])
-            // Dar click en fila
-            ->setTableRowUrl(function($row) {
-                return route('profile.show', $row);
-            })
-            // Abrir en otra ventana
-            ->setTableRowUrlTarget(function($row) {
-                return '_blank';
-            });
+            ]);
     }
 
     public function columns(): array

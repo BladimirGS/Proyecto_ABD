@@ -18,19 +18,17 @@ class CrearMateria extends ModalComponent
 
     public function CrearMateria()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // crear materia
         Materia::create([
             'clave' => $datos['clave'],
             'nombre' => $datos['nombre'],
         ]);
 
-        // se dispara un evento
         $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito'); 
+
         $this->closeModal();
     }
 

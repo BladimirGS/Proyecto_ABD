@@ -1,8 +1,8 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Actividades</h2>
-    </x-slot>
-
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de actividades
+    </h1>
+    
     <div class="py-10 ">
         <!-- Mensaje de estado -->
         <x-session-status :status="session('status')" />
@@ -20,30 +20,38 @@
 
     <script>
         document.addEventListener('livewire:init', () => {
-        Livewire.on('mostrarAlerta', (id) => {
-            Swal.fire({
-                title: 'Eliminar actividad?',
-                text: "Una actividad eliminada no se puede recuperar",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'si, Eliminar!',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Eliminar la actividad
-                    Livewire.dispatch('eliminar-actividad', id)
-
-                    Swal.fire(
-                        'Se elimino la actividad',
-                        'Eliminado correctamente',
-                        'success'
-                    )
-                }
+            Livewire.on('mostrarAlerta', (id) => {
+                Swal.fire({
+                    title: 'Eliminar actividad?',
+                    text: "Una actividad eliminada no se puede recuperar",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'si, Eliminar!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch('eliminar-actividad', id);
+                        
+                        Livewire.dispatch('exito');
+                    }
+                })
             })
         })
-    })
+    </script>
+    
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('exito', () => { 
+                Swal.fire({
+                    title: "Operación Exitosa",
+                    icon: "success",
+                    confirmButtonColor: '#7066e0',
+                    confirmButtonText: 'Bien',
+                });
+            });
+        });
     </script>
 
 @endpush

@@ -1,16 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Grupos</h2>
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de grupos
+    </h1>
 
     <div class="py-10 ">
-        <!-- Mensaje de estado -->
-        <x-session-status :status="session('status')" />
-
         <div class="bg-white w-full mx-auto px-4 lg:px-8 py-10">
-
             <livewire:datatable.grupo-datatable />
-                
         </div>
     </div>
 
@@ -31,18 +26,34 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Eliminar el grupo
-                        Livewire.dispatch('eliminar-grupo', id)
-
-                        Swal.fire(
-                            'Se elimino el grupo',
-                            'Eliminado correctamente',
-                            'success'
-                        )
+                        Livewire.dispatch('eliminar-grupo', id);
+                        
+                        Livewire.dispatch('exito');
                     }
                 })
             })
         })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('status'))
+            Livewire.dispatch('exito');
+            @endif
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('exito', () => { 
+                Swal.fire({
+                    title: "Operación Exitosa",
+                    icon: "success",
+                    confirmButtonColor: '#7066e0',
+                    confirmButtonText: 'Bien',
+                });
+            });
+        });
     </script>
     @endpush
 </x-app-layout>

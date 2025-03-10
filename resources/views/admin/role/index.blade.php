@@ -1,16 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Roles</h2>
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de roles
+    </h1>
 
     <div class="py-10 w-full 2xl:w-2/3 mx-auto">
-        <!-- Mensaje de estado -->
-        <x-session-status :status="session('status')" />
-
         <div class="bg-white w-full mx-auto px-4 lg:px-8 py-10">
-
             <livewire:datatable.role-datatable />
-                
         </div>
     </div>
 
@@ -32,13 +27,9 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Eliminar el role
-                        Livewire.dispatch('eliminar-role', id)
+                        Livewire.dispatch('eliminar-role', id);
 
-                        Swal.fire(
-                            'Se elimino el role',
-                            'Eliminado correctamente',
-                            'success'
-                        )
+                        Livewire.dispatch('exito');
                     }
                 })
             })
@@ -46,16 +37,23 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Verificar si existe un elemento con el ID 'alert'
-            var alertElement = document.getElementById('alert');
-            
-            // Si el elemento existe, esperar 5 segundos y luego eliminarlo
-            if (alertElement) {
-                setTimeout(function() {
-                    alertElement.remove();
-                }, 5000); // 5000 milisegundos = 5 segundos
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('status'))
+            Livewire.dispatch('exito');
+            @endif
+        });
+    </script>
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('exito', () => { 
+                Swal.fire({
+                    title: "Operación Exitosa",
+                    icon: "success",
+                    confirmButtonColor: '#7066e0',
+                    confirmButtonText: 'Bien',
+                });
+            });
         });
     </script>
     @endpush

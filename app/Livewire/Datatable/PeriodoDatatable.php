@@ -35,16 +35,17 @@ class PeriodoDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Nombre", "nombre")
-                ->sortable(),
+            ComponentColumn::make("Nombre", "nombre")
+                ->component('break-normal')
+                ->sortable()
+                ->searchable(),
             DateColumn::make('Inicio', 'fecha_inicio')
                 ->outputFormat('d/m/Y'),
             DateColumn::make('Fin', 'fecha_fin')
                 ->outputFormat('d/m/Y'),
             BooleanColumn::make('activo')
-                ->sortable()
-                ->collapseOnMobile(),
-            Column::make(' ')
+                ->sortable(),
+            Column::make('Acciones')
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [

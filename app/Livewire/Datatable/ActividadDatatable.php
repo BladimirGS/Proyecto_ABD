@@ -28,9 +28,9 @@ class ActividadDatatable extends DataTableComponent
         $ultimoPeriodo = Periodo::latest('nombre')->first();
     
         // Verificar si hay algún período antes de aplicar el filtro
-        if ($ultimoPeriodo) {
-            $this->setFilter('periodos', [$ultimoPeriodo->id]);
-        }
+        // if ($ultimoPeriodo) {
+        //     $this->setFilter('periodos', [$ultimoPeriodo->id]);
+        // }
     }
 
     public function configure(): void

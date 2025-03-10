@@ -34,6 +34,9 @@ class AsignarRoles extends ModalComponent
         // se dispara un evento
         $this->dispatch('refreshDatatable');
 
+        // Se dispara un evento para notificar la acción exitosa
+        $this->dispatch('exito');  
+
         // Se cierra el modal
         $this->closeModal();
     }

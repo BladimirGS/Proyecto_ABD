@@ -9,7 +9,6 @@ use LivewireUI\Modal\ModalComponent;
 
 class CrearUsuario extends ModalComponent
 {
-    // Valores de entrada
     public $nombre;
     public $apellido;
     public $rfc;
@@ -17,7 +16,6 @@ class CrearUsuario extends ModalComponent
     public $email;
     public $password;
 
-    // Reglas de validación
     protected $rules = [
         'nombre' => 'required',
         'apellido' => 'required',
@@ -30,10 +28,8 @@ class CrearUsuario extends ModalComponent
 
     public function CrearUsuario()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // crear usuario
         $user = User::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
@@ -42,13 +38,12 @@ class CrearUsuario extends ModalComponent
             'password' => bcrypt($datos['password']),
         ]);
         
-        // tabla intermedia
         $user->contratos()->attach($datos['contratosUsuario']);
 
-        // se dispara un evento
         $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito');        
+
         $this->closeModal();
     }
 

@@ -20,20 +20,18 @@ class CrearPeriodo extends ModalComponent
 
     public function CrearPeriodo()
     {
-        // Se validan con las reglas
         $datos = $this->validate();
 
-        // crear usuario
         Periodo::create([
             'nombre' => $datos['nombre'],
             'fecha_inicio' => $datos['fecha_inicio'],
             'fecha_fin' => $datos['fecha_fin'],
         ]);
 
-        $this->dispatch('actualizar-periodo');
         $this->dispatch('refreshDatatable');
 
-        // Se cierra el modal
+        $this->dispatch('exito');
+
         $this->closeModal();
     }
 }

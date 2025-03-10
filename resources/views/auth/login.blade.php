@@ -1,12 +1,11 @@
 <x-guest-layout>
     <div class="w-full bg-white p-6 rounded-lg shadow-xl">
-        <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <legend class="block font-extrabold text-xl text-[#1e355e] text-center uppercase">Iniciar sesión</legend>
+            <h2 class="block font-extrabold text-xl text-[#1e355e] text-center uppercase">Iniciar sesión</h2>
 
             <!-- Email Address -->
             <div class="mt-5">
@@ -30,7 +29,7 @@
             <div class="block mt-4 mb-5">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox"
-                        class="rounded border-gray-300 text-[#1e355e]0 shadow-sm focus:ring-indigo-500 active:bg-violet-400"
+                        class="rounded border-gray-300 text-[#1e355e]0 shadow-sm focus:ring-indigo-500 active:bg-indigo-600"
                         name="remember">
                     <span class="ms-2 text-sm text-[#1e355e]">Recuérdame</span>
                 </label>

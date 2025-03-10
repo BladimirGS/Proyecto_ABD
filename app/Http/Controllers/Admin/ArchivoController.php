@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Actividad;
-use App\Models\Archivo;
-use App\Models\Comentario;
 use App\Models\Grupo;
-use App\Notifications\EvaluarActividad;
+use App\Models\Archivo;
+use App\Models\Actividad;
+use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Notifications\EvaluarActividad;
+use Illuminate\Support\Facades\Storage;
 
 class ArchivoController extends Controller
 {
@@ -63,5 +64,22 @@ class ArchivoController extends Controller
         $archivo->grupo->user->notify(new EvaluarActividad($archivo));
     
         return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
+    }
+
+    public function verArchivo(Archivo $file)
+    {
+        // Obtener la ruta del archivo en el almacenamiento
+        $rutaArchivo = Storage::path($file->documento);
+
+        // Verificar si el archivo existe antes de enviarlo
+        if (!Storage::exists($file->documento)) {
+            abort(404, 'El archivo no existe');
+        }
+
+        // Retornar el archivo para visualizarlo en el navegador
+        return response()->file($rutaArchivo, [
+            'Content-Disposition' => 'inline',
+            'Content-Type' => mime_content_type($rutaArchivo),
+        ]);
     }
 }
