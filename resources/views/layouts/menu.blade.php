@@ -88,12 +88,25 @@
                 @endcan
 
                 @can('roles.index')
-                <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                <x-nav-button id="RolesButton" :active="request()->routeIs(['roles.index', 'roles.usuario.index'])">
                     <img src="{{ asset('svg/roles.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Roles</span>
-                </x-nav-link>
+                </x-nav-button>
                 @endcan
+
+                <ul id="RolesMenu" class="hidden space-y-1">
+                    <li class="relative">
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')" class="pl-8">
+                            <span>Administrar Roles</span>
+                        </x-nav-link>
+                    </li>
+                    <li class="relative">
+                        <x-nav-link :href="route('roles.usuario.index')" :active="request()->routeIs('roles.usuario.index')" class="pl-8">
+                            <span>Asignar Roles</span>
+                        </x-nav-link>
+                    </li>
+                </ul>
 
                 <x-nav-button id="optionsButton"  :active="request()->routeIs('profile.edit')">
                     <img src="{{ asset('svg/opciones.svg') }}" alt="" class="mr-3 h-5 w-5">
@@ -124,6 +137,11 @@
 <script>
     document.getElementById('optionsButton').addEventListener('click', function () {
         let menu = document.getElementById('optionsMenu');
+        menu.classList.toggle('hidden');
+    });
+
+    document.getElementById('RolesButton').addEventListener('click', function () {
+        let menu = document.getElementById('RolesMenu');
         menu.classList.toggle('hidden');
     });
 </script>

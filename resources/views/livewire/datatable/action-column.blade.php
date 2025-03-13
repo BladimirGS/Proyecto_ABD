@@ -132,6 +132,15 @@
             @endisset
         @endcan
         
+        @can('Roles.show')
+            @isset($MostarRole)
+                <x-button
+                    wire:click="{{ $MostarRole }}"
+                    color="amber"
+                >Ver</x-button>
+            @endisset
+        @endcan
+
         @can('roles.edit')
             @isset ( $EditarRole )
                 <x-link color="blue" href="{{ $EditarRole }}">Editar</x-link>
@@ -144,7 +153,6 @@
                 wire:click="{{ $EliminarRole }}"
                 color="red"
             >Eliminar</x-button>
-        
             @endisset
         @endcan
 

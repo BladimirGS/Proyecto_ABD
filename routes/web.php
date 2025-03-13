@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PeriodoController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\ActividadController;
+use App\Http\Controllers\Admin\UsuarioRoleController;
 use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Docente\DocenteGrupoActividadController;
@@ -79,5 +80,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notificaciones', NotificacionController::class)->name('notificaciones');
 
     Route::get('/archivo/ver/{file}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
+
+    Route::get('/roles/usuario', [UsuarioRoleController::class, 'index'])->name('roles.usuario.index');
+
 });
 

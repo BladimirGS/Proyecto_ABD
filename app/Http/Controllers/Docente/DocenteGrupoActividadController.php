@@ -79,8 +79,11 @@ class DocenteGrupoActividadController extends Controller
             $archivo = $request->file('archivo');
     
             // Generar el nombre del directorio
-            $directorio = 'archivos/' . $grupo->user->nombre . '_' . $grupo->user->apellido . '/' . $grupo->clave . '_' . $grupo->periodo->nombre;
-            $directorio = str_replace([' ', '/', '\\'], '_', $directorio); // Normaliza caracteres no válidos
+            $carpetaUsuario = $grupo->user->nombre . '_' . $grupo->user->apellido;
+            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', $carpetaUsuario); // Normaliza caracteres no válidos
+            $grupoPeriodo = $grupo->clave . '_' . $grupo->periodo->nombre;
+            $grupoPeriodo = str_replace([' ', '/', '\\'], '_', $grupoPeriodo); // Normaliza caracteres no válidos
+            $directorio = 'archivos/' . $carpetaUsuario . '/' . $grupoPeriodo;
     
             // Subir el nuevo archivo
             $documento = Storage::put($directorio, $archivo);

@@ -48,6 +48,8 @@ class RoleDatatable extends DataTableComponent
                         [
                             'EditarRole' => route('roles.edit', $row),
                             'EliminarRole' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
+                            'MostarRole' => '$dispatch(\'openModal\', { component: \'role.mostrar-role\', arguments: { role: ' . $row->id . ' }})',
+
                         ]
                     )
             )->html(),
