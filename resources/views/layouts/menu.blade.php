@@ -23,6 +23,14 @@
                 </x-nav-link>
 
                 @can('firma.index')
+                <x-nav-link :href="route('docente.grupos.index')" :active="request()->routeIs('docente.grupos.index')">
+                    <img src="{{ asset('svg/grupos.svg') }}" alt="" class="mr-3 h-5 w-5">
+
+                    <span>Mis grupos</span>
+                </x-nav-link>
+                @endcan
+
+                @can('firma.index')
                 <x-nav-link :href="route('firma.index')" :active="request()->routeIs('firma.index')">
                     <img src="{{ asset('svg/jefe.svg') }}" alt="" class="mr-3 h-5 w-5">
 
@@ -84,6 +92,14 @@
                     <img src="{{ asset('svg/archivo.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Archivos</span>
+                </x-nav-link>
+                @endcan
+
+                @can('reportes.index')
+                <x-nav-link :href="route('reportes.index')" :active="request()->routeIs('reportes.index')">
+                    <img src="{{ asset('svg/reporte.svg') }}" alt="" class="mr-3 h-5 w-5">
+
+                    <span>Reportes</span>
                 </x-nav-link>
                 @endcan
 

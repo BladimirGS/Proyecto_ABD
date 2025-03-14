@@ -29,41 +29,44 @@ class RolesAndPermissionsSeeder extends Seeder
         $permisos = [
             ['name' => 'roles.index', 'description' => 'Ver lista de roles'],
             ['name' => 'roles.create', 'description' => 'Agregar roles'],
-            ['name' => 'roles.edit', 'description' => 'editar roles'],
-            ['name' => 'roles.destroy', 'description' => 'borrar roles'],
+            ['name' => 'roles.edit', 'description' => 'Editar roles'],
+            ['name' => 'roles.destroy', 'description' => 'Borrar roles'],
+
+            ['name' => 'roles.usuario.show', 'description' => 'Ver roles del usuario'],
+            ['name' => 'roles.usuario.assign', 'description' => 'Asignar roles al usuario'],
 
             ['name' => 'firma.index', 'description' => 'Jefe'],
 
             ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
             ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
             ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
-            ['name' => 'usuarios.destroy', 'description' => 'borrar usuarios'],
+            ['name' => 'usuarios.destroy', 'description' => 'Borrar usuarios'],
             ['name' => 'usuarios.roles', 'description' => 'Asignar roles'],
 
             ['name' => 'carreras.index', 'description' => 'Ver lista de carreras'],
             ['name' => 'carreras.create', 'description' => 'Agregar carreras'],
             ['name' => 'carreras.edit', 'description' => 'Editar carreras'],
-            ['name' => 'carreras.destroy', 'description' => 'borrar carreras'],
+            ['name' => 'carreras.destroy', 'description' => 'Borrar carreras'],
 
             ['name' => 'materias.index', 'description' => 'Ver lista de materias'],
             ['name' => 'materias.create', 'description' => 'Agregar materias'],
             ['name' => 'materias.edit', 'description' => 'Editar materias'],
-            ['name' => 'materias.destroy', 'description' => 'borrar materias'],
+            ['name' => 'materias.destroy', 'description' => 'Borrar materias'],
 
             ['name' => 'periodos.index', 'description' => 'Ver lista de periodos'],
             ['name' => 'periodos.create', 'description' => 'Agregar periodos'],
             ['name' => 'periodos.edit', 'description' => 'Editar periodos'],
-            ['name' => 'periodos.destroy', 'description' => 'borrar periodos'],
+            ['name' => 'periodos.destroy', 'description' => 'Borrar periodos'],
 
             ['name' => 'actividades.index', 'description' => 'Ver lista de actividades'],
             ['name' => 'actividades.create', 'description' => 'Agregar actividades'],
             ['name' => 'actividades.edit', 'description' => 'Editar actividades'],
-            ['name' => 'actividades.destroy', 'description' => 'borrar actividades'],
+            ['name' => 'actividades.destroy', 'description' => 'Borrar actividades'],
 
             ['name' => 'grupos.index', 'description' => 'Ver lista de grupos'],
             ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
             ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
-            ['name' => 'grupos.destroy', 'description' => 'borrar grupos'],
+            ['name' => 'grupos.destroy', 'description' => 'Borrar grupos'],
 
             ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
@@ -79,7 +82,15 @@ class RolesAndPermissionsSeeder extends Seeder
         
 
         // Rol de super administrador
-        $role1 = Role::create(['name' => 'Super-Admin', 'description' => 'Acceso a todo']);
+        $role1 = Role::create(['name' => 'Super Usuario', 'description' => 'Acceso a todo']);
+
+        $role1 = Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
+
+        $role1 = Role::create(['name' => 'Docente', 'description' => 'Maestros']);
+
+        $role1 = Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
+
+        $role1 = Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
 
         // Agregando super administrador
         $user = User::create([

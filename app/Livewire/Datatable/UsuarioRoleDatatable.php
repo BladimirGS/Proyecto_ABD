@@ -16,14 +16,7 @@ class UsuarioRoleDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['users.id as id'])
-            ->setHideBulkActionsWhenEmptyEnabled()
-            ->setConfigurableAreas([
-                'toolbar-left-start' => [
-                    'livewire.datatable.create-area', [
-                        'CrearUsuario' => '$dispatch(\'openModal\', { component: \'usuario.crear-usuario\'})',
-                    ],
-                ],
-            ]);
+            ->setHideBulkActionsWhenEmptyEnabled();
     }
 
     public function columns(): array
@@ -31,15 +24,16 @@ class UsuarioRoleDatatable extends DataTableComponent
         return [
             Column::make("Nombre", "nombre")
                 ->sortable(),
+            Column::make("Roles")
+                ->label(fn ($row) => $row->roles->pluck('name')->join(', '))
+                ->sortable(),
             Column::make('Acciones')
             ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'EditarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.editar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
-                            'EliminarUsuario' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            'MostarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.mostrar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
-                            'AsignarRoles' => '$dispatch(\'openModal\', { component: \'usuario.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
+                            'VerRoles' => '$dispatch(\'openModal\', { component: \'role.mostrar-roles-usuario\', arguments: { usuario: ' . $row->id . ' }})',
+                            'AsignarRoles' => '$dispatch(\'openModal\', { component: \'role.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
                         ]
                     )
             )->html(),
