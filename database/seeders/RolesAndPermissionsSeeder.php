@@ -35,13 +35,13 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.usuario.show', 'description' => 'Ver roles del usuario'],
             ['name' => 'roles.usuario.assign', 'description' => 'Asignar roles al usuario'],
 
-            ['name' => 'firma.index', 'description' => 'Jefe'],
+            ['name' => 'firma.index', 'description' => 'Firma del jefe'],
 
             ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
             ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
             ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
             ['name' => 'usuarios.destroy', 'description' => 'Borrar usuarios'],
-            ['name' => 'usuarios.roles', 'description' => 'Asignar roles'],
+            ['name' => 'usuarios.show', 'description' => 'Ver informacion de los usuarios'],
 
             ['name' => 'carreras.index', 'description' => 'Ver lista de carreras'],
             ['name' => 'carreras.create', 'description' => 'Agregar carreras'],
@@ -67,6 +67,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
             ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
             ['name' => 'grupos.destroy', 'description' => 'Borrar grupos'],
+            ['name' => 'grupos.show', 'description' => 'Mostrar Grupo grupos'],
 
             ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
@@ -84,13 +85,13 @@ class RolesAndPermissionsSeeder extends Seeder
         // Rol de super administrador
         $role1 = Role::create(['name' => 'Super Usuario', 'description' => 'Acceso a todo']);
 
-        $role1 = Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
+        Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
 
-        $role1 = Role::create(['name' => 'Docente', 'description' => 'Maestros']);
+        Role::create(['name' => 'Docente', 'description' => 'Maestros']);
 
-        $role1 = Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
+        Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
 
-        $role1 = Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
+        Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
 
         // Agregando super administrador
         $user = User::create([

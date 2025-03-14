@@ -25,8 +25,9 @@ class UsuarioRoleDatatable extends DataTableComponent
             Column::make("Nombre", "nombre")
                 ->sortable(),
             Column::make("Roles")
-                ->label(fn ($row) => $row->roles->pluck('name')->join(', '))
-                ->sortable(),
+                ->label(fn ($row) => nl2br(e($row->roles->pluck('name')->join("\n"))))
+                ->sortable()
+                ->html(),         
             Column::make('Acciones')
             ->unclickable()
                 ->label(

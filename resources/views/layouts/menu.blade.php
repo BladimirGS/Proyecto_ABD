@@ -22,21 +22,21 @@
                     <span>Inicio</span>
                 </x-nav-link>
 
-                @can('firma.index')
+                @role('Docente')
                 <x-nav-link :href="route('docente.grupos.index')" :active="request()->routeIs('docente.grupos.index')">
                     <img src="{{ asset('svg/grupos.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Mis grupos</span>
                 </x-nav-link>
-                @endcan
+                @endrole
 
-                @can('firma.index')
+                @role('Jefe')
                 <x-nav-link :href="route('firma.index')" :active="request()->routeIs('firma.index')">
                     <img src="{{ asset('svg/jefe.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Jefe</span>
                 </x-nav-link>
-                @endcan
+                @endrole
 
                 @can('usuarios.index')
                 <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.index')">
@@ -46,31 +46,44 @@
                 </x-nav-link>
                 @endcan
 
-                @can('carreras.index')
-                <x-nav-link :href="route('carreras.index')" :active="request()->routeIs('carreras.index')">
-                    <img src="{{ asset('svg/carrera.svg') }}" alt="" class="mr-3 h-5 w-5">
+                <x-nav-button id="AdminButton"  :active="request()->routeIs('profile.edit')">
+                    <img src="{{ asset('svg/administracion.svg') }}" alt="" class="mr-3 h-5 w-5">
 
-                    <span>Carreras</span>
-                </x-nav-link>
+                    <span>Administración</span>
+                </x-nav-button>
+                
+                <ul id="AdminMenu" class="hidden space-y-1">
+                    <li class="relative">
 
-                @endcan
+                        @can('carreras.index')
+                        <x-nav-link :href="route('carreras.index')" :active="request()->routeIs('carreras.index')" class="pl-8">
+                            {{-- <img src="{{ asset('svg/carrera.svg') }}" alt="" class="mr-3 h-5 w-5"> --}}
+        
+                            <span>Carreras</span>
+                        </x-nav-link>
+                        @endcan
+                    </li>
+                    <li class="relative">
+                        @can('materias.index')
+                        <x-nav-link :href="route('materias.index')" :active="request()->routeIs('materias.index')" class="pl-8">
+                            {{-- <img src="{{ asset('svg/materia.svg') }}" alt="" class="mr-3 h-5 w-5"> --}}
+        
+                            <span>Materias</span>
+                        </x-nav-link>
+                        @endcan
+                    </li>
+                    <li class="relative">
 
-                @can('materias.index')
-                <x-nav-link :href="route('materias.index')" :active="request()->routeIs('materias.index')">
-                    <img src="{{ asset('svg/materia.svg') }}" alt="" class="mr-3 h-5 w-5">
-
-                    <span>Materias</span>
-                </x-nav-link>
-                @endcan
-
-                @can('periodos.index')
-                <x-nav-link :href="route('periodos.index')" :active="request()->routeIs('periodos.index')">
-                    <img src="{{ asset('svg/periodo.svg') }}" alt="" class="mr-3 h-5 w-5">
-
-                    <span>Periodos</span>
-                </x-nav-link>
-                @endcan
-
+                        @can('periodos.index')
+                        <x-nav-link :href="route('periodos.index')" :active="request()->routeIs('periodos.index')" class="pl-8">
+                            {{-- <img src="{{ asset('svg/periodo.svg') }}" alt="" class="mr-3 h-5 w-5"> --}}
+        
+                            <span>Periodos</span>
+                        </x-nav-link>
+                        @endcan
+                    </li>
+                </ul>
+                
                 @can('actividades.index')
                 <x-nav-link :href="route('actividades.index')" :active="request()->routeIs('actividades.index')">
                     <img src="{{ asset('svg/actividad.svg') }}" alt="" class="mr-3 h-5 w-5">
@@ -158,6 +171,11 @@
 
     document.getElementById('RolesButton').addEventListener('click', function () {
         let menu = document.getElementById('RolesMenu');
+        menu.classList.toggle('hidden');
+    });
+
+    document.getElementById('AdminButton').addEventListener('click', function () {
+        let menu = document.getElementById('AdminMenu');
         menu.classList.toggle('hidden');
     });
 </script>

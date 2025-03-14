@@ -39,15 +39,7 @@ class GrupoDatatable extends DataTableComponent
                         'CrearGrupo' => route('grupos.create'),
                     ],
                 ],
-            ])
-            // Dar click en fila
-            ->setTableRowUrl(function($row) {
-                return route('grupos.show', $row);
-            })
-            // Abrir en otra ventana
-            ->setTableRowUrlTarget(function($row) {
-                return '_blank';
-            });
+            ]);
     }
 
     public function columns(): array
@@ -76,6 +68,7 @@ class GrupoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
+                            'IrGrupo' => route('grupos.show', $row),
                             'EditarGrupo' => route('grupos.edit', $row),
                             'EliminarGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]

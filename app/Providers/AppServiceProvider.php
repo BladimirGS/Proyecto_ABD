@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // AuthServiceProvider
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('Super Usuario') ? true : null;
+            return $user->hasRole('') ? true : null;
         });
     }
 }
