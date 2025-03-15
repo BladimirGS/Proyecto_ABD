@@ -45,8 +45,9 @@
                     <span>Usuarios</span>
                 </x-nav-link>
                 @endcan
-
-                <x-nav-button id="AdminButton"  :active="request()->routeIs('profile.edit')">
+                
+                @hasanyrole('Super Usuario|Admin')
+                <x-nav-button id="AdminButton"  >
                     <img src="{{ asset('svg/administracion.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Administración</span>
@@ -83,6 +84,8 @@
                         @endcan
                     </li>
                 </ul>
+                @endrole
+
                 
                 @can('actividades.index')
                 <x-nav-link :href="route('actividades.index')" :active="request()->routeIs('actividades.index')">
@@ -169,13 +172,19 @@
         menu.classList.toggle('hidden');
     });
 
-    document.getElementById('RolesButton').addEventListener('click', function () {
-        let menu = document.getElementById('RolesMenu');
-        menu.classList.toggle('hidden');
-    });
+    let rolesButton = document.getElementById('RolesButton');
+    if (rolesButton) {
+        rolesButton.addEventListener('click', function () {
+            let menu = document.getElementById('RolesMenu');
+            menu.classList.toggle('hidden');
+        });
+    }
 
-    document.getElementById('AdminButton').addEventListener('click', function () {
-        let menu = document.getElementById('AdminMenu');
-        menu.classList.toggle('hidden');
-    });
+    let adminButton = document.getElementById('AdminButton');
+    if (adminButton) {
+        adminButton.addEventListener('click', function () {
+            let menu = document.getElementById('AdminMenu');
+            menu.classList.toggle('hidden');
+        });
+    }
 </script>
