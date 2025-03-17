@@ -27,6 +27,9 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permisos = [
+            ['name' => 'admin.index', 'description' => 'Ver panel administrativo'],
+            ['name' => 'docentes.index', 'description' => 'Ver tablero de docente'],
+
             ['name' => 'roles.index', 'description' => 'Ver lista de roles'],
             ['name' => 'roles.create', 'description' => 'Agregar roles'],
             ['name' => 'roles.edit', 'description' => 'Editar roles'],

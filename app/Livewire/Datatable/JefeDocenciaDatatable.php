@@ -58,7 +58,6 @@ class JefeDocenciaDatatable extends DataTableComponent
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'DescargarArchivo' => 'descargar(' . $row->id . ')',
-                            'SubirArchivo' => 'subir(' . $row->id . ')',
                         ]
                     )
             )->html(),

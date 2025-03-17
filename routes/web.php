@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PeriodoController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\ActividadController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UsuarioRoleController;
 use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -26,9 +27,14 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
     // Cerrar sesión
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+
+    // Panel administrativo
+    Route::get('/', AdminController::class)->name('admin.index');
+
+    // Tablero del docente
+    Route::get('/docente', DocenteController::class)->middleware('can:docentes.index')->name('docentes.index');
 
     // Gestion por parte del admin
     Route::get('/usuarios', UsuarioController::class)->middleware('can:usuarios.index')->name('usuarios.index');
@@ -37,29 +43,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/periodos', PeriodoController::class)->middleware('can:periodos.index')->name('periodos.index');
     Route::get('/actividades', ActividadController::class)->middleware('can:actividades.index')->name('actividades.index');
     Route::resource('/grupos', GrupoController::class)->except('destroy')->names('grupos');
-    
+
     // Ver los archivos subidos
     Route::get('/archivos', [ArchivoController::class, 'index'])->middleware('can:archivos.index')->name('archivos.index');
     Route::get('/archivos/{archivo}', [ArchivoController::class, 'show'])->middleware('can:archivos.index')->name('archivos.show');
     Route::post('/archivos/{archivo}', [ArchivoController::class, 'evaluar'])->middleware('can:archivos.evaluar')->name('archivos.evaluar');
 
-    // Tablero del docente
-    Route::get('/', DocenteController::class)->name('docentes.index'); 
-
     // Reportes por periodo
-    Route::get('/reportes/', ReporteController::class)->middleware('can:reportes.index')->name('reportes.index'); 
-    
+    Route::get('/reportes/', ReporteController::class)->middleware('can:reportes.index')->name('reportes.index');
+
     // Jefe
-    Route::get('/jefe/firma/', [JefeDocenciaController::class, 'index'])->middleware('can:firma.index')->name('firma.index'); 
+    Route::get('/jefe/firma/', [JefeDocenciaController::class, 'index'])->middleware('can:firma.index')->name('firma.index');
     Route::get('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'show'])->middleware('can:firma.index')->name('firma.show');
     // Route::post('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'evaluar'])->middleware('can:firma.evaluar')->name('firma.evaluar');
     // Route::post('/jefe/firma/{grupo}/{actividad}/subir/', [JefeDocenciaController::class, 'subir'])->name('docente.grupo.actividades.subir');
 
-    
+
     // Grupos del docente
     Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->name('docente.grupos.index');
     Route::get('/docente/grupos/{grupo}', [DocenteGrupoController::class, 'show'])->name('docente.grupos.show');
-    
+
     // Rutas para actividades del grupo del docente
     Route::get('/docente/grupos/{grupo}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
     Route::get('/docente/grupos/{grupo}/actividades/{actividad}', [DocenteGrupoActividadController::class, 'show'])->name('docente.grupo.actividades.show');
@@ -68,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Gestion de roels
     Route::resource('roles', RoleController::class)->except(['show', 'destroy'])->names('roles');
-    
+
     // Editar perfil
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -82,6 +85,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archivo/ver/{file}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
 
     Route::get('/roles/usuario', [UsuarioRoleController::class, 'index'])->name('roles.usuario.index');
-
 });
-
