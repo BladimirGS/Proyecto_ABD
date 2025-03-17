@@ -91,7 +91,6 @@
                 </ul>
                 @endcan
 
-                
                 @can('actividades.index')
                 <x-nav-link :href="route('actividades.index')" :active="request()->routeIs('actividades.index')">
                     <img src="{{ asset('svg/actividad.svg') }}" alt="" class="mr-3 h-5 w-5">
