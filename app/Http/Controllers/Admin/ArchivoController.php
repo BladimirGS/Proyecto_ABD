@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Notifications\EvaluarActividad;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArchivoController extends Controller
 {
@@ -66,20 +67,19 @@ class ArchivoController extends Controller
         return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
     }
 
-    public function verArchivo(Archivo $file)
+    public function verArchivo(Archivo $archivo)
     {
-        // Obtener la ruta del archivo en el almacenamiento
-        $rutaArchivo = Storage::path($file->documento);
-
-        // Verificar si el archivo existe antes de enviarlo
-        if (!Storage::exists($file->documento)) {
-            abort(404, 'El archivo no existe');
+        if (!Storage::exists($archivo->ruta)) {
+            abort(404, 'El archivo no existe.');
         }
 
-        // Retornar el archivo para visualizarlo en el navegador
-        return response()->file($rutaArchivo, [
-            'Content-Disposition' => 'inline',
-            'Content-Type' => mime_content_type($rutaArchivo),
+        return new StreamedResponse(function () use ($archivo) {
+            $stream = Storage::readStream($archivo->ruta);
+            fpassthru($stream);
+            fclose($stream);
+        }, 200, [
+            'Content-Type' => Storage::mimeType($archivo->ruta),
+            'Content-Disposition' => 'inline; filename="' . $archivo->nombre . '"',
         ]);
     }
 }

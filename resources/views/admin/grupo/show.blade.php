@@ -9,7 +9,6 @@
         </div>
     </div>
 
-    
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -17,7 +16,6 @@
                 window.open(url, '_blank');
             });
         });
-        </script>
-        
+    </script>
     @endpush
 </x-app-layout>

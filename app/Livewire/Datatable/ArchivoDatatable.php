@@ -57,10 +57,6 @@ class ArchivoDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            // ComponentColumn::make("Archivo", "nombre")
-            //     ->component('break-normal')
-            //     ->sortable()
-            //     ->searchable(),
             ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()
@@ -75,7 +71,7 @@ class ArchivoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'DescargarArchivo' => 'descargar(' . $row->id . ')',
+                            'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
             )->html(),
@@ -154,8 +150,10 @@ class ArchivoDatatable extends DataTableComponent
         $this->clearSelected();
     }
 
-    public function descargar(Archivo $file)
+    public function verArchivo(Archivo $file)
     {
-        return Storage::download($file->documento, $file->nombre);
+        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        
+        $this->dispatch('archivoDisponible', $url);
     }
 }

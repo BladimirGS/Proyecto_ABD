@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GrupoController;
-use App\Http\Controllers\DocenteGrupoController;
+use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\Admin\ArchivoController;
 use App\Http\Controllers\Admin\CarreraController;
 use App\Http\Controllers\Admin\MateriaController;
@@ -12,13 +13,12 @@ use App\Http\Controllers\Admin\PeriodoController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\ActividadController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\UsuarioRoleController;
 use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
-use App\Http\Controllers\Docente\DocenteGrupoActividadController;
+use App\Http\Controllers\Admin\UsuarioRoleController;
 use App\Http\Controllers\Jefe\JefeDocenciaController;
-use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\Docente\DocenteGrupoController;
+use App\Http\Controllers\Docente\DocenteGrupoActividadController;
 
 Route::middleware('guest')->group(function () {
     // Iniciar sesión
@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     // Rutas para actividades del grupo del docente
     Route::get('/docente/grupos/{grupo}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
     Route::get('/docente/grupos/{grupo}/actividades/{actividad}', [DocenteGrupoActividadController::class, 'show'])->name('docente.grupo.actividades.show');
-    Route::get('/docente/grupos/{grupo}/actividades/{actividad}/descargar/{archivo}', [DocenteGrupoActividadController::class, 'descargar'])->name('docente.grupo.actividades.descargar');
     Route::post('/docente/grupos/{grupo}/actividades/{actividad}/subir/', [DocenteGrupoActividadController::class, 'subir'])->name('docente.grupo.actividades.subir');
 
     // Gestion de roels

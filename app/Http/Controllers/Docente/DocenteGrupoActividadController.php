@@ -51,22 +51,6 @@ class DocenteGrupoActividadController extends Controller
         return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente', 'comentario'));
     }
 
-    public function descargar(Grupo $grupo, Actividad $actividad, Archivo $archivo)
-    {
-        // Verificar si el grupo pertenece al usuario autenticado
-        if ($grupo->user_id !== Auth::user()->id) {
-            return redirect()->route('docentes.index');
-        }
-        
-        // Busca el archivo por su ID
-        $archivo = Archivo::where('id', $archivo->id)
-            ->where('grupo_id', $grupo->id)
-            ->where('actividad_id', $actividad->id)
-            ->firstOrFail();
-
-        return Storage::download($archivo->documento, $archivo->nombre);
-    }
-
     public function subir(Request $request, Grupo $grupo, Actividad $actividad)
     {
         $request->validate([

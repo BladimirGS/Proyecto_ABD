@@ -67,7 +67,7 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
                 ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-                            ['DescargarGrupoArchivo' => 'descargar(' . $row->id . ')']
+                            ['verArchivo' => 'verArchivo(' . $row->id . ')']
                         )
                 )->html(),
         ];
@@ -77,9 +77,11 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
     {
         return Archivo::query()->where('grupo_id', $this->grupo->id);
     }
-    
-    public function descargar(Archivo $file)
+
+    public function verArchivo(Archivo $file)
     {
-        return Storage::download($file->documento, $file->nombre);
+        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        
+        $this->dispatch('archivoDisponible', $url);
     }
 }

@@ -57,7 +57,7 @@ class JefeDocenciaDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'DescargarArchivo' => 'descargar(' . $row->id . ')',
+                            'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
             )->html(),
@@ -71,9 +71,11 @@ class JefeDocenciaDatatable extends DataTableComponent
                 $query->where('firma', true);
             });
     }
-    
-    public function descargar(Archivo $file)
+
+    public function verArchivo(Archivo $file)
     {
-        return Storage::download($file->documento, $file->nombre);
+        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        
+        $this->dispatch('archivoDisponible', $url);
     }
 }

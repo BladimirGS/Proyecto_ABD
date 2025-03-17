@@ -56,7 +56,7 @@ class GrupoArchivoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'DescargarArchivo' => 'verArchivo(' . $row->id . ')',
+                            'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
             )->html(),
@@ -98,17 +98,10 @@ class GrupoArchivoDatatable extends DataTableComponent
         $this->clearSelected();
     }
 
-    public function descargar(Archivo $file)
-    {
-        return Storage::download($file->documento, $file->nombre);
-    }
-
     public function verArchivo(Archivo $file)
     {
-        // Generar la URL de la ruta Laravel
         $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
         
-        // Emitir el evento con la URL correcta
         $this->dispatch('archivoDisponible', $url);
     }
 }

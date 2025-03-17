@@ -4,11 +4,18 @@
     </x-slot>
 
     <div class="py-10 ">
-        <!-- Mensaje de estado -->
-        <x-session-status :status="session('status')" />
-
         <div class="bg-white w-full mx-auto px-4 lg:px-8 py-10">
             <livewire:datatable.jefe-docencia-datatable />
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Livewire.on('archivoDisponible', url => {
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+    @endpush
 </x-app-layout>

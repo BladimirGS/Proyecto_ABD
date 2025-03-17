@@ -55,7 +55,7 @@
                                 <x-table-cell class="font-semibold">
                                     @if ($archivo)
                                     <x-truncade>
-                                        <a href="{{ route('docente.grupo.actividades.descargar', ['grupo' => $grupo->id, 'actividad' => $actividad->id, 'archivo' => $archivo->id]) }}" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
+                                        <a href="{{ route('verArchivo', ['file' => $archivo->id, 'nombre' => $archivo->nombre]) }}" target="_blank" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
                                             {{ $archivo->nombre }}
                                         </a>
                                         </x-truncade>

@@ -34,14 +34,6 @@ class DocenteGrupoDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['grupos.id as id'])
-            // ->setConfigurableAreas([
-            //     'toolbar-left-start' => [
-            //         'livewire.datatable.create-area', [
-            //             'CrearGrupo' => route('docente.grupos.create'),
-            //         ],
-            //     ],
-            // ])
-            // Dar click en fila
             ->setTableRowUrl(function($row) {
                 return route('docente.grupos.show', $row);
             })
@@ -107,12 +99,5 @@ class DocenteGrupoDatatable extends DataTableComponent
     {
 
         return Grupo::query()->where('user_id', Auth::user()->id);
-    }
-
-    #[On('eliminar-docente-grupo')]
-    public function EliminarDocenteGrupo(Grupo $id) 
-    {
-        $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

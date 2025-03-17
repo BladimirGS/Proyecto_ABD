@@ -8,4 +8,14 @@
             <livewire:datatable.docente-grupo-archivo-datatable :grupo="$grupo" />
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Livewire.on('archivoDisponible', url => {
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+    @endpush
 </x-app-layout>

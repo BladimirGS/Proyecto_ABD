@@ -172,18 +172,12 @@
         @endcan
 
         @can('archivos.descargar')
-            @isset($DescargarArchivo)
+            @isset($verArchivo)
                 <x-button
-                    wire:click="{{ $DescargarArchivo }}"
+                    wire:click="{{ $verArchivo }}"
                 >Descargar</x-button>
             @endisset
         @endcan
-
-        @isset($DescargarGrupoArchivo)
-            <x-button
-                wire:click="{{ $DescargarGrupoArchivo }}"
-            >Descargar</x-button>
-        @endisset
 
         @can('reportes.descargar')
             @isset($Exportar)
