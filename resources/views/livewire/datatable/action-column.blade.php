@@ -129,6 +129,23 @@
                 >Eliminar</x-button>
             @endisset
         @endcan
+
+        @can('grupos.usuarios.show')
+            @isset($VerGrupos)
+                <x-button
+                    wire:click="{{ $VerGrupos }}"
+                    color="amber"
+                >Ver</x-button>
+            @endisset
+        @endcan   
+
+        @can('grupos.usuarios.assign')
+            @isset($AsignarGrupos)
+                <x-button
+                    wire:click="{{ $AsignarGrupos }}"
+                >Asignar</x-button>
+            @endisset
+        @endcan
         
         @can('Roles.show')
             @isset($MostarRole)
@@ -154,7 +171,7 @@
             @endisset
         @endcan
 
-        @can('roles.usuario.show')
+        @can('roles.usuarios.show')
             @isset($VerRoles)
                 <x-button
                     wire:click="{{ $VerRoles }}"
@@ -163,7 +180,7 @@
             @endisset
         @endcan   
 
-        @can('roles.usuario.assign')
+        @can('roles.usuarios.assign')
             @isset($AsignarRoles)
                 <x-button
                     wire:click="{{ $AsignarRoles }}"

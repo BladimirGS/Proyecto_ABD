@@ -14,4 +14,9 @@ class Periodo extends Model
         'fecha_inicio',
         'fecha_fin',
     ];
+
+    public function gruposUsuarios()
+    {
+        return $this->hasManyThrough(Grupo::class, 'grupo_user_periodo', 'periodo_id', 'id', 'id', 'grupo_id');
+    }    
 }

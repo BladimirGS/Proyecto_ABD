@@ -18,16 +18,16 @@ class GrupoDatatable extends DataTableComponent
 
     public ?int $searchFilterDebounce = 600;
 
-    public function mount()
-    {
-        // Obtener el último periodo
-        $ultimoPeriodo = Periodo::latest('nombre')->first();
+    // public function mount()
+    // {
+    //     // Obtener el último periodo
+    //     $ultimoPeriodo = Periodo::latest('nombre')->first();
     
-        // Verificar si hay algún período antes de aplicar el filtro
-        if ($ultimoPeriodo) {
-            $this->setFilter('periodos', [$ultimoPeriodo->id]);
-        }
-    }
+    //     // Verificar si hay algún período antes de aplicar el filtro
+    //     if ($ultimoPeriodo) {
+    //         $this->setFilter('periodos', [$ultimoPeriodo->id]);
+    //     }
+    // }
 
     public function configure(): void
     {
@@ -48,10 +48,10 @@ class GrupoDatatable extends DataTableComponent
             Column::make("Clave", "clave")
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Usuario", "user.nombre")
-                ->component('break-normal')
-                ->sortable()
-                ->searchable(),
+            // ComponentColumn::make("Usuario", "user.nombre")
+            //     ->component('break-normal')
+            //     ->sortable()
+            //     ->searchable(),
             ComponentColumn::make("Carrera", "carrera.nombre")
                 ->component('break-normal')
                 ->sortable()
@@ -60,9 +60,9 @@ class GrupoDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            Column::make("Periodo", "periodo.nombre")
-                ->sortable()
-                ->searchable(),
+            // Column::make("Periodo", "periodo.nombre")
+            //     ->sortable()
+            //     ->searchable(),
             Column::make('Acciones')
                 ->unclickable()
                 ->label(

@@ -35,16 +35,16 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.edit', 'description' => 'Editar roles'],
             ['name' => 'roles.destroy', 'description' => 'Borrar roles'],
 
-            ['name' => 'roles.usuario.show', 'description' => 'Ver roles del usuario'],
-            ['name' => 'roles.usuario.assign', 'description' => 'Asignar roles al usuario'],
+            ['name' => 'roles.usuarios.show', 'description' => 'Ver roles de los usuarios'],
+            ['name' => 'roles.usuarios.assign', 'description' => 'Asignar roles a los usuarios'],
 
             ['name' => 'firma.index', 'description' => 'Firma del jefe'],
 
-            ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
+            ['name' => 'usuarios.index', 'description' => 'Mostrar lista de usuarios'],
             ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
             ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
             ['name' => 'usuarios.destroy', 'description' => 'Borrar usuarios'],
-            ['name' => 'usuarios.show', 'description' => 'Ver informacion de los usuarios'],
+            ['name' => 'usuarios.show', 'description' => 'Ver información de los usuarios'],
 
             ['name' => 'carreras.index', 'description' => 'Ver lista de carreras'],
             ['name' => 'carreras.create', 'description' => 'Agregar carreras'],
@@ -61,16 +61,20 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'periodos.edit', 'description' => 'Editar periodos'],
             ['name' => 'periodos.destroy', 'description' => 'Borrar periodos'],
 
-            ['name' => 'actividades.index', 'description' => 'Ver lista de actividades'],
+            ['name' => 'actividades.index', 'description' => 'Mostrar lista de actividades'],
             ['name' => 'actividades.create', 'description' => 'Agregar actividades'],
             ['name' => 'actividades.edit', 'description' => 'Editar actividades'],
+            ['name' => 'actividades.show', 'description' => 'Ver información de las actividades'],
             ['name' => 'actividades.destroy', 'description' => 'Borrar actividades'],
 
             ['name' => 'grupos.index', 'description' => 'Ver lista de grupos'],
             ['name' => 'grupos.create', 'description' => 'Agregar grupos'],
             ['name' => 'grupos.edit', 'description' => 'Editar grupos'],
             ['name' => 'grupos.destroy', 'description' => 'Borrar grupos'],
-            ['name' => 'grupos.show', 'description' => 'Mostrar Grupo grupos'],
+            ['name' => 'grupos.show', 'description' => 'Ver informacion de los grupos'],
+
+            ['name' => 'grupos.usuarios.show', 'description' => 'Ver grupos de los usuarios'],
+            ['name' => 'grupos.usuarios.assign', 'description' => 'Asignar grupos a los usuarios'],
 
             ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
@@ -106,7 +110,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // insertar los datos para la tabla contratos
         DB::table('contratos')->insert([
-            'nombre' => 'Planta',
+            'nombre' => 'Base',
         ]);
 
         DB::table('contratos')->insert([
@@ -115,6 +119,10 @@ class RolesAndPermissionsSeeder extends Seeder
 
         DB::table('contratos')->insert([
             'nombre' => 'Interino',
+        ]);
+
+        DB::table('contratos')->insert([
+            'nombre' => 'Servicio',
         ]);
 
         // Agregando un maestro

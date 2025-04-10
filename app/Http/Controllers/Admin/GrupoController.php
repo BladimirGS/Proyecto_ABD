@@ -35,10 +35,10 @@ class GrupoController extends Controller
     public function create()
     {
         return view('admin.grupo.create', [
-            'users' => User::all(),
+            // 'users' => User::all(),
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
-            'periodos' => Periodo::where('activo', true)->get(),
+            // 'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -50,10 +50,10 @@ class GrupoController extends Controller
         $datos = $this->validate($request, [
             'clave' => 'required',
             'semestre' => 'required',
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'carrera_id' => 'required',
             'materia_id' => 'required',
-            'periodo_id' => 'required',
+            // 'periodo_id' => 'required',
         ]);
     
         // Obtener un color aleatorio de la lista de colores
@@ -62,16 +62,16 @@ class GrupoController extends Controller
         $grupo = Grupo::create([
             'clave' => $datos['clave'],
             'semestre' => $datos['semestre'],
-            'user_id' => $datos['user_id'],
+            // 'user_id' => $datos['user_id'],
             'carrera_id' => $datos['carrera_id'],
             'materia_id' => $datos['materia_id'],
-            'periodo_id' => $datos['periodo_id'],
-            'color' => $colorAleatorio, // Asignar el color aleatorio al grupo
+            // 'periodo_id' => $datos['periodo_id'],
+            'color' => $colorAleatorio
         ]);
 
         // Buscar grupos que tengan el mismo periodo_id y asociarlos a la actividad
-        $actividades = Actividad::where('periodo_id', $datos['periodo_id'])->get();
-        $grupo->actividades()->attach($actividades->pluck('id'));
+        // $actividades = Actividad::where('periodo_id', $datos['periodo_id'])->get();
+        // $grupo->actividades()->attach($actividades->pluck('id'));
     
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }

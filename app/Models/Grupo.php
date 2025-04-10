@@ -19,10 +19,12 @@ class Grupo extends Model
         'color',
     ];
 
-    public function user()
+    public function usuarios()
     {
-        return $this->belongsTo(User::class);
-    }
+        return $this->belongsToMany(User::class, 'grupo_user_periodo')
+                    ->withPivot('periodo_id', 'activo')
+                    ->withTimestamps();
+    }    
 
     public function carrera()
     {

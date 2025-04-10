@@ -33,7 +33,7 @@
                         <x-input-error :messages="$errors->get('semestre')" class="mt-2" />
                     </div>
             
-                    <div class="mt-5">
+                    {{-- <div class="mt-5">
                         <x-input-label for="user_id" value="Docente" />
         
                         <select name="user_id" id="user_id" class="selectUsers">
@@ -44,7 +44,7 @@
                         </select>
 
                         <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
-                    </div>
+                    </div> --}}
 
                     <div class="mt-5">
                         <x-input-label for="carrera_id" value="Carrera" />
@@ -72,7 +72,7 @@
                         <x-input-error :messages="$errors->get('materia_id')" class="mt-2" />
                     </div>
 
-                    <div class="mt-5">
+                    {{-- <div class="mt-5">
                         <x-input-label for="periodo_id" value="Periodo" />
     
                         <select name="periodo_id" id="periodo_id" class="selectPeriodos">
@@ -83,7 +83,7 @@
                         </select>
                     
                         <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
-                    </div>
+                    </div> --}}
             
                     <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
                         <x-link href="{{ route('grupos.index') }}" color="red" class="w-full md:w-auto">

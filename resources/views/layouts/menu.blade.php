@@ -47,7 +47,7 @@
                 @endcan
                 
                 @can('admin.index')
-                <x-nav-button id="AdminButton"  >
+                <x-nav-button id="AdminButton" :active="request()->routeIs(['carreras.index', 'materias.index', 'periodos.index'])">
                     <img src="{{ asset('svg/administracion.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Administración</span>
@@ -100,12 +100,30 @@
                 @endcan
 
                 @can('grupos.index')
-                <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')">
+                <x-nav-button id="GrupoButton" :href="route('grupos.index')" :active="request()->routeIs(['grupos.index', 'grupos.usuarios.index'])">
                     <img src="{{ asset('svg/grupo.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Grupos</span>
-                </x-nav-link>
+                    <div class="ml-1">
+                        <svg class="fill-current h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"  id="dropdown">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>                    
+                </x-nav-button>
                 @endcan
+
+                <ul id="GrupoMenu" class="hidden space-y-1">
+                    <li class="relative">
+                        <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')" class="pl-8">
+                            <span>Administrar Grupo</span>
+                        </x-nav-link>
+                    </li>
+                    <li class="relative">
+                        <x-nav-link :href="route('grupos.usuarios.index')" :active="request()->routeIs('grupos.usuarios.index')" class="pl-8">
+                            <span>Asignar Grupos</span>
+                        </x-nav-link>
+                    </li>
+                </ul>
 
                 @can('archivos.index')
                 <x-nav-link :href="route('archivos.index')" :active="request()->routeIs('archivos.index')">
@@ -124,7 +142,7 @@
                 @endcan
 
                 @can('roles.index')
-                <x-nav-button id="RolesButton" :active="request()->routeIs(['roles.index', 'roles.usuario.index'])">
+                <x-nav-button id="RolesButton" :active="request()->routeIs(['roles.index', 'roles.usuarios.index'])">
                     <img src="{{ asset('svg/roles.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Roles</span>
@@ -143,7 +161,7 @@
                         </x-nav-link>
                     </li>
                     <li class="relative">
-                        <x-nav-link :href="route('roles.usuario.index')" :active="request()->routeIs('roles.usuario.index')" class="pl-8">
+                        <x-nav-link :href="route('roles.usuarios.index')" :active="request()->routeIs('roles.usuarios.index')" class="pl-8">
                             <span>Asignar Roles</span>
                         </x-nav-link>
                     </li>
@@ -195,4 +213,5 @@
 
     toggleMenu('RolesButton', 'RolesMenu');
     toggleMenu('AdminButton', 'AdminMenu');
+    toggleMenu('GrupoButton', 'GrupoMenu');
 </script>

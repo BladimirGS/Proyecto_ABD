@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grupos', function (Blueprint $table) {
+        Schema::create('grupo_user_periodo', function (Blueprint $table) {
             $table->id();
-            $table->string('clave');
-            $table->string('semestre');
-            $table->foreignId('carrera_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('materia_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('color');
+            $table->foreignId('grupo_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('periodo_id')->constrained()->onDelete('cascade');
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grupos');
+        Schema::dropIfExists('grupo_user_periodo');
     }
 };
