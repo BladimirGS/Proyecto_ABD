@@ -1,7 +1,7 @@
 <div id="sideMenuBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
 <div id="sideMenu"
-    class="fixed top-0 left-0 h-full w-64 bg-gray-100 shadow-lg z-50 transform transition-transform duration-300 ease-in-out -translate-x-full">
+    class="fixed top-0 left-0 h-full w-64 bg-gray-100 shadow-lg z-50 transform transition-transform duration-300 ease-in-out -translate-x-full overflow-y-auto max-h-screen">
     <div class="p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold text-gray-800">Menú</h2>
