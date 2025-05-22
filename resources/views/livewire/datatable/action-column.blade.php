@@ -192,13 +192,5 @@
                 >Exportar</x-button>
             @endisset
         @endcan
-
-        @can('firma.index')
-            @isset($Exportar)
-                <x-button
-                    wire:click="{{ $Exportar }}"
-                >Exportar</x-button>
-            @endisset
-        @endcan
     </div>
 </div>

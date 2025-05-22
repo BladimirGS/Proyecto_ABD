@@ -14,14 +14,8 @@
         </div>
     </div>
 
-@push('styles')
-    @vite('resources/css/alert.css')  
-@endpush
-
 @push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @vite('resources/js/alert.js')
 
     <script>
         document.addEventListener('livewire:init', () => {
