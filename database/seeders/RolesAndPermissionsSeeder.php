@@ -38,8 +38,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.usuario.show', 'description' => 'Ver roles del usuario'],
             ['name' => 'roles.usuario.assign', 'description' => 'Asignar roles al usuario'],
 
-            ['name' => 'firma.index', 'description' => 'Firma del jefe'],
-
             ['name' => 'usuarios.index', 'description' => 'Ver lista de usuarios'],
             ['name' => 'usuarios.create', 'description' => 'Agregar usuarios'],
             ['name' => 'usuarios.edit', 'description' => 'Editar usuarios'],
@@ -72,6 +70,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'grupos.destroy', 'description' => 'Borrar grupos'],
             ['name' => 'grupos.show', 'description' => 'Mostrar Grupo grupos'],
 
+            ['name' => 'firma.index', 'description' => 'Ver lista de instrumentaciones'],
             ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
             ['name' => 'archivos.evaluar', 'description' => 'Evaluar archivos'],

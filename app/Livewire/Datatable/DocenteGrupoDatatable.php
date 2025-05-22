@@ -33,14 +33,7 @@ class DocenteGrupoDatatable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-            ->setAdditionalSelects(['grupos.id as id'])
-            ->setTableRowUrl(function($row) {
-                return route('docente.grupos.show', $row);
-            })
-            // Abrir en otra ventana
-            ->setTableRowUrlTarget(function($row) {
-                return '_blank';
-            });
+            ->setAdditionalSelects(['grupos.id as id']);
     }
 
     public function columns(): array
@@ -64,16 +57,15 @@ class DocenteGrupoDatatable extends DataTableComponent
             Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
-            // Column::make('Acciones')
-            //     ->unclickable()
-            //     ->label(
-            //         fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-            //             [
-            //                 'EditarDocenteGrupo' => route('docente.grupos.edit', $row),
-            //                 'EliminarDocenteGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-            //             ]
-            //         )
-            // )->html(),
+            Column::make('Acciones')
+                ->unclickable()
+                ->label(
+                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                        [
+                            'IrArchivo' => route('docente.grupos.show', $row),
+                        ]
+                    )
+            )->html(),
         ];
     }
 

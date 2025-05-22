@@ -21,16 +21,7 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
     {
         
         $this->setPrimaryKey('id')
-        ->setAdditionalSelects(['archivos.id as id'])
-        // Dar click en fila
-        ->setTableRowUrl(function($row) {
-            return route('docente.grupo.actividades.show', [$row['grupo.id'], $row['actividad.id']]);
-        })
-        // Abrir en otra ventana
-        ->setTableRowUrlTarget(function($row) {
-            return '_blank';
-        });
-
+        ->setAdditionalSelects(['archivos.id as id']);
     }
 
     public function columns(): array
@@ -67,7 +58,10 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
                 ->unclickable()
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-                            ['verArchivo' => 'verArchivo(' . $row->id . ')']
+                            [
+                                'IrArchivo' => route('docente.grupo.actividades.show', [$row['grupo.id'], $row['actividad.id']]),
+                                'verArchivo' => 'verArchivo(' . $row->id . ')'
+                            ]
                         )
                 )->html(),
         ];
@@ -80,7 +74,7 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
 
     public function verArchivo(Archivo $file)
     {
-        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        $url = route('verArchivo', ['archivo' => $file->id, 'nombre' => $file->nombre]);
         
         $this->dispatch('archivoDisponible', $url);
     }

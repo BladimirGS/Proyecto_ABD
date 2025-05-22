@@ -5,8 +5,6 @@
 
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 mx-auto">
-            <!-- Mensaje de estado -->
-            <x-session-status :status="session('status')" />
             <div class="bg-white shadow-sm sm:rounded-lg py-10 px-8 md:px-20 mx-auto">
                 <div class="mb-4 space-y-4">
                     <h1 class="text-2xl font-bold">{{ $actividad->nombre }}</h1>
@@ -53,7 +51,7 @@
                                 <x-table-cell class="font-semibold">
                                     @if ($archivo)
                                     <x-truncade>
-                                        <a href="{{ route('verArchivo', ['file' => $archivo->id, 'nombre' => $archivo->nombre]) }}" target="_blank" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
+                                        <a href="{{ route('verArchivo', ['archivo' => $archivo->id, 'nombre' => $archivo->nombre]) }}" target="_blank" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
                                             {{ $archivo->nombre }}
                                         </a>
                                         </x-truncade>
@@ -107,7 +105,13 @@
                                             </div>
                                         </div>
                                         
-                                        <x-button type="submit" class="block mt-4">Guardar</x-button>
+                                        <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+                                            <x-link href="{{ route('archivos.index') }}" color="red" class="w-full md:w-auto">
+                                                atras
+                                            </x-link>
+
+                                            <x-button type="submit" class="w-full md:w-auto">Guardar evaluación</x-button>
+                                        </div>
                                     </form>
                                 </td>
                             </tr>
@@ -117,6 +121,23 @@
             </div>
         </div>
     </div>
+
+@push('styles')
+    @vite('resources/css/alert.css')  
+@endpush
+
+@push('scripts')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @vite('resources/js/alert.js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('status'))
+            Livewire.dispatch('exito');
+            @endif
+        });
+    </script>
+@endpush
 </x-app-layout>
 
 

@@ -32,17 +32,6 @@ class GrupoArchivoDatatable extends DataTableComponent
             Column::make("Grupo", "grupo.clave")
                 ->sortable()
                 ->searchable(),
-            // Column::make("Periodo", "grupo.periodo.nombre")
-            //     ->sortable()
-            //     ->searchable(),
-            // ComponentColumn::make("Docente", "grupo.user.nombre")
-            //     ->component('break-normal')
-            //     ->sortable()
-            //     ->searchable(),
-            // ComponentColumn::make("Archivo", "nombre")
-            //     ->component('break-normal')
-            //     ->sortable()
-            //     ->searchable(),
             ComponentColumn::make("Actividad", "actividad.nombre")
                 ->component('break-normal')
                 ->sortable()
@@ -56,6 +45,7 @@ class GrupoArchivoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
+                            'IrArchivo' => route('archivos.show', $row),
                             'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
@@ -65,7 +55,10 @@ class GrupoArchivoDatatable extends DataTableComponent
     
     public function builder(): Builder
     {
-        return Archivo::query()->where('grupo_id', $this->grupo->id);
+        return Archivo::query()->where('grupo_id', $this->grupo->id)
+            ->whereHas('actividad', function (Builder $query) {
+                $query->where('firma', false);
+            });
     }
     
     public function bulkActions(): array
@@ -100,7 +93,7 @@ class GrupoArchivoDatatable extends DataTableComponent
 
     public function verArchivo(Archivo $file)
     {
-        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        $url = route('verArchivo', ['archivo' => $file->id, 'nombre' => $file->nombre]);
         
         $this->dispatch('archivoDisponible', $url);
     }

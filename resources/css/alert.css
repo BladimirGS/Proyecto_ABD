@@ -1,0 +1,16 @@
+.btn-confirm {
+    background-color: #3085d6 !important;
+    color: white !important;
+}
+
+.btn-cancel {
+    background-color: #d33 !important;
+    color: white !important;
+}
+
+.btn-ok {
+    background-color: #7066e0 !important;
+    color: white !important;
+    border-radius: 0.375rem;
+    padding: 0.625em 1.25em;
+}

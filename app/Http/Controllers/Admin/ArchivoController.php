@@ -69,16 +69,16 @@ class ArchivoController extends Controller
 
     public function verArchivo(Archivo $archivo)
     {
-        if (!Storage::exists($archivo->ruta)) {
+        if (!Storage::exists($archivo->documento)) {
             abort(404, 'El archivo no existe.');
         }
 
         return new StreamedResponse(function () use ($archivo) {
-            $stream = Storage::readStream($archivo->ruta);
+            $stream = Storage::readStream($archivo->documento);
             fpassthru($stream);
             fclose($stream);
         }, 200, [
-            'Content-Type' => Storage::mimeType($archivo->ruta),
+            'Content-Type' => Storage::mimeType($archivo->documento),
             'Content-Disposition' => 'inline; filename="' . $archivo->nombre . '"',
         ]);
     }

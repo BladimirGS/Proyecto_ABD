@@ -14,9 +14,14 @@
         </div>
     </div>
 
-@push('scripts')
+@push('styles')
+    @vite('resources/css/alert.css')  
+@endpush
 
+@push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @vite('resources/js/alert.js')
 
     <script>
         document.addEventListener('livewire:init', () => {
@@ -29,7 +34,11 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'si, Eliminar!',
-                    cancelButtonText: 'Cancelar'
+                    cancelButtonText: 'Cancelar',
+                    customClass: {
+                        confirmButton: 'btn-confirm',
+                        cancelButton: 'btn-cancel'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Eliminar la usuario
@@ -40,19 +49,6 @@
                 })
             })
         })
-    </script>
-    
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('exito', () => { 
-                Swal.fire({
-                    title: "Operación Exitosa",
-                    icon: "success",
-                    confirmButtonColor: '#7066e0',
-                    confirmButtonText: 'Bien',
-                });
-            });
-        });
     </script>
 @endpush
 </x-app-layout>

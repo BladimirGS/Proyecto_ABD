@@ -58,7 +58,6 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'evaluar'])->middleware('can:firma.evaluar')->name('firma.evaluar');
     // Route::post('/jefe/firma/{grupo}/{actividad}/subir/', [JefeDocenciaController::class, 'subir'])->name('docente.grupo.actividades.subir');
 
-
     // Grupos del docente
     Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->name('docente.grupos.index');
     Route::get('/docente/grupos/{grupo}', [DocenteGrupoController::class, 'show'])->name('docente.grupos.show');
@@ -81,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
     // Notificaciones
     Route::get('/notificaciones', NotificacionController::class)->name('notificaciones');
 
-    Route::get('/archivo/ver/{file}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
+    Route::get('/archivo/ver/{archivo}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
 
     Route::get('/roles/usuario', [UsuarioRoleController::class, 'index'])->name('roles.usuario.index');
 });

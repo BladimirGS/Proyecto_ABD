@@ -3,11 +3,13 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Archivo;
+use App\Models\Periodo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class JefeDocenciaDatatable extends DataTableComponent
@@ -19,15 +21,7 @@ class JefeDocenciaDatatable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-        ->setAdditionalSelects(['archivos.id as id'])
-        // Dar click en fila
-        ->setTableRowUrl(function($row) {
-            return route('firma.show', $row);
-        })
-        // Abrir en otra ventana
-        ->setTableRowUrlTarget(function($row) {
-            return '_blank';
-        });
+        ->setAdditionalSelects(['archivos.id as id']);
     }
 
     public function columns(): array
@@ -57,10 +51,33 @@ class JefeDocenciaDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
+                            'IrArchivo' => route('firma.show', $row),
                             'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
             )->html(),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            SelectFilter::make('Estado')
+            ->options([
+                '' => 'Todo',
+                'aprobado' => 'Aprobado',
+                'rechazado' => 'Rechazado',
+                'pendiente' => 'Pendiente',
+            ])
+            ->filter(function (Builder $builder, string $value) {
+                if ($value === 'aprobado') {
+                    $builder->where('archivos.estado', 'Aprobado');
+                } elseif ($value === 'rechazado') {
+                    $builder->where('archivos.estado', 'Rechazado');
+                } elseif ($value === 'pendiente') {
+                    $builder->where('archivos.estado', 'Pendiente');
+                }
+            })
         ];
     }
 
@@ -69,12 +86,14 @@ class JefeDocenciaDatatable extends DataTableComponent
         return Archivo::query()
             ->whereHas('actividad', function (Builder $query) {
                 $query->where('firma', true);
-            });
+            })
+            ->orderByRaw("estado = 'Pendiente' DESC") // primero los Pendiente
+            ->orderBy('fecha', 'desc');                // luego los más recientes
     }
 
     public function verArchivo(Archivo $file)
     {
-        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        $url = route('verArchivo', ['archivo' => $file->id, 'nombre' => $file->nombre]);
         
         $this->dispatch('archivoDisponible', $url);
     }

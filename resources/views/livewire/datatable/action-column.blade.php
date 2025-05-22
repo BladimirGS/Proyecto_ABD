@@ -171,6 +171,12 @@
             @endisset
         @endcan
 
+        @can('archivos.evaluar')
+            @isset($IrArchivo)
+                <x-link color="amber" href="{{ $IrArchivo }}">Ir</x-link>
+            @endisset
+        @endcan
+
         @can('archivos.descargar')
             @isset($verArchivo)
                 <x-button

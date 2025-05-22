@@ -5,8 +5,6 @@
 
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 mx-auto">
-            <!-- Mensaje de estado -->
-            <x-session-status :status="session('status')" />
             <div class="bg-white shadow-sm sm:rounded-lg py-10 px-8 md:px-20 mx-auto">
                 <div class="mb-4 space-y-4">
                     <h1 class="text-2xl font-bold">{{ $actividad->nombre }}</h1>
@@ -53,7 +51,7 @@
                                 <x-table-cell class="font-semibold">
                                     @if ($archivoExistente)
                                     <x-truncade>
-                                        <a href="{{ route('verArchivo', ['file' => $archivoExistente->id, 'nombre' => $archivoExistente->nombre]) }}" target="_blank" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
+                                        <a href="{{ route('verArchivo', ['archivo' => $archivoExistente->id, 'nombre' => $archivoExistente->nombre]) }}" target="_blank" class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate  active:text-red-600">
                                             {{ $archivoExistente->nombre }}
                                         </a>
                                         </x-truncade>
@@ -94,7 +92,13 @@
                 
                             <x-input-error :messages="$errors->get('archivo')" class="mt-2" />
                                 
-                            <x-button class="mt-8" type="submit">Submit</x-button>
+                            <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+                                <x-link href="{{ route('docente.grupo.actividades.index', $grupo->id) }}" color="red" class="w-full md:w-auto">
+                                    Cancelar
+                                </x-link>
+                                
+                                <x-button type="submit" class="w-full md:w-auto">Subir Archivo</x-button>
+                            </div>
                         </form> 
                     </div>
                 @endif
@@ -102,19 +106,21 @@
         </div>
     </div>
 
-    @push('scripts')
+@push('styles')
+    @vite('resources/css/alert.css')  
+@endpush
 
+@push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @vite('resources/js/alert.js')
     <script>
-        Livewire.on('archivoSubido', () => {
-            Swal.fire({
-            title: "Buen trabajo!",
-            icon: "success"
-            });
-        })
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('status'))
+            Livewire.dispatch('exito');
+            @endif
+        });
     </script>
-
 @endpush
 </x-app-layout>
 

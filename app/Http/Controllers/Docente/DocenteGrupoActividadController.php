@@ -104,7 +104,7 @@ class DocenteGrupoActividadController extends Controller
     
             return redirect()
                 ->back()
-                ->with('status', 'Archivo subido exitosamente.');
+                ->with('status', 'Operación exitosa');
         } catch (\Exception $e) {
             DB::rollBack();
     

@@ -33,15 +33,7 @@ class ArchivoDatatable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['archivos.id as id'])
-            ->setHideBulkActionsWhenEmptyEnabled()
-            // Dar click en fila
-            ->setTableRowUrl(function($row) {
-                return route('archivos.show', $row);
-            })
-            // Abrir en otra ventana
-            ->setTableRowUrlTarget(function($row) {
-                return '_blank';
-            });
+            ->setHideBulkActionsWhenEmptyEnabled();
     }
 
     public function columns(): array
@@ -71,6 +63,7 @@ class ArchivoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
+                            'IrArchivo' => route('archivos.show', $row),
                             'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
@@ -152,7 +145,7 @@ class ArchivoDatatable extends DataTableComponent
 
     public function verArchivo(Archivo $file)
     {
-        $url = route('verArchivo', ['file' => $file->id, 'nombre' => $file->nombre]);
+        $url = route('verArchivo', ['archivo' => $file->id, 'nombre' => $file->nombre]);
         
         $this->dispatch('archivoDisponible', $url);
     }

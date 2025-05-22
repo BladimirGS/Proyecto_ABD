@@ -9,33 +9,14 @@
         </div>
     </div>
 
-    @push('scripts')
+@push('styles')
+    @vite('resources/css/alert.css')  
+@endpush
+
+@push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('mostrarAlerta', (id) => {
-                Swal.fire({
-                    title: 'Eliminar role?',
-                    text: "El role eliminada no se puede recuperar",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'si, Eliminar!',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Eliminar el role
-                        Livewire.dispatch('eliminar-role', id);
-
-                        Livewire.dispatch('exito');
-                    }
-                })
-            })
-        })
-    </script>
-
+    @vite('resources/js/alert.js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             @if(session('status'))
@@ -43,18 +24,5 @@
             @endif
         });
     </script>
-
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('exito', () => { 
-                Swal.fire({
-                    title: "Operación Exitosa",
-                    icon: "success",
-                    confirmButtonColor: '#7066e0',
-                    confirmButtonText: 'Bien',
-                });
-            });
-        });
-    </script>
-    @endpush
+@endpush
 </x-app-layout>

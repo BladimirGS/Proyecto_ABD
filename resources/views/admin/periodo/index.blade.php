@@ -14,9 +14,14 @@
         </div>
     </div>
 
-    @push('scripts')
+@push('styles')
+    @vite('resources/css/alert.css')  
+@endpush
 
+@push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @vite('resources/js/alert.js')
 
     <script>
         document.addEventListener('livewire:init', () => {
@@ -30,6 +35,10 @@
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'si, Eliminar!',
                     cancelButtonText: 'Cancelar',
+                    customClass: {
+                        confirmButton: 'btn-confirm',
+                        cancelButton: 'btn-cancel'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Livewire.dispatch('eliminar-periodo', id);
@@ -40,18 +49,5 @@
             })
         })
     </script>
-
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('exito', () => { 
-                Swal.fire({
-                    title: "Operación Exitosa",
-                    icon: "success",
-                    confirmButtonColor: '#7066e0',
-                    confirmButtonText: 'Bien',
-                });
-            });
-        });
-    </script>
-    @endpush
+@endpush
 </x-app-layout>
