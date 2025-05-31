@@ -25,6 +25,7 @@ class EditarUsuario extends ModalComponent
         'contratosUsuario' => 'required|array',
         'contratosUsuario.*' => 'exists:contratos,id',
         'email' => 'required',
+        'password' => ['nullable', 'min:8']
     ];
 
     public function mount()
@@ -38,28 +39,31 @@ class EditarUsuario extends ModalComponent
 
     public function EditarUsuario()
     {   
-        // dd($this->contratosUsuario);
-        // Se validan con las reglas
+        // Validar los datos
         $datos = $this->validate();
 
-        // Se actualiza el usuario
-        $this->usuario->update([
+        // Preparar los datos para actualizar
+        $datosActualizar = [
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
             'rfc' => $datos['rfc'],
             'email' => $datos['email'],
-        ]);
+        ];
+
+        // Si se proporciona una nueva contraseña, se encripta y se incluye
+        if (!empty($datos['password'])) {
+            $datosActualizar['password'] = bcrypt($datos['password']);
+        }
+
+        // Se actualiza el usuario
+        $this->usuario->update($datosActualizar);
 
         // Actualizar tabla intermedia
         $this->usuario->contratos()->sync($datos['contratosUsuario']);
 
-        // se dispara un evento
+        // Disparar eventos
         $this->dispatch('refreshDatatable');
-
-        // Se dispara un evento para notificar la acción exitosa
         $this->dispatch('exito');  
-
-        // Se cierra el modal
         $this->closeModal();
     }
 

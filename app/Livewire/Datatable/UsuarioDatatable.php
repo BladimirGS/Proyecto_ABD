@@ -129,7 +129,9 @@ class UsuarioDatatable extends DataTableComponent
     
     public function builder(): Builder
     {
-        return User::query();
+        return User::query()
+            ->where('nombre', '!=', 'Super Usuario')
+            ->orderBy('id');;
     }
 
     #[On('eliminar-usuario')]

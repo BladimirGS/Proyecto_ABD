@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Profile;
 
+use App\Models\User;
 use App\Models\Contrato;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
@@ -20,40 +21,69 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Actualiza la información del perfil del usuario
     public function update(Request $request)
     {
         $user = Auth::user();
+        $user = User::find($user->id);
 
-        // Validación de los datos del formulario
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'genero' => 'required|string|in:Hombre,Mujer,Otro',
-            'edad' => 'required|integer|min:1',
-            'rfc' => 'required|string|max:13',
-            'grado_estudio' => 'required|string|in:Primaria,Secundaria,Bachillerato,Licenciatura,Maestría,Doctorado,Otro',
-            'telefono' => 'required|string|max:15',
+
+        // Reglas de validación básicas
+        $rules = [
+            'apellido' => 'nullable|string|max:255',
+            'genero' => 'nullable|string|in:Hombre,Mujer,Otro',
+            'edad' => 'nullable|integer|min:1',
+            'rfc' => 'nullable|string|max:13',
+            'grado_estudio' => 'nullable|string|in:Primaria,Secundaria,Bachillerato,Licenciatura,Maestría,Doctorado,Otro',
+            'telefono' => 'nullable|string|max:15',
             'placa' => 'nullable|string|max:10',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string',
-        ]);
+        ];
 
-        // Actualiza los datos del usuario
-        $user->update([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'genero' => $request->genero,
-            'edad' => $request->edad,
-            'rfc' => $request->rfc,
-            'grado_estudio' => $request->grado_estudio,
-            'telefono' => $request->telefono,
-            'placa' => $request->placa,
-            'email' => $request->email,
-            'password' => $request->password ? Hash::make($request->password) : $user->password,
-        ]);
+        // Solo validar "nombre" si NO es Super Usuario
+        if ($user->nombre !== 'Super Usuario') {
+            $rules['nombre'] = 'required|string|max:255';
+        }
 
-        return redirect()->route('docentes.index')->with('success', 'Perfil actualizado con éxito');
+        // Validar solicitud
+        $validated = $request->validate($rules);
+
+        // Preparar datos a actualizar
+        $data = [
+            'apellido' => $validated['apellido'] ?? null,
+            'genero' => $validated['genero'] ?? null,
+            'edad' => $validated['edad'] ?? null,
+            'rfc' => $validated['rfc'] ?? null,
+            'grado_estudio' => $validated['grado_estudio'] ?? null,
+            'telefono' => $validated['telefono'] ?? null,
+            'placa' => $validated['placa'] ?? null,
+            'email' => $validated['email'],
+        ];
+
+        // Si se proporcionó una nueva contraseña, se encripta
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
+        }
+
+        // Si NO es Super Usuario, se permite actualizar el nombre
+        if ($user->nombre !== 'Super Usuario') {
+            $data['nombre'] = $validated['nombre'];
+        }
+
+        // Actualizar el usuario
+        $user->update($data);
+
+        // Redirección condicional según permisos
+        if (Gate::allows('admin.index')) {
+            return redirect()->route('admin.index')->with('status', 'Operación exitosa');
+        }
+
+        if (Gate::allows('docentes.index')) {
+            return redirect()->route('docentes.index')->with('status', 'Operación exitosa');
+        }
+
+        // Si no tiene permisos
+        abort(403, 'No tiene permisos para acceder a esta sección.');
     }
 
     public function show(User $usuario)

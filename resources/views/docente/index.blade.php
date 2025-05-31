@@ -22,4 +22,16 @@
             <h2 class="text-2xl font-bold">No hay grupos registrados</h2>
         @endforelse
     </div>
+
+@push('scripts')
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('status'))
+            Livewire.dispatch('exito');
+            @endif
+        });
+    </script>
+@endpush
 </x-app-layout>

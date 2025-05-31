@@ -97,7 +97,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Agregando super administrador
         $user = User::create([
-            'nombre' => 'Super Administrador',
+            'nombre' => 'Super Usuario',
             'email' => 'admin@correo.com',
             'password' => Hash::make('password'),
         ]);

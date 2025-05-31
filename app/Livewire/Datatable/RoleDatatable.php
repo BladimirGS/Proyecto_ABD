@@ -32,8 +32,8 @@ class RoleDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
-                ->sortable(),
+            // Column::make("Id", "id")
+            //     ->sortable(),
             ComponentColumn::make("Nombre", "name")
                 ->component('break-normal')
                 ->sortable()
@@ -58,7 +58,9 @@ class RoleDatatable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Role::query();
+        return Role::query()
+            ->where('name', '!=', 'Super Usuario')
+            ->orderBy('id');
     }
 
     #[On('eliminar-role')]

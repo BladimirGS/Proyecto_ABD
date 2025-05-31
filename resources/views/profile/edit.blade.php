@@ -15,7 +15,8 @@
                         name="nombre"
                         value="{{ old('nombre', $usuario->nombre) }}"
                         placeholder="Nombre del usuario"
-                    />
+                        :readonly="$usuario->nombre === 'Super Usuario'"
+                    />  
                     <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
                 </div>
 
@@ -41,7 +42,7 @@
                         name="genero"
                         class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
-                        <option value="" disabled>Género del usuario</option>
+                        <option value="" disabled {{ old('genero', $usuario->genero) ? '' : 'selected' }}>Género del usuario</option>
                         <option value="Hombre" {{ old('genero', $usuario->genero) == 'Hombre' ? 'selected' : '' }}>Hombre</option>
                         <option value="Mujer" {{ old('genero', $usuario->genero) == 'Mujer' ? 'selected' : '' }}>Mujer</option>
                         <option value="Otro" {{ old('genero', $usuario->genero) == 'Otro' ? 'selected' : '' }}>Otro</option>
@@ -84,7 +85,7 @@
                         name="grado_estudio"
                         class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
-                        <option value="" disabled>Último grado de estudio</option>
+                        <option value="" disabled {{ old('genero', $usuario->genero) ? '' : 'selected' }}>Último grado de estudio</option>
                         <option value="Primaria" {{ old('grado_estudio', $usuario->grado_estudio) == 'Primaria' ? 'selected' : '' }}>Primaria</option>
                         <option value="Secundaria" {{ old('grado_estudio', $usuario->grado_estudio) == 'Secundaria' ? 'selected' : '' }}>Secundaria</option>
                         <option value="Bachillerato" {{ old('grado_estudio', $usuario->grado_estudio) == 'Bachillerato' ? 'selected' : '' }}>Bachillerato</option>
