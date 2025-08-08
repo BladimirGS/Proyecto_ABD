@@ -1,6 +1,6 @@
 <x-app-layout>
     <h1 class="font-bold text-2xl text-center uppercase">
-        {{ $grupo->clave . " - " . ($grupo->materia->nombre ?? 'Nombre Desconocido') }}
+        {{ $grupoUser->grupo->clave }} - {{ $grupoUser->grupo->materia->nombre ?? "Desconocido" }}
     </h1>
 
     <div class="py-12 sm:px-6 lg:px-8">
@@ -82,7 +82,7 @@
                 </div>
                 @if ($actividad->activo)
                     <div class="text-center">
-                        <form action="{{ route('docente.grupo.actividades.subir', ['grupo' => $grupo->id, 'actividad' => $actividad->id]) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('docente.grupo.actividades.subir', ['grupoUser' => $grupoUser->id, 'actividad' => $actividad->id]) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <livewire:dropzone
                                 {{-- El name interno es name="archivo" --}}
@@ -93,7 +93,7 @@
                             <x-input-error :messages="$errors->get('archivo')" class="mt-2" />
                                 
                             <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
-                                <x-link href="{{ route('docente.grupo.actividades.index', $grupo->id) }}" color="red" class="w-full md:w-auto">
+                                <x-link href="{{ route('docente.grupo.actividades.index', $grupoUser->id) }}" color="red" class="w-full md:w-auto">
                                     Cancelar
                                 </x-link>
                                 

@@ -12,17 +12,17 @@ class Grupo extends Model
     protected $fillable = [
         'clave',
         'semestre',
-        'user_id',
         'carrera_id',
         'materia_id',
-        'periodo_id',
         'color',
     ];
 
-    public function user()
+    public function usuarios()
     {
-        return $this->belongsTo(User::class);
-    }
+        return $this->belongsToMany(User::class, 'grupo_user')
+                    ->withPivot('periodo_id')
+                    ->withTimestamps();
+    }    
 
     public function carrera()
     {

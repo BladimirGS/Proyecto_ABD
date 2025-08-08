@@ -17,6 +17,7 @@ use App\Http\Controllers\Docente\DocenteController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Admin\UsuarioRoleController;
 use App\Http\Controllers\Jefe\JefeDocenciaController;
+use App\Http\Controllers\Admin\UsuarioGrupoController;
 use App\Http\Controllers\Docente\DocenteGrupoController;
 use App\Http\Controllers\Docente\DocenteGrupoActividadController;
 
@@ -42,7 +43,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/materias', MateriaController::class)->middleware('can:materias.index')->name('materias.index');
     Route::get('/periodos', PeriodoController::class)->middleware('can:periodos.index')->name('periodos.index');
     Route::get('/actividades', ActividadController::class)->middleware('can:actividades.index')->name('actividades.index');
+    Route::get('/grupos/usuarios', [UsuarioGrupoController::class, 'index'])->name('grupos.usuarios.index');
     Route::resource('/grupos', GrupoController::class)->except('destroy')->names('grupos');
+
+    // Asignar grupos a usuarios 
+    Route::get('/grupos/usuarios/importar', [UsuarioGrupoController::class, 'formImportar'])->name('grupos.usuarios.formImportar');
+    Route::post('/grupos/usuarios/importar', [UsuarioGrupoController::class, 'importarExcel'])->name('grupos.usuarios.importarExcel');
 
     // Ver los archivos subidos
     Route::get('/archivos', [ArchivoController::class, 'index'])->middleware('can:archivos.index')->name('archivos.index');
@@ -60,12 +66,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Grupos del docente
     Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->middleware('can:docentes.index')->name('docente.grupos.index');
-    Route::get('/docente/grupos/{grupo}', [DocenteGrupoController::class, 'show'])->middleware('can:docentes.index')->name('docente.grupos.show');
+    Route::get('/docente/grupos/{grupoUser}', [DocenteGrupoController::class, 'show'])->middleware('can:docentes.index')->name('docente.grupos.show');
 
     // Rutas para actividades del grupo del docente
-    Route::get('/docente/grupos/{grupo}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
-    Route::get('/docente/grupos/{grupo}/actividades/{actividad}', [DocenteGrupoActividadController::class, 'show'])->name('docente.grupo.actividades.show');
-    Route::post('/docente/grupos/{grupo}/actividades/{actividad}/subir/', [DocenteGrupoActividadController::class, 'subir'])->name('docente.grupo.actividades.subir');
+    Route::get('/docente/grupo/{grupoUser}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');
+    Route::get('/docente/grupo/{grupoUser}/actividades/{actividad}', [DocenteGrupoActividadController::class, 'show'])->name('docente.grupo.actividades.show');
+    Route::post('/docente/grupo/{grupoUser}/actividades/{actividad}/subir', [DocenteGrupoActividadController::class, 'subir'])->name('docente.grupo.actividades.subir');
 
     // Gestion de roels
     Route::resource('roles', RoleController::class)->except(['show', 'destroy'])->names('roles');

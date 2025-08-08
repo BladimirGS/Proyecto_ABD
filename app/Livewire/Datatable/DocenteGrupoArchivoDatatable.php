@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Datatable;
 
-use App\Models\Grupo;
 use App\Models\Archivo;
-use Illuminate\Support\Facades\Storage;
+use App\Models\GrupoUser;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -13,7 +12,7 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 
 class DocenteGrupoArchivoDatatable extends DataTableComponent
 {
-    public Grupo $grupo;
+    public GrupoUser $grupoUser;
     
     public ?int $searchFilterDebounce = 600;
 
@@ -27,14 +26,14 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Grupo", "grupo.clave")
+            Column::make("Grupo", "grupoUser.grupo.clave")
                 ->sortable()
                 ->searchable(),
-            Column::make("grupo_id", "grupo.id")
+            Column::make("grupo_id", "grupoUser.grupo.id")
                 ->hideIf(true)
                 ->sortable()
                 ->searchable(),
-            Column::make("Periodo", "grupo.periodo.nombre")
+            Column::make("Periodo", "grupoUser.periodo.nombre")
                 ->sortable()
                 ->searchable(),
             ComponentColumn::make("Archivo", "nombre")
@@ -57,19 +56,23 @@ class DocenteGrupoArchivoDatatable extends DataTableComponent
             Column::make('Descargar')
                 ->unclickable()
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
-                            [
-                                'IrArchivo' => route('docente.grupo.actividades.show', [$row['grupo.id'], $row['actividad.id']]),
-                                'verArchivo' => 'verArchivo(' . $row->id . ')'
-                            ]
-                        )
+                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with([
+                        'IrArchivo' => route('docente.grupo.actividades.show', [
+                            1,
+                            1
+                        ]),
+                        'verArchivo' => 'verArchivo(' . $row->id . ')'
+                    ])
                 )->html(),
+
         ];
     }
     
     public function builder(): Builder
     {
-        return Archivo::query()->where('grupo_id', $this->grupo->id);
+        return Archivo::query()
+            ->with(['grupoUser.grupo.periodo', 'actividad'])
+            ->where('grupo_user_id', $this->grupoUser->id);
     }
 
     public function verArchivo(Archivo $file)

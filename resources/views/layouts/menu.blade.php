@@ -1,7 +1,7 @@
 <div id="sideMenuBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
 <div id="sideMenu"
-    class="fixed top-0 left-0 h-full w-64 bg-gray-100 shadow-lg z-50 transform transition-transform duration-300 ease-in-out -translate-x-full overflow-y-auto max-h-screen">
+    class="fixed top-0 left-0 h-full w-72 bg-gray-100 shadow-lg z-50 transform transition-transform duration-300 ease-in-out -translate-x-full overflow-y-auto max-h-screen">
     <div class="p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold text-gray-800">Menú</h2>
@@ -100,12 +100,30 @@
                 @endcan
 
                 @can('grupos.index')
-                <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')">
+                <x-nav-button id="GrupoButton" :href="route('grupos.index')" :active="request()->routeIs(['grupos.index', 'grupos.usuarios.index'])">
                     <img src="{{ asset('svg/grupo.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Grupos</span>
-                </x-nav-link>
+                    <div class="ml-1">
+                        <svg class="fill-current h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"  id="dropdown">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>                    
+                </x-nav-button>
                 @endcan
+
+                <ul id="GrupoMenu" class="hidden space-y-1">
+                    <li class="relative">
+                        <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')" class="pl-8">
+                            <span>Administrar Grupo</span>
+                        </x-nav-link>
+                    </li>
+                    <li class="relative">
+                        <x-nav-link :href="route('grupos.usuarios.index')" :active="request()->routeIs('grupos.usuarios.index')" class="pl-8">
+                            <span>Asignar Grupos</span>
+                        </x-nav-link>
+                    </li>
+                </ul>
 
                 @can('archivos.index')
                 <x-nav-link :href="route('archivos.index')" :active="request()->routeIs('archivos.index')">
@@ -195,4 +213,5 @@
 
     toggleMenu('RolesButton', 'RolesMenu');
     toggleMenu('AdminButton', 'AdminMenu');
+    toggleMenu('GrupoButton', 'GrupoMenu');
 </script>

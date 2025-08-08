@@ -129,6 +129,23 @@
                 >Eliminar</x-button>
             @endisset
         @endcan
+
+        @can('grupos.usuarios.show')
+            @isset($VerGrupos)
+                <x-button
+                    wire:click="{{ $VerGrupos }}"
+                    color="amber"
+                >Ver</x-button>
+            @endisset
+        @endcan   
+
+        @can('grupos.usuarios.assign')
+            @isset($AsignarGrupos)
+                <x-button
+                    wire:click="{{ $AsignarGrupos }}"
+                >Asignar</x-button>
+            @endisset
+        @endcan
         
         @can('Roles.show')
             @isset($MostarRole)

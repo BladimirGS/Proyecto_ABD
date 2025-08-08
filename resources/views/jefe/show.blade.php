@@ -1,9 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">
-            {{ $grupo->clave . " - " . ($grupo->materia->nombre ?? 'Nombre Desconocido') }}
-        </h2>
-    </x-slot>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        {{ $grupoUser->grupo->clave }} - {{ $grupoUser->grupo->materia->nombre ?? "Desconocido" }}
+    </h1>
 
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 mx-auto">
@@ -121,7 +119,7 @@
                     </table>
                 </div>
                 <div class="text-center">
-                    <form action="{{ route('docente.grupo.actividades.subir', ['grupo' => $grupo->id, 'actividad' => $actividad->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('docente.grupo.actividades.subir', ['grupoUser' => $grupoUser->id, 'actividad' => $actividad->id]) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <livewire:dropzone
                             {{-- El name interno es name="archivo" --}}

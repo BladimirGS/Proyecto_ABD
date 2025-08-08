@@ -33,19 +33,6 @@
                         />
                         <x-input-error :messages="$errors->get('semestre')" class="mt-2" />
                     </div>
-            
-                    <div class="mt-5">
-                        <x-input-label for="user_id" value="Docente" />
-        
-                        <select name="user_id" id="user_id" class="selectUsers">
-                            <option></option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ $grupo->user_id == $user->id ? 'selected' : '' }}>{{ $user->nombre }}</option>
-                            @endforeach
-                        </select>
-
-                        <x-input-error :messages="$errors->get('user_id')" class="mt-2" />
-                    </div>
 
                     <div class="mt-5">
                         <x-input-label for="carrera_id" value="Carrera" />
@@ -72,19 +59,6 @@
 
                         <x-input-error :messages="$errors->get('materia_id')" class="mt-2" />
                     </div>
-
-                    <div class="mt-5">
-                        <x-input-label for="periodo_id" value="Periodo" />
-    
-                        <select name="periodo_id" id="periodo_id" class="selectPeriodos">
-                            <option></option>
-                            @foreach ($periodos as $periodo)
-                                <option value="{{ $periodo->id }}" {{ $grupo->periodo_id == $periodo->id ? 'selected' : '' }}>{{ $periodo->nombre }}</option>
-                            @endforeach
-                        </select>
-                    
-                        <x-input-error :messages="$errors->get('periodo_id')" class="mt-2" />
-                    </div>
             
                     <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
                         <x-link href="{{ route('grupos.index') }}" color="red" class="w-full md:w-auto">
@@ -103,32 +77,25 @@
     
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    @vite('resources/css/index.css')
 @endpush
 
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script>
-        
-        $(document).ready(function() {
-            $('.selectUsers').select2({
-                placeholder: 'seleccione uno'
-            });
+<script>
+    $(document).ready(function() {
+        $('.selectCarreras').select2({
+            placeholder: 'seleccione uno'
+        });
 
-            $('.selectCarreras').select2({
-                placeholder: 'seleccione uno'
-            });
-
-            $('.selectMaterias').select2({
-                placeholder: 'seleccione uno'
-            });
-            
-            $('.selectPeriodos').select2({
-                placeholder: 'seleccione uno'
-            });
-        })
-    </script>   
+        $('.selectMaterias').select2({
+            placeholder: 'seleccione uno'
+        });
+    })
+</script>   
 @endpush
 </x-app-layout>
 

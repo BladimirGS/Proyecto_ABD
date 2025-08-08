@@ -13,14 +13,14 @@ class Archivo extends Model
         'nombre', 
         'documento',
         'fecha',
-        'grupo_id',
+        'grupo_user_id',
         'actividad_id',
         'estado'
     ];
 
-    public function grupo()
+    public function grupoUser()
     {
-        return $this->belongsTo(Grupo::class);
+        return $this->belongsTo(GrupoUser::class, 'grupo_user_id');
     }
     
     public function actividad()

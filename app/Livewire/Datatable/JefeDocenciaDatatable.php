@@ -27,13 +27,13 @@ class JefeDocenciaDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Grupo", "grupo.clave")
+            Column::make("Grupo", "grupoUser.grupo.clave")
                 ->sortable()
                 ->searchable(),
-            Column::make("Periodo", "grupo.periodo.nombre")
+            Column::make("Periodo", "grupoUser.periodo.nombre")
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Docente", "grupo.user.nombre")
+            ComponentColumn::make("Docente", "grupoUser.user.nombre")
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),

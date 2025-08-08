@@ -48,7 +48,7 @@
                         </div>
                         <div class="mt-5 lg:mt-0">
                             <a href="{{ route('docente.grupo.actividades.show', [
-                                'grupo' => $notificacion->data['id_grupo'],
+                                'grupoUser' => $notificacion->data['id_grupo'],
                                 'actividad' => $notificacion->data['id_actividad']
                             ]) }}" class="bg-gray-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
                                 Ver revisión

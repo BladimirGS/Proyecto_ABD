@@ -28,10 +28,7 @@ class CrearActividad extends ModalComponent
     {
         $datos = $this->validate();
     
-        $actividad = Actividad::create($datos);
-    
-        $grupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
-        $actividad->grupos()->attach($grupos->pluck('id'));
+        Actividad::create($datos);
     
         $this->dispatch('refreshDatatable');
 

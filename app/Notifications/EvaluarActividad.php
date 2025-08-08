@@ -25,9 +25,9 @@ class EvaluarActividad extends Notification
     {
         $this->id_archivo = $archivo->id;
         $this->id_actividad = $archivo->actividad_id;
-        $this->id_grupo = $archivo->grupo_id;
+        $this->id_grupo = $archivo->grupo_user_id;
         $this->nombre_actividad = $archivo->actividad->nombre; 
-        $this->clave_grupo = $archivo->grupo->clave;
+        $this->clave_grupo = $archivo->grupoUser->grupo->clave;
     }
 
     /**

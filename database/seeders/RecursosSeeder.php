@@ -65,11 +65,11 @@ class RecursosSeeder extends Seeder
 
         // Periodos
         $periodos = [
-            ['nombre' => '2022\'A', 'fecha_inicio' => '2022-01-01', 'fecha_fin' => '2022-06-30'],
-            ['nombre' => '2022\'B', 'fecha_inicio' => '2022-07-01', 'fecha_fin' => '2022-12-31'],
-            ['nombre' => '2023\'A', 'fecha_inicio' => '2023-01-01', 'fecha_fin' => '2023-06-30'],
-            ['nombre' => '2023\'B', 'fecha_inicio' => '2023-07-01', 'fecha_fin' => '2023-12-31'],
-            ['nombre' => '2024\'A', 'fecha_inicio' => '2024-01-01', 'fecha_fin' => '2024-06-30'],
+        //     ['nombre' => '2022\'A', 'fecha_inicio' => '2022-01-01', 'fecha_fin' => '2022-06-30'],
+        //     ['nombre' => '2022\'B', 'fecha_inicio' => '2022-07-01', 'fecha_fin' => '2022-12-31'],
+        //     ['nombre' => '2023\'A', 'fecha_inicio' => '2023-01-01', 'fecha_fin' => '2023-06-30'],
+        //     ['nombre' => '2023\'B', 'fecha_inicio' => '2023-07-01', 'fecha_fin' => '2023-12-31'],
+        //     ['nombre' => '2024\'A', 'fecha_inicio' => '2024-01-01', 'fecha_fin' => '2024-06-30'],
             ['nombre' => '2024\'B', 'fecha_inicio' => '2024-07-01', 'fecha_fin' => '2024-12-31'],
         ];
 
@@ -78,17 +78,17 @@ class RecursosSeeder extends Seeder
 
         // Actividades
         $actividades = [
-            ['nombre' => 'Temario', 'fecha' => '2023-01-10', 'periodo_id' => 5],
-            ['nombre' => 'Reporte Inicio de Semestre', 'fecha' => '2023-01-15', 'periodo_id' => 5],
-            ['nombre' => 'Reporte Intermedio', 'fecha' => '2023-03-15', 'periodo_id' => 5],
-            ['nombre' => 'Reporte Final', 'fecha' => '2023-06-15', 'periodo_id' => 5],
-            ['nombre' => 'Acta de Calificación', 'fecha' => '2023-06-20', 'periodo_id' => 5],
+            ['nombre' => 'Temario', 'fecha' => '2023-01-10', 'periodo_id' => 1],
+            ['nombre' => 'Reporte Inicio de Semestre', 'fecha' => '2023-01-15', 'periodo_id' => 1],
+            ['nombre' => 'Reporte Intermedio', 'fecha' => '2023-03-15', 'periodo_id' => 1],
+            ['nombre' => 'Reporte Final', 'fecha' => '2023-06-15', 'periodo_id' => 1],
+            ['nombre' => 'Acta de Calificación', 'fecha' => '2023-06-20', 'periodo_id' => 1],
             
-            ['nombre' => 'Temario', 'fecha' => '2024-01-10', 'periodo_id' => 6],
-            ['nombre' => 'Reporte Inicio de Semestre', 'fecha' => '2024-01-15', 'periodo_id' => 6],
-            ['nombre' => 'Reporte Intermedio', 'fecha' => '2024-03-15', 'periodo_id' => 6],
-            ['nombre' => 'Reporte Final', 'fecha' => '2024-06-15', 'periodo_id' => 6],
-            ['nombre' => 'Acta de Calificación', 'fecha' => '2024-06-20', 'periodo_id' => 6],
+            // ['nombre' => 'Temario', 'fecha' => '2024-01-10', 'periodo_id' => 6],
+            // ['nombre' => 'Reporte Inicio de Semestre', 'fecha' => '2024-01-15', 'periodo_id' => 6],
+            // ['nombre' => 'Reporte Intermedio', 'fecha' => '2024-03-15', 'periodo_id' => 6],
+            // ['nombre' => 'Reporte Final', 'fecha' => '2024-06-15', 'periodo_id' => 6],
+            // ['nombre' => 'Acta de Calificación', 'fecha' => '2024-06-20', 'periodo_id' => 6],
             // Añade más actividades según sea necesario
         ];
 

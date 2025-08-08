@@ -7,7 +7,6 @@ use App\Models\Archivo;
 use App\Models\Actividad;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Notifications\EvaluarActividad;
 use Illuminate\Support\Facades\Storage;
@@ -25,9 +24,9 @@ class ArchivoController extends Controller
 
     public function show(Archivo $archivo)
     {
-        $grupo = Grupo::find($archivo->grupo_id);
+        $grupo = Grupo::find($archivo->grupo_user_id);
         $actividad = Actividad::find($archivo->actividad_id);
-        $comentario = Comentario::where('grupo_id', $grupo->id)
+        $comentario = Comentario::where('grupo_user_id', $grupo->id)
                                 ->where('actividad_id', $actividad->id)
                                 ->first(); // Cambiado a first()
     
@@ -50,7 +49,7 @@ class ArchivoController extends Controller
         if (!empty($datos['comentario'])) {
             Comentario::updateOrCreate(
                 [
-                    'grupo_id' => $archivo->grupo_id,
+                    'grupo_user_id' => $archivo->grupo_user_id,
                     'actividad_id' => $archivo->actividad_id,
                 ],
                 [
@@ -62,7 +61,7 @@ class ArchivoController extends Controller
         // Actualizar el estado del archivo
         $archivo->update(['estado' => $datos['estado']]);
 
-        $archivo->grupo->user->notify(new EvaluarActividad($archivo));
+        $archivo->grupoUser->user->notify(new EvaluarActividad($archivo));
     
         return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
     }

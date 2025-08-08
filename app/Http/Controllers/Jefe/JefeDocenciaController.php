@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Jefe;
 use App\Models\Grupo;
 use App\Models\Archivo;
 use App\Models\Actividad;
+use App\Models\GrupoUser;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,21 +20,24 @@ class JefeDocenciaController extends Controller
     }
 
     
-    public function show(Archivo $archivo)
-    {
-        $grupo = Grupo::find($archivo->grupo_id);
-        $actividad = Actividad::find($archivo->actividad_id);
-        $comentario = Comentario::where('grupo_id', $grupo->id)
-                                ->where('actividad_id', $actividad->id)
-                                ->first();
-    
-        return view('jefe.show', [
-            'grupo' => $grupo,
-            'actividad' => $actividad,
-            'archivo' => $archivo,
-            'comentario' => $comentario
-        ]);
-    }
+public function show(Archivo $archivo)
+{
+    // Obtenemos el modelo GrupoUser
+    $grupoUser = $archivo->grupoUser()->with('grupo', 'user')->firstOrFail();
+
+    $actividad = Actividad::findOrFail($archivo->actividad_id);
+
+    $comentario = Comentario::where('grupo_user_id', $grupoUser->id)
+                            ->where('actividad_id', $actividad->id)
+                            ->first();
+
+    return view('jefe.show', [
+        'grupoUser' => $grupoUser,
+        'actividad' => $actividad,
+        'archivo' => $archivo,
+        'comentario' => $comentario
+    ]);
+}
 
     public function evaluar(Archivo $archivo, Request $request)
     {
@@ -46,7 +50,7 @@ class JefeDocenciaController extends Controller
         if (!empty($datos['comentario'])) {
             Comentario::updateOrCreate(
                 [
-                    'grupo_id' => $archivo->grupo_id,
+                    'grupo_user_id' => $archivo->grupo_user_id,
                     'actividad_id' => $archivo->actividad_id,
                 ],
                 [

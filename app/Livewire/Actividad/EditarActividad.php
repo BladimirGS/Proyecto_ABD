@@ -39,14 +39,7 @@ class EditarActividad extends ModalComponent
     public function EditarActividad()
     {
         $datos = $this->validate();
-    
-        if ($this->actividad->periodo_id != $datos['periodo_id']) {
-            $this->actividad->grupos()->where('periodo_id', '!=', $datos['periodo_id'])->detach();
-    
-            $nuevosGrupos = Grupo::where('periodo_id', $datos['periodo_id'])->get();
-            $this->actividad->grupos()->syncWithoutDetaching($nuevosGrupos->pluck('id'));
-        }
-    
+
         $this->actividad->update($datos);
     
         $this->dispatch('refreshDatatable');

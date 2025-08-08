@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('comentario');
             $table->date('fecha')->default(now());
-            $table->foreignId('grupo_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('grupo_user_id')->constrained('grupo_user')->cascadeOnDelete();
             $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();
             $table->timestamps();
         });

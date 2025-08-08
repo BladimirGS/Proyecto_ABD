@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->date('fecha')->default(now());
             $table->string('documento');
-            $table->foreignId('grupo_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('grupo_user_id')->constrained('grupo_user')->cascadeOnDelete();
             $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();
             $table->string('estado')->nullable()->default('Pendiente');
             $table->timestamps();

@@ -40,4 +40,10 @@
             <x-link color="green" class="w-full" href="{{ $CrearRole }}">Nuevo</x-link>
         @endisset
     @endcan
+
+    @can('grupos.create')
+        @isset($ImportarGrupo)
+            <x-link color="green" class="w-full" href="{{ $ImportarGrupo }}">Importar</x-link>
+        @endisset
+    @endcan
 </div>

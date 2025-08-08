@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Docente;
 
+use App\Models\User;
 use App\Models\Grupo;
 use App\Models\Archivo;
+use App\Models\Periodo;
 use App\Models\Actividad;
+use App\Models\GrupoUser;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,100 +20,105 @@ class DocenteGrupoActividadController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Grupo $grupo)
+    public function index(GrupoUser $grupoUser)
     {
-        // Verificar si el grupo pertenece al usuario autenticado
-        if ($grupo->user_id !== Auth::user()->id) {
+        if ($grupoUser->user_id !== auth()->id()) {
             return redirect()->route('docentes.index');
         }
-        
+
         return view('docente.grupo.actividad.index', [
-            'grupo' => $grupo, 
-            'actividades' => Actividad::where('periodo_id', $grupo->periodo_id)->get()
+            'grupoUser' => $grupoUser,
+            'grupo' => $grupoUser->grupo,
+            'actividades' => Actividad::where('periodo_id', $grupoUser->periodo_id)->get(),
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Grupo $grupo, Actividad $actividad)
+    public function show(GrupoUser $grupoUser, Actividad $actividad)
     {
-        // Verificar si el grupo pertenece al usuario autenticado
-        if ($grupo->user_id !== Auth::user()->id) {
+        if ($grupoUser->user_id !== auth()->id()) {
             return redirect()->route('docentes.index');
         }
-        
-        $archivoExistente = Archivo::where('grupo_id', $grupo->id)
+
+        $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
             ->where('actividad_id', $actividad->id)
             ->first();
 
-        $comentario = Comentario::where('grupo_id', $grupo->id)
+        $comentario = Comentario::where('grupo_user_id', $grupoUser->id)
             ->where('actividad_id', $actividad->id)
             ->first();
 
-        return view('docente.grupo.actividad.show', compact('grupo', 'actividad', 'archivoExistente', 'comentario'));
+        return view('docente.grupo.actividad.show', compact('grupoUser', 'actividad', 'archivoExistente', 'comentario'));
     }
 
-    public function subir(Request $request, Grupo $grupo, Actividad $actividad)
+    public function subir(Request $request, GrupoUser $grupoUser, Actividad $actividad)
     {
         $request->validate([
             'archivo' => 'required|file|mimes:pdf,doc,docx|max:20840',
         ]);
-    
+
         DB::beginTransaction();
-    
+
         try {
+            if (!$grupoUser) {
+                return redirect()->back()->withErrors('No se encontró la relación grupo-usuario.');
+            }
+
+            $grupo = Grupo::findOrFail($grupoUser->grupo_id);
+            $usuario = $grupoUser->user;
+            $periodo = $grupoUser->periodo;
+
             $archivo = $request->file('archivo');
-    
-            // Generar el nombre del directorio
-            $carpetaUsuario = $grupo->user->nombre . '_' . $grupo->user->apellido;
-            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', $carpetaUsuario); // Normaliza caracteres no válidos
-            $grupoPeriodo = $grupo->clave . '_' . $grupo->periodo->nombre;
-            $grupoPeriodo = str_replace([' ', '/', '\\'], '_', $grupoPeriodo); // Normaliza caracteres no válidos
+
+            // Crear ruta del directorio
+            $carpetaUsuario = $usuario->nombre . '_' . $usuario->apellido;
+            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', $carpetaUsuario);
+            $grupoPeriodo = $grupo->clave . '_' . $periodo->nombre;
+            $grupoPeriodo = str_replace([' ', '/', '\\'], '_', $grupoPeriodo);
             $directorio = 'archivos/' . $carpetaUsuario . '/' . $grupoPeriodo;
-    
-            // Subir el nuevo archivo
+
+            // Subir archivo
             $documento = Storage::put($directorio, $archivo);
-    
-            // Actualizar o crear el registro en la base de datos
-            $archivoExistente = Archivo::where('grupo_id', $grupo->id)
+
+            // Verificar si ya existe un archivo para este grupoUser y actividad
+            $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
                 ->where('actividad_id', $actividad->id)
                 ->first();
-    
+
             if ($archivoExistente) {
-                // Eliminar el archivo físico si existe
+                // Eliminar archivo anterior
                 if (Storage::exists($archivoExistente->documento)) {
                     Storage::delete($archivoExistente->documento);
                 }
-    
-                // Actualizar el registro existente
+
                 $archivoExistente->update([
                     'nombre' => $archivo->getClientOriginalName(),
                     'fecha' => now()->setTimezone(config('app.timezone')),
                     'documento' => $documento,
                 ]);
             } else {
-                // Crear un nuevo registro
                 Archivo::create([
                     'nombre' => $archivo->getClientOriginalName(),
                     'fecha' => now()->setTimezone(config('app.timezone')),
                     'documento' => $documento,
-                    'grupo_id' => $grupo->id,
+                    'grupo_user_id' => $grupoUser->id,
                     'actividad_id' => $actividad->id,
                 ]);
             }
-    
+
             DB::commit();
-    
+
             return redirect()
                 ->back()
                 ->with('status', 'Operación exitosa');
         } catch (\Exception $e) {
             DB::rollBack();
-    
+
             return redirect()
                 ->back()
-                ->withErrors('Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.');
+                ->withErrors('Ocurrió un error al subir el archivo: ' . $e->getMessage());
         }
     }
 }

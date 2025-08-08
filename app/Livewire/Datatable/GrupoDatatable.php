@@ -18,16 +18,16 @@ class GrupoDatatable extends DataTableComponent
 
     public ?int $searchFilterDebounce = 600;
 
-    public function mount()
-    {
-        // Obtener el último periodo
-        $ultimoPeriodo = Periodo::latest('nombre')->first();
+    // public function mount()
+    // {
+    //     // Obtener el último periodo
+    //     $ultimoPeriodo = Periodo::latest('nombre')->first();
     
-        // Verificar si hay algún período antes de aplicar el filtro
-        if ($ultimoPeriodo) {
-            $this->setFilter('periodos', [$ultimoPeriodo->id]);
-        }
-    }
+    //     // Verificar si hay algún período antes de aplicar el filtro
+    //     if ($ultimoPeriodo) {
+    //         $this->setFilter('periodos', [$ultimoPeriodo->id]);
+    //     }
+    // }
 
     public function configure(): void
     {
@@ -48,19 +48,12 @@ class GrupoDatatable extends DataTableComponent
             Column::make("Clave", "clave")
                 ->sortable()
                 ->searchable(),
-            ComponentColumn::make("Usuario", "user.nombre")
-                ->component('break-normal')
-                ->sortable()
-                ->searchable(),
             ComponentColumn::make("Carrera", "carrera.nombre")
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
             ComponentColumn::make("Materia", "materia.nombre")
                 ->component('break-normal')
-                ->sortable()
-                ->searchable(),
-            Column::make("Periodo", "periodo.nombre")
                 ->sortable()
                 ->searchable(),
             Column::make('Acciones')
@@ -77,22 +70,22 @@ class GrupoDatatable extends DataTableComponent
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            MultiSelectFilter::make('Periodos')
-                ->options(
-                    Periodo::query()
-                        ->orderBy('nombre', 'desc')
-                        ->get()
-                        ->keyBy('id')
-                        ->map(fn ($periodo) => $periodo->nombre)
-                        ->toArray()
-                )->filter(function (Builder $builder, array $values) {
-                    $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
-                }),
-        ];
-    }
+    // public function filters(): array
+    // {
+    //     return [
+    //         MultiSelectFilter::make('Periodos')
+    //             ->options(
+    //                 Periodo::query()
+    //                     ->orderBy('nombre', 'desc')
+    //                     ->get()
+    //                     ->keyBy('id')
+    //                     ->map(fn ($periodo) => $periodo->nombre)
+    //                     ->toArray()
+    //             )->filter(function (Builder $builder, array $values) {
+    //                 $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
+    //             }),
+    //     ];
+    // }
 
     public function builder(): Builder
     {

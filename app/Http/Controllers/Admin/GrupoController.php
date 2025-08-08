@@ -35,10 +35,10 @@ class GrupoController extends Controller
     public function create()
     {
         return view('admin.grupo.create', [
-            'users' => User::all(),
+            // 'users' => User::all(),
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
-            'periodos' => Periodo::where('activo', true)->get(),
+            // 'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -50,10 +50,10 @@ class GrupoController extends Controller
         $datos = $this->validate($request, [
             'clave' => 'required',
             'semestre' => 'required',
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'carrera_id' => 'required',
             'materia_id' => 'required',
-            'periodo_id' => 'required',
+            // 'periodo_id' => 'required',
         ]);
     
         // Obtener un color aleatorio de la lista de colores
@@ -62,16 +62,10 @@ class GrupoController extends Controller
         $grupo = Grupo::create([
             'clave' => $datos['clave'],
             'semestre' => $datos['semestre'],
-            'user_id' => $datos['user_id'],
             'carrera_id' => $datos['carrera_id'],
             'materia_id' => $datos['materia_id'],
-            'periodo_id' => $datos['periodo_id'],
-            'color' => $colorAleatorio, // Asignar el color aleatorio al grupo
+            'color' => $colorAleatorio
         ]);
-
-        // Buscar grupos que tengan el mismo periodo_id y asociarlos a la actividad
-        $actividades = Actividad::where('periodo_id', $datos['periodo_id'])->get();
-        $grupo->actividades()->attach($actividades->pluck('id'));
     
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
@@ -91,10 +85,8 @@ class GrupoController extends Controller
     {
         return view('admin.grupo.edit', [
             'grupo' => $grupo,
-            'users' => User::all(),
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
-            'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -106,23 +98,11 @@ class GrupoController extends Controller
         $datos = $this->validate($request, [
             'clave' => 'required',
             'semestre' => 'required',
-            'user_id' => 'required',
             'carrera_id' => 'required',
             'materia_id' => 'required',
-            'periodo_id' => 'required',
         ]);
 
-        // Verificar si cambió el periodo_id
-        if ($grupo->periodo_id != $datos['periodo_id']) {
-            // Eliminar relaciones actuales que no coincidan con el nuevo periodo_id
-            $grupo->actividades()->where('periodo_id', '!=', $datos['periodo_id'])->detach();
-    
-            // Asociar nuevos grupos que tengan el nuevo periodo_id
-            $nuevasActividades = Grupo::where('periodo_id', $datos['periodo_id'])->get();
-            $grupo->actividades()->syncWithoutDetaching($nuevasActividades->pluck('id'));
-        }
-
-        // Se actualiza el usuario
+        // Se actualiza el grupo
         $grupo->update($datos);
 
         // Redireccionar

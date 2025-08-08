@@ -14,11 +14,9 @@ return new class extends Migration
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
             $table->string('clave');
-            $table->string('semestre');
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->integer('semestre');
             $table->foreignId('carrera_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('materia_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('periodo_id')->nullable()->constrained()->nullOnDelete();
             $table->string('color');
             $table->boolean('activo')->default(true);
             $table->timestamps();
