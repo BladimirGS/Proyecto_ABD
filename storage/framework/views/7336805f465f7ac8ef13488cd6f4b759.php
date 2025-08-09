@@ -9,18 +9,41 @@
 
             <h2 class="block font-bold text-lg text-gray-700 text-center mb-4">Asignar Grupos</h2>
 
+            <div class="mt-5">
+                <?php if (isset($component)) { $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-label','data' => ['value' => 'Nombre del Usuario']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input-label'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['value' => 'Nombre del Usuario']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
+<?php $attributes = $__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
+<?php unset($__attributesOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581)): ?>
+<?php $component = $__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581; ?>
+<?php unset($__componentOriginale3da9d84bb64e4bc2eeebaafabfb2581); ?>
+<?php endif; ?>
+                <p class="text-gray-800 border border-gray-300 rounded-md p-2"><?php echo e($usuario->nombre . ' ' .
+                    $usuario->apellido); ?></p>
+            </div>
+
             <!-- Selección de Periodo -->
             <div class="mb-4">
                 <label class="block font-medium text-sm text-gray-700">Seleccionar Periodo</label>
-                <select 
-                    wire:model="periodoSeleccionado" 
-                    wire:change="actualizarPeriodo" 
+                <select wire:model="periodoSeleccionado" wire:change="actualizarPeriodo"
                     class="w-full border-gray-300 rounded mt-2">
                     <option value="">Seleccione un periodo</option>
                     <!--[if BLOCK]><![endif]--><?php $__currentLoopData = $periodos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $periodo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($periodo->id); ?>"><?php echo e($periodo->nombre); ?></option>
+                    <option value="<?php echo e($periodo->id); ?>"><?php echo e($periodo->nombre); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
-                </select>            
+                </select>
                 <?php if (isset($component)) { $__componentOriginalf94ed9c5393ef72725d159fe01139746 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf94ed9c5393ef72725d159fe01139746 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('periodoSeleccionado'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -48,28 +71,26 @@
                 <label class="block font-medium text-sm text-gray-700">
                     Grupos Asignados (<?php echo e(count($gruposAsignados)); ?>)
                 </label>
-                
+
                 <div class="overflow-y-auto max-h-60 border p-3 rounded">
                     <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $gruposAsignados; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grupo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <div class="flex items-center justify-between py-1">
-                            <label class="text-gray-700">
-                                <input type="checkbox" value="<?php echo e($grupo['id']); ?>" wire:model="gruposUsuario" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                <?php echo e($grupo['clave']); ?> - <?php echo e($grupo->materia->nombre ?? 'Sin materia'); ?>
+                    <div class="flex items-center justify-between py-1">
+                        <label class="text-gray-700">
+                            <input type="checkbox" value="<?php echo e($grupo['id']); ?>" wire:model="gruposUsuario"
+                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            <?php echo e($grupo['clave']); ?> - <?php echo e($grupo->materia->nombre ?? 'Sin materia'); ?>
 
-                            </label>
-                        </div>
+                        </label>
+                    </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <p class="text-gray-500 text-sm">No hay grupos asignados.</p>
+                    <p class="text-gray-500 text-sm">No hay grupos asignados.</p>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
 
             <!-- Buscador -->
             <div class="mb-4">
-                <input type="text" 
-                    wire:model="busqueda" 
-                    wire:input="actualizarListas" 
-                    placeholder="Buscar grupo..." 
+                <input type="text" wire:model="busqueda" wire:input="actualizarListas" placeholder="Buscar grupo..."
                     class="w-full border-gray-300 rounded px-3 py-2">
             </div>
 
@@ -82,15 +103,16 @@
 
                 <div class="overflow-y-auto max-h-60 border p-3 rounded">
                     <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $gruposDisponibles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grupo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <div class="flex items-center justify-between py-1">
-                            <label class="text-gray-700">
-                                <input type="checkbox" value="<?php echo e($grupo['id']); ?>" wire:model="gruposUsuario" class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                <?php echo e($grupo['clave']); ?> - <?php echo e($grupo->materia['nombre'] ?? 'Sin materia'); ?>
+                    <div class="flex items-center justify-between py-1">
+                        <label class="text-gray-700">
+                            <input type="checkbox" value="<?php echo e($grupo['id']); ?>" wire:model="gruposUsuario"
+                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            <?php echo e($grupo['clave']); ?> - <?php echo e($grupo->materia['nombre'] ?? 'Sin materia'); ?>
 
-                            </label>
-                        </div>
+                        </label>
+                    </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <p class="text-gray-500 text-sm">No hay grupos disponibles.</p>
+                    <p class="text-gray-500 text-sm">No hay grupos disponibles.</p>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
@@ -142,5 +164,4 @@
             </div>
         </form>
     </div>
-</div>
-<?php /**PATH C:\Users\Blady\Desktop\Proyecto_ABD\resources\views/livewire/grupo/asignar-grupos.blade.php ENDPATH**/ ?>
+</div><?php /**PATH C:\Users\Blady\Desktop\Proyecto_ABD\resources\views/livewire/grupo/asignar-grupos.blade.php ENDPATH**/ ?>

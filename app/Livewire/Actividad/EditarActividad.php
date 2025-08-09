@@ -23,7 +23,7 @@ class EditarActividad extends ModalComponent
         'nombre' => 'required',
         'descripcion' => 'required',
         'fecha' => 'required',
-        'firma' => 'required|boolean', 
+        'firma' => 'required|boolean',
         'periodo_id' => 'required',
     ];
 
@@ -41,17 +41,19 @@ class EditarActividad extends ModalComponent
         $datos = $this->validate();
 
         $this->actividad->update($datos);
-    
+
         $this->dispatch('refreshDatatable');
 
-        $this->dispatch('exito'); 
-    
+        $this->dispatch('exito');
+
         $this->closeModal();
-    }    
+    }
 
     public function render()
     {
-        $periodos = Periodo::where('activo', true)->get();
+        $periodos = Periodo::where('activo', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('livewire.actividad.editar-actividad', [
             'periodos' => $periodos

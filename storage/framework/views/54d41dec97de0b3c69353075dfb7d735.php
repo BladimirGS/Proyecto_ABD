@@ -8,9 +8,9 @@
 <?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-     <?php $__env->slot('header', null, []); ?> 
-        <h2 class="font-bold text-lg md:text-xl truncate sm:whitespace-normal">Archivos</h2>
-     <?php $__env->endSlot(); ?>
+    <h1 class="font-bold text-2xl text-center uppercase">
+        Lista de archivos
+    </h1>
 
     <div class="py-10 ">
         <div class="bg-white w-full mx-auto px-4 lg:px-8 py-10">

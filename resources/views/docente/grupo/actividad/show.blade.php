@@ -43,7 +43,7 @@
                             <tr>
                                 <x-table-cell class="font-bold">Última modificación</x-table-cell>
                                 <x-table-cell class="font-semibold">
-                                    {{ $archivoExistente ? $archivoExistente->fecha : '-' }}
+                                    {{ $archivoExistente && $archivoExistente->fecha ? $archivoExistente->fecha->diffForHumans() : '-' }}
                                 </x-table-cell>
                             </tr>
                             <tr>

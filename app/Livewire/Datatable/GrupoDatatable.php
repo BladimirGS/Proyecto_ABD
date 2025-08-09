@@ -96,6 +96,5 @@ class GrupoDatatable extends DataTableComponent
     public function EliminarGrupo(Grupo $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

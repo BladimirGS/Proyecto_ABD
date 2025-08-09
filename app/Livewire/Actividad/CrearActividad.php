@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Actividad;
 
-use App\Models\Grupo;
 use App\Models\Periodo;
 use Livewire\Component;
 use App\Models\Actividad;
@@ -27,19 +26,21 @@ class CrearActividad extends ModalComponent
     public function CrearActividad()
     {
         $datos = $this->validate();
-    
+
         Actividad::create($datos);
-    
+
         $this->dispatch('refreshDatatable');
 
-        $this->dispatch('exito'); 
-        
+        $this->dispatch('exito');
+
         $this->closeModal();
     }
 
     public function render()
     {
-        $periodos = Periodo::where('activo', true)->get();
+        $periodos = Periodo::where('activo', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('livewire.actividad.crear-actividad', [
             'periodos' => $periodos

@@ -86,8 +86,5 @@ class MateriaDatatable extends DataTableComponent
     public function EliminarMaterio(Materia $id) 
     {
         $id->delete();
-
-        // se dispara un evento
-        $this->dispatch('refreshDatatable');
     }
 }

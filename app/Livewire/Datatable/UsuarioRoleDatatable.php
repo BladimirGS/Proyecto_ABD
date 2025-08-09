@@ -50,6 +50,5 @@ class UsuarioRoleDatatable extends DataTableComponent
     public function EliminarUsuarioRole(User $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

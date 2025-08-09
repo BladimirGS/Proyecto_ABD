@@ -36,7 +36,9 @@ class UsuarioGrupoController extends Controller
             return back()->with('status', 'Importación exitosa.');
         } catch (\Exception $e) {
             $errores = json_decode($e->getMessage(), true);
-            return back()->withErrors(['excel' => $errores]);
+            return back()
+                ->withErrors(['excel' => $errores])
+                ->with('errores_excel', $errores); // para SweetAlert
         }
     }
 }

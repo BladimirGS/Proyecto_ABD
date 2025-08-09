@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Docente;
 use App\Models\User;
 use App\Models\Grupo;
 use App\Models\Archivo;
-use App\Models\Periodo;
 use App\Models\Actividad;
 use App\Models\GrupoUser;
 use App\Models\Comentario;
@@ -93,10 +92,16 @@ class DocenteGrupoActividadController extends Controller
                     Storage::delete($archivoExistente->documento);
                 }
 
+                // Definir estado según el estado anterior
+                $nuevoEstado = in_array(strtolower($archivoExistente->estado), ['rechazado'])
+                    ? 'Modificado'
+                    : 'Pendiente';
+
                 $archivoExistente->update([
                     'nombre' => $archivo->getClientOriginalName(),
                     'fecha' => now()->setTimezone(config('app.timezone')),
                     'documento' => $documento,
+                    'estado' => $nuevoEstado,
                 ]);
             } else {
                 Archivo::create([
@@ -105,6 +110,8 @@ class DocenteGrupoActividadController extends Controller
                     'documento' => $documento,
                     'grupo_user_id' => $grupoUser->id,
                     'actividad_id' => $actividad->id,
+                    // El estado por defecto será 'Pendiente' como en la migración
+                    'estado' => 'Pendiente',
                 ]);
             }
 

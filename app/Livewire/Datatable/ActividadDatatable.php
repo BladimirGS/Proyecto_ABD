@@ -4,7 +4,6 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Periodo;
 use Livewire\Attributes\On;
-use App\Exports\ActividadesExport;
 use App\Models\Actividad;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -54,10 +53,6 @@ class ActividadDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            // ComponentColumn::make("Descripción", "descripcion")
-            //     ->component('truncade')
-            //     ->sortable()
-            //     ->searchable(),
             DateColumn::make('Fecha', 'fecha')
                 ->outputFormat('d/m/Y'),
             Column::make("Periodo", "periodo.nombre")
@@ -139,6 +134,5 @@ class ActividadDatatable extends DataTableComponent
     public function EliminarActividad(Actividad $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

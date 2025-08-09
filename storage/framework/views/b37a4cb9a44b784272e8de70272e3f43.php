@@ -171,7 +171,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['class' => 'font-semibold']); ?>
-                                    <?php echo e($archivoExistente ? $archivoExistente->fecha : '-'); ?>
+                                    <?php echo e($archivoExistente && $archivoExistente->fecha ? $archivoExistente->fecha->diffForHumans() : '-'); ?>
 
                                  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

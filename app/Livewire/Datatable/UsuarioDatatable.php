@@ -138,6 +138,5 @@ class UsuarioDatatable extends DataTableComponent
     public function EliminarUsuario(User $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

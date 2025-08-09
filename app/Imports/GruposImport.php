@@ -15,13 +15,19 @@ class GruposImport implements ToCollection, WithHeadingRow
     protected $periodo;
     protected $errores = [];
 
-    public function __construct(Periodo $periodo)
+    public function __construct(?Periodo $periodo = null)
     {
         $this->periodo = $periodo;
     }
 
     public function collection(Collection $rows)
     {
+        // 🔹 Validar que se haya pasado un periodo
+        if (!$this->periodo) {
+            $this->errores[] = "No se encontró un periodo activo para la importación.";
+            throw new \Exception(json_encode($this->errores));
+        }
+
         $fila = 2; // Fila de datos (1 es encabezado)
 
         foreach ($rows as $row) {
@@ -29,7 +35,7 @@ class GruposImport implements ToCollection, WithHeadingRow
             $grupoClave = strtoupper(trim($row['grupo'] ?? ''));
             $materiaNombre = strtoupper(trim($row['materia'] ?? ''));
 
-            // Saltar filas completamente vacías
+            // Saltar filas vacías
             if ($docente === '' && $grupoClave === '' && $materiaNombre === '') {
                 $fila++;
                 continue;
@@ -52,7 +58,6 @@ class GruposImport implements ToCollection, WithHeadingRow
             }
 
             if ($usuario && $grupo) {
-                // Evita asignar el mismo grupo a varios usuarios en un mismo periodo
                 $grupoAsignado = DB::table('grupo_user')
                     ->where('grupo_id', $grupo->id)
                     ->where('periodo_id', $this->periodo->id)
@@ -61,7 +66,6 @@ class GruposImport implements ToCollection, WithHeadingRow
                 if ($grupoAsignado) {
                     $this->errores[] = "Fila {$fila}: El grupo '{$grupo->clave}' de la materia '{$grupo->materia->nombre}' ya está asignado a otro docente en este periodo.";
                 } else {
-                    // Solo validar si es el mismo usuario cuando el grupo aún no está tomado por otro
                     $yaExiste = DB::table('grupo_user')
                         ->where('user_id', $usuario->id)
                         ->where('periodo_id', $this->periodo->id)
@@ -102,7 +106,6 @@ class GruposImport implements ToCollection, WithHeadingRow
                 })
                 ->first();
 
-            // Aquí también guardamos todo en mayúsculas (por si hay columnas adicionales)
             DB::table('grupo_user')->insert([
                 'grupo_id' => $grupo->id,
                 'user_id' => $usuario->id,

@@ -86,6 +86,5 @@ class CarreraDatatable extends DataTableComponent
     public function EliminarCarrera(Carrera $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }

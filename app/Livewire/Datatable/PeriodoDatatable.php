@@ -88,6 +88,5 @@ class PeriodoDatatable extends DataTableComponent
     public function EliminarPeriodo(Periodo $id) 
     {
         $id->delete();
-        $this->dispatch('refreshDatatable');
     }
 }
