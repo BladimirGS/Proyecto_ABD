@@ -2,31 +2,20 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Archivo extends Model
+class Revision extends Model
 {
-    use HasFactory;
+    protected $table = 'revisiones';
 
     protected $fillable = [
-        'nombre',
-        'documento',
         'fecha',
         'user_id',
         'grupo_user_id',
-        'actividad_id',
-        'estado'
+        'actividad_id'
     ];
 
-    protected function fecha(): Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => $value ? Carbon::parse($value) : null,
-        );
-    }
+    
 
     public function user()
     {

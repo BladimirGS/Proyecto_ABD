@@ -11,9 +11,10 @@
 
                     <p class="text-base text-gray-600 font-medium whitespace-pre-line break-normal">{{ $actividad->descripcion }}</p>
 
-                    <h2 class="text-lg font-bold">Fecha programada:
-                        <x-formato-fecha fechaformateada="{{ $actividad->fecha }}"></x-formato-fecha>
-                    </span></h2>
+                    <h2 class="text-lg font-bold">
+                        Fecha programada:
+                        {{ $actividad->fecha?->translatedFormat('d \d\e F \d\e Y') }}
+                    </h2>
                 </div>
         
                 <!-- Tabla con información de la actividad -->
@@ -66,7 +67,7 @@
                                     <label class="font-bold mb-2">Comentario :</label>
 
                                     @if ($comentario)
-                                    <x-formato-fecha fechaformateada="{{ $comentario->fecha }}"></x-formato-fecha>
+                                        <h2>{{ $comentario->fecha->diffForHumans() }}</h2>
                                     @endif
                                     <div class="mb-4">
                                         @if ($comentario)

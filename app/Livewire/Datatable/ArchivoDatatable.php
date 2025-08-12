@@ -4,11 +4,9 @@ namespace App\Livewire\Datatable;
 
 use App\Models\Archivo;
 use App\Models\Periodo;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Columns\DateColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
@@ -21,10 +19,8 @@ class ArchivoDatatable extends DataTableComponent
 
     public function mount()
     {
-        // Obtener el último periodo
         $ultimoPeriodo = Periodo::latest('nombre')->first();
 
-        // Verificar si hay algún período antes de aplicar el filtro
         if ($ultimoPeriodo) {
             $this->setFilter('periodos', [$ultimoPeriodo->id]);
         }
@@ -40,6 +36,10 @@ class ArchivoDatatable extends DataTableComponent
     {
         return [
             Column::make("Grupo", "grupoUser.grupo.clave")
+                ->sortable()
+                ->searchable(),
+            ComponentColumn::make("Materia", "grupoUser.grupo.materia.nombre")
+                ->component('break-normal')
                 ->sortable()
                 ->searchable(),
             Column::make("Periodo", "grupoUser.periodo.nombre")
@@ -62,7 +62,6 @@ class ArchivoDatatable extends DataTableComponent
                     fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'IrArchivo' => route('archivos.show', $row),
-                            'verArchivo' => 'verArchivo(' . $row->id . ')',
                         ]
                     )
                 )->html(),
@@ -75,8 +74,8 @@ class ArchivoDatatable extends DataTableComponent
             MultiSelectFilter::make('Periodos')
                 ->options(
                     Periodo::query()
-                        ->where('activo', true)           // Solo activos
-                        ->orderBy('created_at', 'desc')   // Ordenar por fecha creación descendente
+                        ->where('activo', true)
+                        ->orderBy('created_at', 'desc')
                         ->get()
                         ->keyBy('id')
                         ->map(fn($periodo) => $periodo->nombre)
@@ -91,20 +90,14 @@ class ArchivoDatatable extends DataTableComponent
             SelectFilter::make('Estado')
                 ->options([
                     '' => 'Todo',
-                    'aprobado' => 'Aprobado',
-                    'rechazado' => 'Rechazado',
-                    'pendiente' => 'Pendiente',
+                    'Aprobado' => 'Aprobado',
+                    'Rechazado' => 'Rechazado',
+                    'Pendiente' => 'Pendiente',
                     'modificado' => 'Modificado',
                 ])
                 ->filter(function (Builder $builder, string $value) {
-                    if ($value === 'aprobado') {
-                        $builder->where('archivos.estado', 'Aprobado');
-                    } elseif ($value === 'rechazado') {
-                        $builder->where('archivos.estado', 'Rechazado');
-                    } elseif ($value === 'pendiente') {
-                        $builder->where('archivos.estado', 'Pendiente');
-                    } elseif ($value === 'modificado') {
-                        $builder->where('archivos.estado', 'Modificado');
+                    if ($value !== '') {
+                        $builder->where('archivos.estado', $value);
                     }
                 })
         ];
@@ -113,15 +106,19 @@ class ArchivoDatatable extends DataTableComponent
     public function builder(): Builder
     {
         return Archivo::query()
-            ->whereHas('actividad', function (Builder $query) {
-                $query->where('firma', false);
-            });
-    }
-
-    public function verArchivo(Archivo $file)
-    {
-        $url = route('verArchivo', ['archivo' => $file->id, 'nombre' => $file->nombre]);
-
-        $this->dispatch('archivoDisponible', $url);
+            ->whereHas('actividad', fn(Builder $q) => $q->where('firma', false))
+            ->whereHas('grupoUser.periodo', fn(Builder $q) => $q->where('activo', true))
+            ->join('grupo_user', 'archivos.grupo_user_id', '=', 'grupo_user.id')
+            ->join('periodos', 'grupo_user.periodo_id', '=', 'periodos.id')
+            ->orderBy('periodos.created_at', 'desc')
+            ->orderByRaw("
+            CASE estado
+                WHEN 'pendiente' THEN 1
+                WHEN 'modificado' THEN 2
+                WHEN 'rechazado' THEN 3
+                WHEN 'aprobado' THEN 4
+                ELSE 5
+            END
+        ");
     }
 }

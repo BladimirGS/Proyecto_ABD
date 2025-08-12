@@ -61,71 +61,68 @@ class DocenteGrupoActividadController extends Controller
         DB::beginTransaction();
 
         try {
+            // Validar existencia de la relación
             if (!$grupoUser) {
-                return redirect()->back()->withErrors('No se encontró la relación grupo-usuario.');
+                return back()->withErrors('No se encontró la relación grupo-usuario.');
             }
 
-            $grupo = Grupo::findOrFail($grupoUser->grupo_id);
+
             $usuario = $grupoUser->user;
+            $grupo   = $grupoUser->grupo;
             $periodo = $grupoUser->periodo;
 
-            $archivo = $request->file('archivo');
+            $archivoSubido = $request->file('archivo');
 
-            // Crear ruta del directorio
-            $carpetaUsuario = $usuario->nombre . '_' . $usuario->apellido;
-            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', $carpetaUsuario);
-            $grupoPeriodo = $grupo->clave . '_' . $periodo->nombre;
-            $grupoPeriodo = str_replace([' ', '/', '\\'], '_', $grupoPeriodo);
-            $directorio = 'archivos/' . $carpetaUsuario . '/' . $grupoPeriodo;
+            // Ruta del directorio destino
+            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', "{$usuario->nombre}_{$usuario->apellido}");
+            $grupoPeriodo   = str_replace([' ', '/', '\\'], '_', "{$grupo->clave}_{$periodo->nombre}");
+            $directorio     = "archivos/{$carpetaUsuario}/{$grupoPeriodo}";
 
-            // Subir archivo
-            $documento = Storage::put($directorio, $archivo);
+            // Guardar archivo
+            $rutaDocumento = Storage::put($directorio, $archivoSubido);
 
-            // Verificar si ya existe un archivo para este grupoUser y actividad
+            // Buscar si ya existe un archivo de esa actividad para el grupoUser
             $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
                 ->where('actividad_id', $actividad->id)
                 ->first();
 
             if ($archivoExistente) {
-                // Eliminar archivo anterior
+                // Eliminar archivo anterior si existe
                 if (Storage::exists($archivoExistente->documento)) {
                     Storage::delete($archivoExistente->documento);
                 }
 
-                // Definir estado según el estado anterior
-                $nuevoEstado = in_array(strtolower($archivoExistente->estado), ['rechazado'])
+                // Mantener o cambiar estado
+                $nuevoEstado = strtolower($archivoExistente->estado) === 'rechazado'
                     ? 'Modificado'
                     : 'Pendiente';
 
                 $archivoExistente->update([
-                    'nombre' => $archivo->getClientOriginalName(),
-                    'fecha' => now()->setTimezone(config('app.timezone')),
-                    'documento' => $documento,
-                    'estado' => $nuevoEstado,
+                    'nombre'     => $archivoSubido->getClientOriginalName(),
+                    'fecha'      => now(),
+                    'user_id'       => auth()->id(),
+                    'documento'  => $rutaDocumento,
+                    'estado'     => $nuevoEstado,
                 ]);
             } else {
                 Archivo::create([
-                    'nombre' => $archivo->getClientOriginalName(),
-                    'fecha' => now()->setTimezone(config('app.timezone')),
-                    'documento' => $documento,
+                    'nombre'        => $archivoSubido->getClientOriginalName(),
+                    'fecha'         => now(),
+                    'user_id'       => auth()->id(),
+                    'documento'     => $rutaDocumento,
                     'grupo_user_id' => $grupoUser->id,
-                    'actividad_id' => $actividad->id,
-                    // El estado por defecto será 'Pendiente' como en la migración
-                    'estado' => 'Pendiente',
+                    'actividad_id'  => $actividad->id,
+                    'estado'        => 'Pendiente',
                 ]);
             }
 
             DB::commit();
 
-            return redirect()
-                ->back()
-                ->with('status', 'Operación exitosa');
+            return back()->with('status', 'Archivo subido correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()
-                ->back()
-                ->withErrors('Ocurrió un error al subir el archivo: ' . $e->getMessage());
+            return back()->withErrors('Error al subir el archivo: ' . $e->getMessage());
         }
     }
 }

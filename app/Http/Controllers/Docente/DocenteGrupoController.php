@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DocenteGrupoController extends Controller
 {
+    // desactivado
     
     /**
      * Display a listing of the resource.

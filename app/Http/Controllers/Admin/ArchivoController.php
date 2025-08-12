@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Grupo;
 use App\Models\Archivo;
+use App\Models\Revision;
 use App\Models\Actividad;
+use App\Models\GrupoUser;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,14 +26,14 @@ class ArchivoController extends Controller
 
     public function show(Archivo $archivo)
     {
-        $grupo = Grupo::find($archivo->grupo_user_id);
+        $grupoUser = GrupoUser::find($archivo->grupo_user_id);
         $actividad = Actividad::find($archivo->actividad_id);
-        $comentario = Comentario::where('grupo_user_id', $grupo->id)
-                                ->where('actividad_id', $actividad->id)
-                                ->first(); // Cambiado a first()
-    
+        $comentario = Comentario::where('grupo_user_id', $grupoUser->id)
+            ->where('actividad_id', $actividad->id)
+            ->first(); // Cambiado a first()
+
         return view('admin.archivo.show', [
-            'grupo' => $grupo,
+            'grupoUser' => $grupoUser,
             'actividad' => $actividad,
             'archivo' => $archivo,
             'comentario' => $comentario
@@ -42,10 +44,10 @@ class ArchivoController extends Controller
     {
         $datos = $request->validate([
             'estado' => 'required|in:Aprobado,Rechazado,Pendiente',
-            'comentario' => 'required_if:estado,Rechazado', // Comentario requerido si es "rechazado"
+            'comentario' => 'required_if:estado,Rechazado',
         ]);
-    
-        // Crear o actualizar el comentario solo si se proporciona
+
+        // Crear o actualizar el comentario
         if (!empty($datos['comentario'])) {
             Comentario::updateOrCreate(
                 [
@@ -54,15 +56,26 @@ class ArchivoController extends Controller
                 ],
                 [
                     'comentario' => $datos['comentario'],
+                    'fecha' => now(),              // fecha actual al crear o actualizar
+                    'user_id' => auth()->id(),      // usuario que hizo el comentario
                 ]
             );
         }
-    
+
+        // Registrar la revisión siempre
+        Revision::create([
+            'fecha' => now(),
+            'user_id' => auth()->id(),              // usuario que revisó
+            'grupo_user_id' => $archivo->grupo_user_id,
+            'actividad_id' => $archivo->actividad_id,
+        ]);
+
         // Actualizar el estado del archivo
         $archivo->update(['estado' => $datos['estado']]);
 
+        // Notificar al usuario
         $archivo->grupoUser->user->notify(new EvaluarActividad($archivo));
-    
+
         return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
     }
 

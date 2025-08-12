@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('archivos', function (Blueprint $table) {
+        Schema::create('revisiones', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
             $table->dateTime('fecha');
-            $table->string('documento');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('grupo_user_id')->constrained('grupo_user')->cascadeOnDelete();
             $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();
-            $table->string('estado')->nullable()->default('Pendiente');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('archivos');
+        Schema::dropIfExists('revisiones');
     }
 };

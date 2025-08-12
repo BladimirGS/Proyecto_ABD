@@ -14,15 +14,17 @@
                 <x-input-label for="nombre" value="Nombre" />
 
                 <x-text-input id="nombre" type="text" wire:model="nombre" :value="$actividad->nombre"
-                    placeholder="Nombre de la actividad" />
+                    placeholder="Nombre de la actividad" class="uppercase" />
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
 
             <div class="mt-5">
                 <x-input-label for="descripcion" value="Descripción" />
 
-                <x-text-area id="descripcion" wire:model="descripcion" placeholder="Descripcion del role" rows="4">{{
-                    $actividad->descripcion }}</x-text-area>
+                <x-text-area id="descripcion" wire:model="descripcion" placeholder="Descripcion de la actividad"
+                    rows="4" class="uppercase">
+                    {{ $actividad->descripcion }}
+                </x-text-area>
 
                 <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
             </div>

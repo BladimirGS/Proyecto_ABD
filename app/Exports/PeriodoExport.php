@@ -2,11 +2,13 @@
 
 namespace App\Exports;
 
-use App\Models\Periodo;
+use Carbon\Carbon;
+use App\Models\GrupoUser;
 use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class PeriodoExport implements FromQuery, WithHeadings, WithMapping, WithStyles
@@ -20,36 +22,47 @@ class PeriodoExport implements FromQuery, WithHeadings, WithMapping, WithStyles
 
     public function query()
     {
-        // Aquí modificamos la consulta para incluir la tabla intermedia 'actividad_grupo' y los archivos
-        return Periodo::query()
-            ->join('grupos', 'periodos.id', '=', 'grupos.periodo_id')
-            ->join('users', 'grupos.user_id', '=', 'users.id')
-            ->join('materias', 'grupos.materia_id', '=', 'materias.id')
-            ->join('carreras', 'grupos.carrera_id', '=', 'carreras.id')
-            ->join('actividad_grupo', 'grupos.id', '=', 'actividad_grupo.grupo_id') // Relación con tabla intermedia
-            ->join('actividades', 'actividad_grupo.actividad_id', '=', 'actividades.id') // Relación con actividades
-            ->leftJoin('archivos', 'actividades.id', '=', 'archivos.actividad_id') // Archivos asociados (left join para incluir tareas no subidas)
+        return GrupoUser::query()
+            ->join('grupos', 'grupo_user.grupo_id', '=', 'grupos.id')
+            ->join('users', 'grupo_user.user_id', '=', 'users.id')
+            ->leftJoin('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->leftJoin('carreras', 'grupos.carrera_id', '=', 'carreras.id')
+            // Actividades del mismo periodo que el grupo_user
+            ->join('actividades', function ($join) {
+                $join->on('actividades.periodo_id', '=', 'grupo_user.periodo_id');
+            })
+            // Archivos subidos por ese grupo_user para esa actividad
+            ->leftJoin('archivos', function ($join) {
+                $join->on('archivos.actividad_id', '=', 'actividades.id')
+                    ->on('archivos.grupo_user_id', '=', 'grupo_user.id');
+            })
             ->select(
-                'users.nombre as usuario_nombre', 
-                'carreras.nombre as nombre_carrera',
-                'materias.nombre as nombre_materia',
-                'grupos.clave as grupo_nombre',
-                'actividades.nombre as nombre_actividad',
-                'archivos.fecha as fecha_subida', 
-                'actividades.fecha as fecha_limite'
+                'users.nombre as docente',
+                'carreras.nombre as carrera',
+                'grupos.clave as grupo',
+                'materias.nombre as materia',
+                'actividades.nombre as actividad',
+                'archivos.fecha as fecha_subido',
+                'actividades.fecha as fecha_limite',
+                'actividades.created_at as actividad_creada'
             )
-            ->where('periodos.id', $this->periodoId);
+            ->where('grupo_user.periodo_id', $this->periodoId)
+            // Orden jerárquico
+            ->orderBy('docente')
+            ->orderBy('carrera')
+            ->orderBy('grupo')
+            ->orderBy('actividad_creada');
     }
 
     public function headings(): array
     {
         return [
-            'Usuario Nombre',
-            'Nombre Carrera',
-            'Nombre Materia',
-            'Nombre Grupo',
-            'Nombre Actividad',
-            'Fecha Subida',
+            'Docente',
+            'Carrera',
+            'Grupo',
+            'Materia',
+            'Actividad',
+            'Fecha Subido',
             'Fecha Límite',
         ];
     }
@@ -57,32 +70,38 @@ class PeriodoExport implements FromQuery, WithHeadings, WithMapping, WithStyles
     public function map($row): array
     {
         return [
-            $row->usuario_nombre,
-            $row->nombre_carrera,
-            $row->nombre_materia,
-            $row->grupo_nombre,
-            $row->nombre_actividad,
-            $row->fecha_subida ?: 'No Subida', // Si no hay fecha de subida, mostramos "No Subida"
-            $row->fecha_limite,
+            $row->docente,
+            $row->carrera,
+            $row->grupo,
+            $row->materia,
+            $row->actividad,
+            $row->fecha_subido
+                ? Carbon::parse($row->fecha_subido)->format('d/m/Y')
+                : 'No Subida',
+            Carbon::parse($row->fecha_limite)->format('d/m/Y'),
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:G1')->getFont()->setBold(true); // Aplica negritas a los encabezados
-        $sheet->getStyle('A:G')->getAlignment()->setWrapText(true); // Centra las columnas A, B, C, D, E, F, G
+        // Negritas encabezados
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $sheet->getStyle('A:G')->getAlignment()->setWrapText(true);
 
-        // Ajustar el ancho de las columnas
+        // Formato fecha/hora en columnas F y G
+        $sheet->getStyle('F:G')->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_DATE_DATETIME);
+
+        // Anchos
         $sheet->getColumnDimension('A')->setWidth(20);
         $sheet->getColumnDimension('B')->setWidth(30);
-        $sheet->getColumnDimension('C')->setWidth(30);
-        $sheet->getColumnDimension('D')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(20);
+        $sheet->getColumnDimension('D')->setWidth(30);
         $sheet->getColumnDimension('E')->setWidth(30);
         $sheet->getColumnDimension('F')->setWidth(20);
         $sheet->getColumnDimension('G')->setWidth(20);
 
-        // Ajustar la altura de las filas
-        $sheet->getRowDimension(1)->setRowHeight(30); // Altura de la fila de encabezados
-        $sheet->getDefaultRowDimension()->setRowHeight(20); // Altura predeterminada para otras filas
+        $sheet->getRowDimension(1)->setRowHeight(30);
+        $sheet->getDefaultRowDimension()->setRowHeight(20);
     }
 }

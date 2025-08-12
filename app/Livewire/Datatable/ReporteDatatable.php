@@ -5,6 +5,7 @@ namespace App\Livewire\Datatable;
 use App\Models\Periodo;
 use Livewire\Attributes\On;
 use App\Exports\PeriodoExport;
+use App\Exports\ReporteGeneral;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -16,7 +17,7 @@ class ReporteDatatable extends DataTableComponent
     public array $periodo = [];
 
     public ?int $searchFilterDebounce = 600;
-    
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')
@@ -31,12 +32,13 @@ class ReporteDatatable extends DataTableComponent
                 ->sortable(),
             Column::make(' ')
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                    fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'Exportar' => '$dispatch(\'exportar\', { id: ' . $row->id . '})',
+                            'ReporteGeneral' => '$dispatch(\'reporteGeneral\', { id: ' . $row->id . '})',
                         ]
                     )
-            )->html(),
+                )->html(),
         ];
     }
 
@@ -46,11 +48,21 @@ class ReporteDatatable extends DataTableComponent
     }
 
     #[On('exportar')]
-    public function exportar(int $id) 
+    public function exportar(int $id)
     {
         $periodo = Periodo::findOrFail($id);
         $fileName = 'reporte ' . $periodo->nombre . '.xlsx';
-    
+
         return Excel::download(new PeriodoExport($id), $fileName);
-    }    
+    }
+
+
+    #[On('reporteGeneral')]
+    public function exportarGeneral(int $id)
+    {
+        $periodo = Periodo::findOrFail($id);
+        $fileName = 'reporte ' . $periodo->nombre . '.xlsx';
+
+        return Excel::download(new ReporteGeneral($id), $fileName);
+    }
 }

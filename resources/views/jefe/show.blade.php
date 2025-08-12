@@ -63,64 +63,41 @@
                             
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold" colspan="2">
-                                    <form action="{{ route('archivos.evaluar', ['archivo' => $archivo->id]) }}" method="POST">
-                                        @csrf
-                                        <label class="font-bold mb-2">Comentario :</label>
 
-                                        @if ($comentario)
-                                        <x-formato-fecha fechaformateada="{{ $comentario->fecha }}"></x-formato-fecha>
-                                        @endif
-                                        
-                                        <div class="mb-4">
-                                            @if ($comentario)
-                                                <p class="whitespace-pre-line">{{ $comentario->comentario }}</p>
-                                            @else
-                                                <p>No hay comentarios</p>
-                                            @endif
-                                        </div>
-                                    
-                                        <textarea name="comentario" class="w-full mt-2 border rounded"></textarea>
-                                        
-                                        <x-input-error :messages="$errors->get('comentario')" class="mt-2" />
+<form action="{{ route('firma.evaluar', ['archivo' => $archivo->id]) }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-                                        <!-- Opciones de Estado -->
-                                        <div class="mt-4">
-                                            <label class="font-bold">Estado:</label>
-                                            <div class="flex items-center space-x-4 mt-2">
-                                                <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Aprobado" 
-                                                        {{ $archivo->estado === 'Aprobado' ? 'checked' : '' }} class="mr-2">
-                                                    Aprobado
-                                                </label>
-                                                <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Rechazado" 
-                                                        {{ $archivo->estado === 'Rechazado' ? 'checked' : '' }} class="mr-2">
-                                                    Rechazado
-                                                </label>
-                                                <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Pendiente" 
-                                                        {{ $archivo->estado === 'Pendiente' ? 'checked' : '' }} class="mr-2">
-                                                    Pendiente
-                                                </label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
-                                            <x-link href="{{ route('firma.index') }}" color="red" class="w-full md:w-auto">
-                                                atras
-                                            </x-link>
+    <label class="font-bold mb-2">Comentario :</label>
 
-                                            <x-button type="submit" class="w-full md:w-auto">Guardar evaluación</x-button>
-                                        </div>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center">
-                    <form action="{{ route('docente.grupo.actividades.subir', ['grupoUser' => $grupoUser->id, 'actividad' => $actividad->id]) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
+    @if ($comentario)
+        <div class="mb-2 text-sm text-gray-600">
+            <x-formato-fecha :fechaformateada="$comentario->fecha" />  
+            — Revisado por: {{ $comentario->user->nombre ?? 'Desconocido' }}
+        </div>
+        <p class="whitespace-pre-line">{{ $comentario->comentario }}</p>
+    @else
+        <p>No hay comentarios</p>
+    @endif
+
+    <textarea name="comentario" class="w-full mt-2 border rounded"></textarea>
+    <x-input-error :messages="$errors->get('comentario')" class="mt-2" />
+
+    <!-- Estado -->
+    <div class="mt-4">
+        <label class="font-bold">Estado:</label>
+        <div class="flex items-center space-x-4 mt-2">
+            @foreach (['Aprobado', 'Rechazado', 'Pendiente'] as $estado)
+                <label class="flex items-center">
+                    <input type="radio" name="estado" value="{{ $estado }}" 
+                        {{ $archivo->estado === $estado ? 'checked' : '' }} class="mr-2">
+                    {{ $estado }}
+                </label>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Subida del archivo firmado -->
+    <div class="mt-4">
                         <livewire:dropzone
                             {{-- El name interno es name="archivo" --}}
                             :rules="['file','extensions:pdf,doc,docx','max:20840']"
@@ -128,9 +105,24 @@
                         />
             
                         <x-input-error :messages="$errors->get('archivo')" class="mt-2" />
-                            
-                        <x-button class="mt-8" type="submit">Subir archivo</x-button>
-                    </form> 
+    </div>
+
+    <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
+        <x-link href="{{ route('firma.index') }}" color="red" class="w-full md:w-auto">
+            Atrás
+        </x-link>
+        <x-button type="submit" class="w-full md:w-auto">Guardar evaluación</x-button>
+    </div>
+</form>
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+
                 </div>
             </div>
         </div>

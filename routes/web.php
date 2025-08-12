@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/periodos', PeriodoController::class)->middleware('can:periodos.index')->name('periodos.index');
     Route::get('/actividades', ActividadController::class)->middleware('can:actividades.index')->name('actividades.index');
     Route::get('/grupos/usuarios', [UsuarioGrupoController::class, 'index'])->name('grupos.usuarios.index');
-    Route::resource('/grupos', GrupoController::class)->except('destroy')->names('grupos');
+    Route::resource('/grupos', GrupoController::class)->except('destroy', 'show')->names('grupos');
 
     // Asignar grupos a usuarios 
     Route::get('/grupos/usuarios/importar', [UsuarioGrupoController::class, 'formImportar'])->name('grupos.usuarios.formImportar');
@@ -61,12 +61,11 @@ Route::middleware(['auth'])->group(function () {
     // Jefe
     Route::get('/jefe/firma/', [JefeDocenciaController::class, 'index'])->middleware('can:firma.index')->name('firma.index');
     Route::get('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'show'])->middleware('can:firma.index')->name('firma.show');
-    // Route::post('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'evaluar'])->middleware('can:firma.evaluar')->name('firma.evaluar');
-    // Route::post('/jefe/firma/{grupo}/{actividad}/subir/', [JefeDocenciaController::class, 'subir'])->name('docente.grupo.actividades.subir');
+    Route::post('/jefe/firma/{archivo}', [JefeDocenciaController::class, 'evaluar'])->middleware('can:firma.evaluar')->name('firma.evaluar');
 
     // Grupos del docente
-    Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->middleware('can:docentes.index')->name('docente.grupos.index');
-    Route::get('/docente/grupos/{grupoUser}', [DocenteGrupoController::class, 'show'])->middleware('can:docentes.index')->name('docente.grupos.show');
+    // Route::get('/docente/grupos', [DocenteGrupoController::class, 'index'])->middleware('can:docentes.index')->name('docente.grupos.index');
+    // Route::get('/docente/grupos/{grupoUser}', [DocenteGrupoController::class, 'show'])->middleware('can:docentes.index')->name('docente.grupos.show');
 
     // Rutas para actividades del grupo del docente
     Route::get('/docente/grupo/{grupoUser}/actividades', [DocenteGrupoActividadController::class, 'index'])->name('docente.grupo.actividades.index');

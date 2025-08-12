@@ -3,12 +3,10 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\Grupo;
-use App\Models\Periodo;
 use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
@@ -17,17 +15,6 @@ class GrupoDatatable extends DataTableComponent
     public string $tableName = 'grupos';
 
     public ?int $searchFilterDebounce = 600;
-
-    // public function mount()
-    // {
-    //     // Obtener el último periodo
-    //     $ultimoPeriodo = Periodo::latest('nombre')->first();
-    
-    //     // Verificar si hay algún período antes de aplicar el filtro
-    //     if ($ultimoPeriodo) {
-    //         $this->setFilter('periodos', [$ultimoPeriodo->id]);
-    //     }
-    // }
 
     public function configure(): void
     {
@@ -61,7 +48,6 @@ class GrupoDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            'IrGrupo' => route('grupos.show', $row),
                             'EditarGrupo' => route('grupos.edit', $row),
                             'EliminarGrupo' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
@@ -69,23 +55,6 @@ class GrupoDatatable extends DataTableComponent
             )->html(),
         ];
     }
-
-    // public function filters(): array
-    // {
-    //     return [
-    //         MultiSelectFilter::make('Periodos')
-    //             ->options(
-    //                 Periodo::query()
-    //                     ->orderBy('nombre', 'desc')
-    //                     ->get()
-    //                     ->keyBy('id')
-    //                     ->map(fn ($periodo) => $periodo->nombre)
-    //                     ->toArray()
-    //             )->filter(function (Builder $builder, array $values) {
-    //                 $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
-    //             }),
-    //     ];
-    // }
 
     public function builder(): Builder
     {

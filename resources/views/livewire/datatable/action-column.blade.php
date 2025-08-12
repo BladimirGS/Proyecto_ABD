@@ -108,12 +108,6 @@
         
             @endisset
         @endcan
-
-        @can('grupos.index')
-            @isset($IrGrupo)
-            <x-link color="amber" href="{{ $IrGrupo }}">Ir</x-link>
-            @endisset
-        @endcan
         
         @can('grupos.edit')
             @isset ( $EditarGrupo )
@@ -206,7 +200,16 @@
             @isset($Exportar)
                 <x-button
                     wire:click="{{ $Exportar }}"
-                >Exportar</x-button>
+                >Reporte Detallado</x-button>
+            @endisset
+        @endcan
+
+        @can('reportes.descargar')
+            @isset($ReporteGeneral)
+                <x-button
+                    wire:click="{{ $ReporteGeneral }}"
+                    color="amber"
+                >Reporte General</x-button>
             @endisset
         @endcan
     </div>

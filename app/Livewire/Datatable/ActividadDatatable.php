@@ -21,17 +21,6 @@ class ActividadDatatable extends DataTableComponent
 
     public ?int $searchFilterDebounce = 600;
 
-    public function mount()
-    {
-        // Obtener el último periodo
-        $ultimoPeriodo = Periodo::latest('nombre')->first();
-    
-        // Verificar si hay algún período antes de aplicar el filtro
-        if ($ultimoPeriodo) {
-            $this->setFilter('periodos', [$ultimoPeriodo->id]);
-        }
-    }
-
     public function configure(): void
     {
         $this->setPrimaryKey('id')
@@ -39,7 +28,8 @@ class ActividadDatatable extends DataTableComponent
             ->setHideBulkActionsWhenEmptyEnabled()
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
-                    'livewire.datatable.create-area', [
+                    'livewire.datatable.create-area',
+                    [
                         'CrearActividad' => '$dispatch(\'openModal\', { component: \'actividad.crear-actividad\'})',
                     ],
                 ],
@@ -62,14 +52,14 @@ class ActividadDatatable extends DataTableComponent
                 ->sortable(),
             Column::make('Acciones')
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                    fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'MostrarActividad' => '$dispatch(\'openModal\', { component: \'actividad.mostrar-actividad\', arguments: { actividad: ' . $row->id . ' }})',
                             'EditarActividad' => '$dispatch(\'openModal\', { component: \'actividad.editar-actividad\', arguments: { actividad: ' . $row->id . ' }})',
                             'EliminarActividad' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                         ]
                     )
-            )->html(),
+                )->html(),
         ];
     }
 
@@ -79,13 +69,15 @@ class ActividadDatatable extends DataTableComponent
             MultiSelectFilter::make('Periodos')
                 ->options(
                     Periodo::query()
-                        ->orderBy('nombre', 'desc')
+                        ->where('activo', true)
+                        ->orderBy('created_at', 'desc')
                         ->get()
                         ->keyBy('id')
-                        ->map(fn ($periodo) => $periodo->nombre)
+                        ->map(fn($periodo) => $periodo->nombre)
                         ->toArray()
-                )->filter(function (Builder $builder, array $values) {
-                    $builder->whereHas('periodo', fn ($query) => $query->whereIn('periodos.id', $values));
+                )
+                ->filter(function (Builder $builder, array $values) {
+                    $builder->whereHas('periodo', fn($query) => $query->whereIn('periodos.id', $values));
                 }),
             SelectFilter::make('Estado')
                 ->options([
@@ -105,7 +97,10 @@ class ActividadDatatable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Actividad::query();
+        return Actividad::query()
+            ->whereHas('periodo', function ($q) {
+                $q->where('activo', true);
+            });
     }
 
     public function bulkActions(): array
@@ -129,9 +124,9 @@ class ActividadDatatable extends DataTableComponent
 
         $this->clearSelected();
     }
-    
+
     #[On('eliminar-actividad')]
-    public function EliminarActividad(Actividad $id) 
+    public function EliminarActividad(Actividad $id)
     {
         $id->delete();
     }

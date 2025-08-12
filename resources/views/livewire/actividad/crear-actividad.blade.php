@@ -17,7 +17,9 @@
                     type="text"
                     wire:model="nombre"
                     placeholder="Nombre de la actividad"
+                    class="uppercase"
                 />
+
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
 
@@ -27,9 +29,10 @@
                 <x-text-area 
                     id="descripcion"
                     wire:model="descripcion"
-                    placeholder="Descripcion del role"
-                    rows="4" 
-                ></x-text-area> 
+                    placeholder="Descripcion de la actividad"
+                    rows="4"
+                    class="uppercase"
+                ></x-text-area>
             
                 <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
             </div>

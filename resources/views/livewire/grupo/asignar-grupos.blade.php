@@ -11,8 +11,7 @@
 
             <div class="mt-5">
                 <x-input-label value="Nombre del Usuario" />
-                <p class="text-gray-800 border border-gray-300 rounded-md p-2">{{ $usuario->nombre . ' ' .
-                    $usuario->apellido }}</p>
+                <p class="text-gray-800 border border-gray-300 rounded-md p-2">{{ $usuario->nombre }}</p>
             </div>
 
             <!-- Selección de Periodo -->

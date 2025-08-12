@@ -20,7 +20,6 @@ class JefeDocenciaController extends Controller
         return view('jefe.index');
     }
 
-
     public function show(Archivo $archivo)
     {
         // Obtenemos el modelo GrupoUser
@@ -40,89 +39,100 @@ class JefeDocenciaController extends Controller
         ]);
     }
 
-    public function evaluar(Archivo $archivo, Request $request)
-    {
-        $datos = $request->validate([
-            'estado' => 'required|in:Aprobado,Rechazado,Pendiente',
-            'comentario' => 'required_if:estado,Rechazado', // Comentario requerido si es "rechazado"
-        ]);
+public function evaluar(Request $request, Archivo $archivo)
+{
+    $request->validate([
+        'estado' => 'required|in:Aprobado,Rechazado,Pendiente',
+        'comentario' => 'required_if:estado,Rechazado',
+        'archivo' => 'required_if:estado,Aprobado|nullable|file|mimes:pdf,doc,docx|max:20840',
+    ]);
 
-        // Crear o actualizar el comentario solo si se proporciona
-        if (!empty($datos['comentario'])) {
+    DB::beginTransaction();
+
+    try {
+        // 1. Guardar o actualizar comentario (con user autenticado)
+        if (!empty($request->comentario)) {
             Comentario::updateOrCreate(
                 [
                     'grupo_user_id' => $archivo->grupo_user_id,
                     'actividad_id' => $archivo->actividad_id,
                 ],
                 [
-                    'comentario' => $datos['comentario'],
+                    'comentario' => $request->comentario,
+                    'user_id' => auth()->id(),
+                    'fecha' => now()->setTimezone(config('app.timezone')),
                 ]
             );
         }
 
-        // Actualizar el estado del archivo
-        $archivo->update(['estado' => $datos['estado']]);
-
-        $archivo->grupo->user->notify(new EvaluarActividad($archivo));
-
-        return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
-    }
-
-
-    public function subir(Request $request, Grupo $grupo, Actividad $actividad)
-    {
-        $request->validate([
-            'archivo' => 'required|file|mimes:pdf,doc,docx|max:20840',
+        // 2. Actualizar estado del archivo original (docente)
+        $archivo->update([
+            'estado' => $request->estado,
         ]);
 
-        DB::beginTransaction();
-
-        try {
-            $archivo = $request->file('archivo');
-
-            // Si existe un archivo asociado, eliminarlo
-            $archivoExistente = Archivo::where('grupo_id', $grupo->id)
-                ->where('actividad_id', $actividad->id)
-                ->first();
-
-            if ($archivoExistente) {
-                if (Storage::exists($archivoExistente->documento)) {
-                    Storage::delete($archivoExistente->documento);
-                }
-                $archivoExistente->delete();
+        // 3. Si se sube archivo firmado (y estado aprobado)
+        if ($request->hasFile('archivo')) {
+            if ($request->estado !== 'Aprobado') {
+                return redirect()->back()->withErrors('Solo puede subir archivo firmado si el estado es "Aprobado".');
             }
 
-            // Generar el nombre del directorio
-            $directorio = 'archivos/' . $grupo->user->nombre . '_' . $grupo->user->apellido . '/' . $grupo->clave . '_' . $grupo->periodo->nombre;
-            $directorio = str_replace([' ', '/', '\\'], '_', $directorio); // Normaliza caracteres no válidos
+            $nuevoArchivo = $request->file('archivo');
 
-            // Subir el nuevo archivo
-            $documento = Storage::put($directorio, $archivo);
+            // Buscar archivo firmado existente para el jefe (user_id = auth()->id())
+            $archivoFirmado = Archivo::where('grupo_user_id', $archivo->grupo_user_id)
+                ->where('actividad_id', $archivo->actividad_id)
+                ->where('user_id', auth()->id())
+                ->first();
 
-            // Crear o actualizar el registro en la base de datos
-            Archivo::updateOrCreate(
-                [
-                    'grupo_id' => $grupo->id,
-                    'actividad_id' => $actividad->id,
-                ],
-                [
-                    'nombre' => $archivo->getClientOriginalName(),
+            // Construir ruta para guardar archivo firmado
+            $jefe = auth()->user();
+            $grupoUser = $archivo->grupoUser;
+            $grupo = $grupoUser->grupo;
+            $periodo = $grupoUser->periodo;
+
+            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', "{$jefe->nombre}_{$jefe->apellido}");
+            $grupoPeriodo = str_replace([' ', '/', '\\'], '_', "{$grupo->clave}_{$periodo->nombre}");
+            $directorio = "archivos/{$carpetaUsuario}/{$grupoPeriodo}";
+
+            $path = Storage::put($directorio, $nuevoArchivo);
+
+            if ($archivoFirmado) {
+                // Eliminar archivo firmado anterior si existe
+                if (Storage::exists($archivoFirmado->documento)) {
+                    Storage::delete($archivoFirmado->documento);
+                }
+
+                // Actualizar archivo firmado existente
+                $archivoFirmado->update([
+                    'nombre' => $nuevoArchivo->getClientOriginalName(),
                     'fecha' => now()->setTimezone(config('app.timezone')),
-                    'documento' => $documento,
-                ]
-            );
-
-            DB::commit();
-
-            return redirect()
-                ->back()
-                ->with('status', 'Archivo subido exitosamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return redirect()
-                ->back()
-                ->withErrors('Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.');
+                    'documento' => $path,
+                    'estado' => 'Firmado',
+                ]);
+            } else {
+                // Crear nuevo archivo firmado
+                Archivo::create([
+                    'nombre' => $nuevoArchivo->getClientOriginalName(),
+                    'fecha' => now()->setTimezone(config('app.timezone')),
+                    'documento' => $path,
+                    'user_id' => $jefe->id,
+                    'grupo_user_id' => $archivo->grupo_user_id,
+                    'actividad_id' => $archivo->actividad_id,
+                    'estado' => 'Firmado',
+                ]);
+            }
         }
+
+        // 4. Notificar al docente
+        $archivo->grupoUser->user->notify(new EvaluarActividad($archivo));
+
+        DB::commit();
+
+        return redirect()->back()->with('status', 'Evaluación guardada exitosamente.');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->back()->withErrors('Ocurrió un error: ' . $e->getMessage());
     }
+}
+
 }

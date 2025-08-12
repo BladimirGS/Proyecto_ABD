@@ -22,13 +22,13 @@
                     <span>Inicio</span>
                 </x-nav-link>
 
-                @can('docentes.index')
+                {{-- @can('docentes.index')
                 <x-nav-link :href="route('docente.grupos.index')" :active="request()->routeIs('docente.grupos.index')">
                     <img src="{{ asset('svg/tablero.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Mis grupos</span>
                 </x-nav-link>
-                @endcan
+                @endcan --}}
 
                 @can('firma.index')
                 <x-nav-link :href="route('firma.index')" :active="request()->routeIs('firma.index')">
