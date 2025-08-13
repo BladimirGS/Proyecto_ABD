@@ -34,7 +34,7 @@
             @else
             <ul class="mt-2 border border-gray-300 rounded-md p-2">
                 @foreach ($gruposDelUsuario as $grupo)
-                <li class="text-gray-800">• {{ $grupo->clave }} - {{ $grupo->materia }}</li>
+                <li class="text-gray-800">• {{ $grupo->clave }} - {{ $grupo->materia->nombre }}</li>
                 @endforeach
             </ul>
             @endif

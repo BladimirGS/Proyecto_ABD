@@ -20,7 +20,7 @@
 
                 <select wire:model="periodoSeleccionado" wire:change="actualizarPeriodo"
                     class="w-full border-gray-300 rounded mt-2">
-                    <option value="">Seleccione un periodo</option>
+                    <option disabled value="null">Seleccione un periodo</option>
                     @foreach ($periodos as $periodo)
                     <option value="{{ $periodo->id }}">{{ $periodo->nombre }}</option>
                     @endforeach
@@ -39,8 +39,9 @@
                     <div class="flex items-center justify-between py-1">
                         <label class="text-gray-700">
                             <input type="checkbox" value="{{ $grupo['id'] }}" wire:model="gruposUsuario"
-                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                            {{ $grupo['clave'] }} - {{ $grupo->materia->nombre ?? 'Sin materia' }}
+                                wire:key="grupo-asignado-{{ $periodoSeleccionado }}-{{ $grupo['id'] }}"
+                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <span>{{ $grupo['clave'] }} - {{ $grupo->materia->nombre ?? 'Sin materia' }}</span>
                         </label>
                     </div>
                     @empty
@@ -67,8 +68,9 @@
                     <div class="flex items-center justify-between py-1">
                         <label class="text-gray-700">
                             <input type="checkbox" value="{{ $grupo['id'] }}" wire:model="gruposUsuario"
-                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                            {{ $grupo['clave'] }} - {{ $grupo->materia['nombre'] ?? 'Sin materia' }}
+                                wire:key="grupo-disponible-{{ $periodoSeleccionado }}-{{ $grupo['id'] }}"
+                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                            <span>{{ $grupo['clave'] }} - {{ $grupo->materia['nombre'] ?? 'Sin materia' }}</span>
                         </label>
                     </div>
                     @empty

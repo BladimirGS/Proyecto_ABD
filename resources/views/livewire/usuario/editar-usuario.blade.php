@@ -43,7 +43,7 @@
                             in_array($contrato->id, $contratosUsuario) ? 'checked' : '' }}
                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                         >
-                        <span class="uppercase">{{ $contrato->nombre }}</span>
+                        <span>{{ $contrato->nombre }}</span>
                     </label>
                 </div>
                 @endforeach

@@ -30,18 +30,18 @@ class AsignarGrupos extends ModalComponent
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $this->periodoSeleccionado = optional($this->periodos->first())->id; // Selecciona el primer periodo por defecto
-    
+        $this->periodoSeleccionado = optional($this->periodos->first())->id;
+
         $this->gruposAsignados();
-        $this->actualizarListas(); 
-    }    
+        $this->actualizarListas();
+    }
 
     public function gruposAsignados()
     {
         $gruposAsignadosUsuario = $this->usuario->grupos()
             ->wherePivot('periodo_id', $this->periodoSeleccionado)
             ->with('materia')
-            ->get(['grupos.id', 'clave', 'semestre', 'materia_id']);
+            ->get(['grupos.id', 'clave', 'materia_id']);
 
         $this->gruposAsignados = $gruposAsignadosUsuario;
         $this->gruposUsuario = $gruposAsignadosUsuario->pluck('id')->toArray();
@@ -53,29 +53,28 @@ class AsignarGrupos extends ModalComponent
             $this->gruposDisponibles = [];
             return;
         }
-    
+
         // Grupos ya ocupados por otros usuarios
         $gruposOcupados = DB::table('grupo_user')
             ->where('periodo_id', $this->periodoSeleccionado)
             ->where('user_id', '!=', $this->usuario->id)
             ->pluck('grupo_id')
             ->toArray();
-    
+
         // Excluir ocupados y los ya asignados al usuario
         $idsExcluir = array_unique(array_merge($gruposOcupados, $this->gruposUsuario));
-    
+
         $query = Grupo::whereNotIn('id', $idsExcluir);
-    
+
         if (!empty($this->busqueda)) {
             $query->where(function ($q) {
-                $q->where('clave', 'like', "%{$this->busqueda}%")
-                  ->orWhere('semestre', 'like', "%{$this->busqueda}%");
+                $q->where('clave', 'like', "%{$this->busqueda}%");
             });
         }
-    
+
         $this->gruposDisponibles = $query
             ->with('materia') // Aquí cargas la relación
-            ->get(['id', 'clave', 'semestre', 'materia_id']); // Incluye materia_id para que no falle
+            ->get(['id', 'clave', 'materia_id']); // Incluye materia_id para que no falle
     }
 
     public function actualizarGrupos()
@@ -104,12 +103,14 @@ class AsignarGrupos extends ModalComponent
 
     public function actualizarPeriodo()
     {
+        $this->gruposUsuario = [];
         $this->gruposAsignados();
         $this->actualizarListas();
-    }      
+    }
+
 
     public function render()
     {
         return view('livewire.grupo.asignar-grupos');
-    }    
+    }
 }

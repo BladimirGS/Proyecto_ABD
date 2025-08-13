@@ -17,7 +17,9 @@ class MostrarGruposUsuario extends ModalComponent
     public function mount(User $usuario)
     {
         $this->usuario = $usuario;
-        $this->periodos = Periodo::orderBy('created_at', 'desc')->get();
+        $this->periodos = Periodo::where('activo', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
         $this->periodoSeleccionado = optional($this->periodos->first())->id;
         $this->cargarGrupos();
     }
@@ -32,7 +34,7 @@ class MostrarGruposUsuario extends ModalComponent
         $this->gruposDelUsuario = $this->usuario->grupos()
             ->wherePivot('periodo_id', $this->periodoSeleccionado)
             ->with('materia')
-            ->get(['clave', 'semestre']);
+            ->get(['grupos.id', 'clave', 'materia_id']);
     }
 
     public function render()

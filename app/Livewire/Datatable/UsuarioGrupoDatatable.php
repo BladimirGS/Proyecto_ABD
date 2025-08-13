@@ -57,19 +57,19 @@ class UsuarioGrupoDatatable extends DataTableComponent
 
     public function builder(): Builder
     {
+        // Obtenemos el último periodo activo
+        $ultimoPeriodoId = \App\Models\Periodo::where('activo', true)
+            ->orderByDesc('created_at')
+            ->value('id');
+
         return User::query()
-            ->with(['grupos' => function ($q) {
-                $q->wherePivot('periodo_id', function ($sub) {
-                    $sub->select('periodo_id')
-                        ->from('grupo_user as gu2')
-                        ->whereColumn('gu2.user_id', 'grupo_user.user_id')
-                        ->orderByDesc('gu2.created_at')
-                        ->limit(1);
-                })
+            ->with(['grupos' => function ($q) use ($ultimoPeriodoId) {
+                $q->wherePivot('periodo_id', $ultimoPeriodoId)
                     ->with('materia');
             }])
             ->whereDoesntHave('roles', function ($q) {
                 $q->where('name', 'SUPER USUARIO');
-            });
+            })
+            ->orderBy('id');
     }
 }
