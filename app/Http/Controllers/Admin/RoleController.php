@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
-// Agregamos Spatie
+// Spatie
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware('can:roles.index')->only('index');
         $this->middleware('can:roles.create')->only('create');
@@ -24,9 +24,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-
-        return view('admin.role.index', compact('roles'));
+        return view('admin.role.index');
     }
 
     /**
@@ -48,21 +46,21 @@ class RoleController extends Controller
             'nombre' => [
                 'required',
                 Rule::unique('roles', 'name')->ignore($request->id),
-            ], 
+            ],
             'descripcion' => 'required',
             'permisos' => ['required', 'array', Rule::exists('permissions', 'id')],
         ]);
-        
+
         $role = Role::create([
-            'name' => $request->nombre,
+            'name' => mb_strtoupper($request->nombre, 'UTF-8'),
             'description' => $request->descripcion
         ]);
 
         $role->permissions()->sync($request->permisos);
 
-
-        return redirect()->route('roles.index')->with('status', 'Operacion exitosa');
+        return redirect()->route('roles.index')->with('status', 'Operación exitosa');
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -83,18 +81,18 @@ class RoleController extends Controller
             'nombre' => [
                 'required',
                 Rule::unique('roles', 'name')->ignore($role->id),
-            ], 
+            ],
             'descripcion' => 'required',
             'permisos' => ['required', 'array', Rule::exists('permissions', 'id')],
         ]);
 
         $role->update([
-            'name' => $request->nombre,
+            'name' => mb_strtoupper($request->nombre, 'UTF-8'),
             'description' => $request->descripcion
         ]);
 
         $role->permissions()->sync($request->permisos);
-        
-        return redirect()->route('roles.index')->with('status', 'Operacion exitosa');
+
+        return redirect()->route('roles.index')->with('status', 'Operación exitosa');
     }
 }

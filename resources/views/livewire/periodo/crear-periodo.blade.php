@@ -7,43 +7,42 @@
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="CrearPeriodo">
             @csrf
     
-            <h2 class="block font-bold text-lg text-gray-700 text-center">Registrar Periodo</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Registrar Periodo</h2>
 
             <div class="mt-5">
-                <x-input-label for="nombre" value="Nombre" />
+                <x-input-label for="nombre" value="Nombre" class="uppercase" />
     
                 <x-text-input
                     id="nombre"
                     type="text"
                     wire:model="nombre"
                     :value="old('nombre')"
-                    placeholder="Nombre de la periodo"
+                    placeholder="Nombre del periodo"
+                    class="uppercase"
                 />
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="fecha_inicio" value="fecha_inicio" />
+                <x-input-label for="fecha_inicio" value="fecha inicio" class="uppercase" />
     
                 <x-text-input
                     id="fecha_inicio"
                     type="date"
                     wire:model="fecha_inicio"
                     :value="old('fecha_inicio')"
-                    placeholder="fecha de inicio del periodo"
                 />
                 <x-input-error :messages="$errors->get('fecha_inicio')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="fecha_fin" value="fecha_fin" />
+                <x-input-label for="fecha_fin" value="fecha fin" class="uppercase" />
     
                 <x-text-input
                     id="fecha_fin"
                     type="date"
                     wire:model="fecha_fin"
                     :value="old('fecha_fin')"
-                    placeholder="fecha final del periodo"
                 />
                 <x-input-error :messages="$errors->get('fecha_fin')" class="mt-2" />
             </div>

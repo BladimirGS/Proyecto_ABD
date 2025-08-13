@@ -7,10 +7,10 @@
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="actualizarRoles">
             @csrf
 
-            <h2 class="block font-bold text-lg text-gray-700 text-center">Asignar roles</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Asignar roles</h2>
 
             <div class="mt-5">
-                <span class="block font-medium text-sm text-gray-700 cursor-default">Lista de roles</span>
+                <span class="block font-medium text-sm text-gray-700 cursor-default uppercase">Lista de roles</span>
 
                 @foreach ($roles as $rol)
                 <div class="flex items-center mt-2">

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Models\Grupo;
 use App\Models\Carrera;
 use App\Models\Materia;
-use App\Models\Periodo;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Actividad;
 
 class GrupoController extends Controller
 {
@@ -35,10 +32,8 @@ class GrupoController extends Controller
     public function create()
     {
         return view('admin.grupo.create', [
-            // 'users' => User::all(),
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
-            // 'periodos' => Periodo::where('activo', true)->get(),
         ]);
     }
 
@@ -50,10 +45,8 @@ class GrupoController extends Controller
         $datos = $this->validate($request, [
             'clave' => 'required',
             'semestre' => 'required',
-            // 'user_id' => 'required',
             'carrera_id' => 'required',
             'materia_id' => 'required',
-            // 'periodo_id' => 'required',
         ]);
     
         // Obtener un color aleatorio de la lista de colores

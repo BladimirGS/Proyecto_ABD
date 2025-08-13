@@ -28,12 +28,13 @@ class EditarMateria extends ModalComponent
     {
         $datos = $this->validate();
 
+        $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
+
         $this->materia->update($datos);
 
         $this->dispatch('refreshDatatable');
-
         $this->dispatch('exito'); 
-
         $this->closeModal();
     }
 }

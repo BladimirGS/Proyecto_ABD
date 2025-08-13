@@ -3,8 +3,6 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\User;
-use Livewire\Attributes\On;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -18,13 +16,14 @@ class UsuarioGrupoDatatable extends DataTableComponent
         $this->setPrimaryKey('id')
             ->setAdditionalSelects(['users.id as id'])
             ->setHideBulkActionsWhenEmptyEnabled()
-                    ->setConfigurableAreas([
-            'toolbar-left-start' => [
-                'livewire.datatable.create-area', [
-                    'ImportarGrupo' => route('grupos.usuarios.importarExcel'),
+            ->setConfigurableAreas([
+                'toolbar-left-start' => [
+                    'livewire.datatable.create-area',
+                    [
+                        'ImportarGrupo' => route('grupos.usuarios.importarExcel'),
+                    ],
                 ],
-            ],
-        ]);
+            ]);
     }
 
     public function columns(): array
@@ -44,20 +43,33 @@ class UsuarioGrupoDatatable extends DataTableComponent
                 ->sortable()
                 ->html(),
             Column::make('Acciones')
-            ->unclickable()
+                ->unclickable()
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                    fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'VerGrupos' => '$dispatch(\'openModal\', { component: \'grupo.mostrar-grupos-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                             'AsignarGrupos' => '$dispatch(\'openModal\', { component: \'grupo.asignar-grupos\', arguments: { usuario: ' . $row->id . ' }})',
                         ]
                     )
-            )->html(),
+                )->html(),
         ];
     }
-    
-public function builder(): Builder
-{
-    return User::query()->with('grupos.materia');
-}
+
+    public function builder(): Builder
+    {
+        return User::query()
+            ->with(['grupos' => function ($q) {
+                $q->wherePivot('periodo_id', function ($sub) {
+                    $sub->select('periodo_id')
+                        ->from('grupo_user as gu2')
+                        ->whereColumn('gu2.user_id', 'grupo_user.user_id')
+                        ->orderByDesc('gu2.created_at')
+                        ->limit(1);
+                })
+                    ->with('materia');
+            }])
+            ->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'SUPER USUARIO');
+            });
+    }
 }

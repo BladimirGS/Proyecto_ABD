@@ -25,29 +25,32 @@ class UsuarioRoleDatatable extends DataTableComponent
             Column::make("Nombre", "nombre")
                 ->sortable(),
             Column::make("Roles")
-                ->label(fn ($row) => nl2br(e($row->roles->pluck('name')->join("\n"))))
+                ->label(fn($row) => nl2br(e($row->roles->pluck('name')->join("\n"))))
                 ->sortable()
-                ->html(),         
+                ->html(),
             Column::make('Acciones')
-            ->unclickable()
+                ->unclickable()
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                    fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'VerRoles' => '$dispatch(\'openModal\', { component: \'role.mostrar-roles-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                             'AsignarRoles' => '$dispatch(\'openModal\', { component: \'role.asignar-roles\', arguments: { usuario: ' . $row->id . ' }})',
                         ]
                     )
-            )->html(),
+                )->html(),
         ];
     }
-    
+
     public function builder(): Builder
     {
-        return User::query();
+        return User::query()
+            ->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'SUPER USUARIO');
+            });
     }
 
     #[On('eliminar-usuario-role')]
-    public function EliminarUsuarioRole(User $id) 
+    public function EliminarUsuarioRole(User $id)
     {
         $id->delete();
     }

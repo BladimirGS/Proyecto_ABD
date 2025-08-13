@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
-// Agregamos Spatie
+// Spatie
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -78,51 +78,56 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'reportes.index', 'description' => 'Ver listado de reportes'],
             ['name' => 'reportes.descargar', 'description' => 'Descargar reportes'],
         ];
-        
+
         foreach ($permisos as $permiso) {
             Permission::create($permiso);
         }
-        
+
 
         // Rol de super administrador
-        $role1 = Role::create(['name' => 'Super Usuario', 'description' => 'Acceso a todo']);
+        $role1 = Role::create(['name' => 'SUPER USUARIO', 'description' => 'Acceso a todo']);
 
-        Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
+        // Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
 
-        Role::create(['name' => 'Docente', 'description' => 'Maestros']);
+        // Role::create(['name' => 'Docente', 'description' => 'Maestros']);
 
-        Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
+        // Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
 
-        Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
+        // Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
 
         // Agregando super administrador
         $user = User::create([
-            'nombre' => 'Super Usuario',
+            'nombre' => 'SUPER USUARIO',
             'email' => 'admin@correo.com',
             'password' => Hash::make('password'),
         ]);
+        
         $user->assignRole($role1);
 
         // insertar los datos para la tabla contratos
-        DB::table('contratos')->insert([
-            'nombre' => 'Planta',
+        Contrato::create([
+            'nombre' => 'BASE',
         ]);
 
-        DB::table('contratos')->insert([
-            'nombre' => 'Honorario',
+        Contrato::create([
+            'nombre' => 'HONORARIO',
         ]);
 
-        DB::table('contratos')->insert([
-            'nombre' => 'Interino',
+        Contrato::create([
+            'nombre' => 'INTERINO',
+        ]);
+
+        Contrato::create([
+            'nombre' => 'APOYO',
         ]);
 
         // Agregando un maestro
-        $user1 = User::create([
-            'nombre' => 'Hugo Bladimir',
-            'apellido' => 'maestro',
-            'rfc' => '2216',
-            'email' => 'correo@correo.com',
-            'password' => Hash::make('password'),
-        ]);
+        // $user1 = User::create([
+        //     'nombre' => 'Hugo Bladimir',
+        //     'apellido' => 'maestro',
+        //     'rfc' => '2216',
+        //     'email' => 'correo@correo.com',
+        //     'password' => Hash::make('password'),
+        // ]);
     }
 }

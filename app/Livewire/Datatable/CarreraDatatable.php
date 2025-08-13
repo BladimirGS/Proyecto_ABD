@@ -34,6 +34,9 @@ class CarreraDatatable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make("Clave", "clave")
+                ->sortable()
+                ->searchable(),
             ComponentColumn::make("Nombre", "nombre")
                 ->component('break-normal')
                 ->sortable()
@@ -45,10 +48,8 @@ class CarreraDatatable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
-                            // 'eventoEditar' => route('grupos.edit', $row),
                             'EditarCarrera' => '$dispatch(\'openModal\', { component: \'carrera.editar-carrera\', arguments: { carrera: ' . $row->id . ' }})',
                             'EliminarCarrera' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
-                            // 'grupo' => $row,
                         ]
                     )
             )->html(),

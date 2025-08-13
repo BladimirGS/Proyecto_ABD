@@ -8,10 +8,10 @@
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="EditarActividad">
             @csrf
 
-            <h2 class="block font-bold text-lg text-gray-700 text-center">Editar Actividad</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar Actividad</h2>
 
             <div class="mt-5">
-                <x-input-label for="nombre" value="Nombre" />
+                <x-input-label for="nombre" value="Nombre" class="uppercase" />
 
                 <x-text-input id="nombre" type="text" wire:model="nombre" :value="$actividad->nombre"
                     placeholder="Nombre de la actividad" class="uppercase" />
@@ -19,10 +19,10 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="descripcion" value="Descripción" />
+                <x-input-label for="descripcion" value="Descripción" class="uppercase" />
 
-                <x-text-area id="descripcion" wire:model="descripcion" placeholder="Descripcion de la actividad"
-                    rows="4" class="uppercase">
+                <x-text-area id="descripcion" wire:model="descripcion" placeholder="DESCRIPCIÓN DE LA ACTIVIDAD"
+                    rows="4">
                     {{ $actividad->descripcion }}
                 </x-text-area>
 
@@ -30,19 +30,20 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="firma" value="¿Requiere firma del jefe?" />
+                <span class="block font-medium text-sm text-gray-700 cursor-default uppercase">¿Requiere firma del
+                    jefe?</span>
 
                 <div class="flex items-center space-x-4 mt-2">
                     <label class="flex items-center space-x-2">
                         <input type="radio" id="firma-si" value="1" wire:model="firma"
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <span class="text-gray-700">Sí</span>
+                        <span class="text-gray-700 uppercase">Sí</span>
                     </label>
 
                     <label class="flex items-center space-x-2">
                         <input type="radio" id="firma-no" value="0" wire:model="firma"
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <span class="text-gray-700">No</span>
+                        <span class="text-gray-700 uppercase">No</span>
                     </label>
                 </div>
 
@@ -50,18 +51,17 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="fecha" value="Fecha programada" />
+                <x-input-label for="fecha" value="Fecha programada" class="uppercase" />
 
-                <x-text-input id="fecha" type="date" wire:model="fecha" :value="$actividad->fecha"
-                    placeholder="Fecha de la actividad" />
+                <x-text-input id="fecha" type="date" wire:model="fecha" :value="$actividad->fecha" />
                 <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <span class="block font-medium text-sm text-gray-700 cursor-default">Periodo</span>
+                <x-input-label for="periodo_id" value="Periodo" class="uppercase" />
 
                 <select id="periodo_id" wire:model="periodo_id"
-                    class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    class="block w-full h-10 mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm uppercase">
                     <option value="null" disabled {{ empty($periodo_id) ? 'selected' : '' }}>Selecciona un periodo
                     </option>
 

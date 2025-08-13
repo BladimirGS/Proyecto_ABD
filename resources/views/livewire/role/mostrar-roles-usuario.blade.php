@@ -4,15 +4,15 @@
             ✖
         </button>
 
-        <h2 class="block font-bold text-lg text-gray-700 text-center">Roles del Usuario</h2>
+        <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Roles del Usuario</h2>
 
         <div class="mt-5">
-            <x-input-label value="Nombre del Usuario" />
+            <x-input-label value="Nombre del Usuario" class="uppercase" />
             <p class="text-gray-800 border border-gray-300 rounded-md p-2">{{ $usuario->nombre }}</p>
         </div>
         
         <div class="mt-5">
-            <h2 class="block font-medium text-sm text-gray-700">Lista de Roles</h2>
+            <h2 class="block font-medium text-sm text-gray-700 uppercase">Lista de Roles</h2>
             
             @if ($usuario->roles->isEmpty())
                 <p class="text-gray-500 mt-2">Este usuario no tiene roles asignados.</p>

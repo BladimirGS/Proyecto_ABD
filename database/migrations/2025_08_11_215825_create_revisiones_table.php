@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('revisiones', function (Blueprint $table) {
             $table->id();
             $table->dateTime('fecha');
+            $table->text('descripcion')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('grupo_user_id')->constrained('grupo_user')->cascadeOnDelete();
             $table->foreignId('actividad_id')->constrained('actividades')->cascadeOnDelete();

@@ -7,16 +7,17 @@
         <form class="md:w-full lg:w-3/4" wire:submit.prevent="actualizarGrupos">
             @csrf
 
-            <h2 class="block font-bold text-lg text-gray-700 text-center mb-4">Asignar Grupos</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center mb-4 uppercase">Asignar Grupos</h2>
 
             <div class="mt-5">
-                <x-input-label value="Nombre del Usuario" />
+                <x-input-label value="Nombre del Usuario" class="uppercase" />
                 <p class="text-gray-800 border border-gray-300 rounded-md p-2">{{ $usuario->nombre }}</p>
             </div>
 
             <!-- Selección de Periodo -->
             <div class="mb-4">
-                <label class="block font-medium text-sm text-gray-700">Seleccionar Periodo</label>
+                <label class="block font-medium text-sm text-gray-700" class="uppercase">Seleccionar Periodo</label>
+
                 <select wire:model="periodoSeleccionado" wire:change="actualizarPeriodo"
                     class="w-full border-gray-300 rounded mt-2">
                     <option value="">Seleccione un periodo</option>

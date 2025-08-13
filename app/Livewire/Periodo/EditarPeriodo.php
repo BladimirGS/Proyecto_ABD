@@ -31,12 +31,12 @@ class EditarPeriodo extends ModalComponent
     {
         $datos = $this->validate();
 
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
+
         $this->periodo->update($datos);
 
         $this->dispatch('refreshDatatable');
-
-        $this->dispatch('exito');     
-
+        $this->dispatch('exito');
         $this->closeModal();
     }
 }

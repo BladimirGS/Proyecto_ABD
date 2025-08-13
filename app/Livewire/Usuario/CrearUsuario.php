@@ -30,6 +30,10 @@ class CrearUsuario extends ModalComponent
     {
         $datos = $this->validate();
 
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
+        $datos['apellido'] = mb_strtoupper($datos['apellido'], 'UTF-8');
+        $datos['rfc'] = mb_strtoupper($datos['rfc'], 'UTF-8');
+
         $user = User::create([
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],

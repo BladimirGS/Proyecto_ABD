@@ -29,16 +29,14 @@ class AsignarRoles extends ModalComponent
         $this->usuario->roles()->sync($datos['rolesUsuario']);
 
         $this->dispatch('refreshDatatable');
-
-        $this->dispatch('exito');  
-
+        $this->dispatch('exito');
         $this->closeModal();
     }
-    
+
     public function render()
     {
         return view('livewire.role.asignar-roles', [
-            'roles' => Role::all()
+            'roles' => Role::where('name', '!=', 'SUPER USUARIO')->get()
         ]);
     }
 }

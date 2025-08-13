@@ -21,6 +21,8 @@ class CrearPeriodo extends ModalComponent
     public function CrearPeriodo()
     {
         $datos = $this->validate();
+        
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
 
         Periodo::create([
             'nombre' => $datos['nombre'],
@@ -29,9 +31,7 @@ class CrearPeriodo extends ModalComponent
         ]);
 
         $this->dispatch('refreshDatatable');
-
         $this->dispatch('exito');
-
         $this->closeModal();
     }
 }

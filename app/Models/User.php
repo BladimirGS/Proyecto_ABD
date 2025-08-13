@@ -27,7 +27,7 @@ class User extends Authenticatable
         'rfc',
         'grado_estudio',
         'telefono',
-        'placa',
+        'placa_vehicular',
         'email',
         'password',
     ];

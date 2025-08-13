@@ -39,10 +39,12 @@ class EditarUsuario extends ModalComponent
 
     public function EditarUsuario()
     {   
-        // Validar los datos
         $datos = $this->validate();
 
-        // Preparar los datos para actualizar
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
+        $datos['apellido'] = mb_strtoupper($datos['apellido'], 'UTF-8');
+        $datos['rfc'] = mb_strtoupper($datos['rfc'], 'UTF-8');
+
         $datosActualizar = [
             'nombre' => $datos['nombre'],
             'apellido' => $datos['apellido'],
@@ -50,18 +52,14 @@ class EditarUsuario extends ModalComponent
             'email' => $datos['email'],
         ];
 
-        // Si se proporciona una nueva contraseña, se encripta y se incluye
         if (!empty($datos['password'])) {
             $datosActualizar['password'] = bcrypt($datos['password']);
         }
 
-        // Se actualiza el usuario
         $this->usuario->update($datosActualizar);
 
-        // Actualizar tabla intermedia
         $this->usuario->contratos()->sync($datos['contratosUsuario']);
 
-        // Disparar eventos
         $this->dispatch('refreshDatatable');
         $this->dispatch('exito');  
         $this->closeModal();

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('rfc')->nullable();
             $table->string('grado_estudio')->nullable();
             $table->string('telefono')->nullable();
-            $table->string('placa')->nullable();
+            $table->string('placa_vehicular')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('activo')->default(true);

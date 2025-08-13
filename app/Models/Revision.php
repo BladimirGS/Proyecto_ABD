@@ -10,6 +10,7 @@ class Revision extends Model
 
     protected $fillable = [
         'fecha',
+        'descripcion',
         'user_id',
         'grupo_user_id',
         'actividad_id'

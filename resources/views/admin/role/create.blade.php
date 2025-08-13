@@ -4,56 +4,45 @@
             <div class="bg-white md:flex md:justify-center p-10">
                 <form class="md:w-3/4 lg:w-4/5" action="{{ route('roles.store') }}" method="POST">
                     @csrf
-            
-                    <h2 class="block font-bold text-lg text-gray-700 text-center">Registrar role</h2>
-            
+
+                    <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Registrar rol</h2>
+
                     <div class="mt-5">
-                        <x-input-label for="nombre" value="Nombre" />
-            
-                        <x-text-input
-                            id="nombre"
-                            type="text"
-                            name="nombre"
-                            value="{{ old('nombre') }}"
-                            placeholder="Nombre del role"
-                        />
+                        <x-input-label for="nombre" value="Nombre" class="uppercase" />
+
+                        <x-text-input id="nombre" type="text" name="nombre" value="{{ old('nombre') }}"
+                            placeholder="Nombre del rol" class="uppercase" />
                         <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
                     </div>
 
                     <div class="mt-5">
-                        <x-input-label for="descripcion" value="Descripción" />
+                        <x-input-label for="descripcion" value="Descripción" class="uppercase" />
 
-                        <x-text-area 
-                            id="descripcion"
-                            name="descripcion"
-                            placeholder="Descripcion del role"
-                            rows="4" 
-                        >{{ old('descripcion') }}</x-text-area> 
-                    
+                        <x-text-area id="descripcion" name="descripcion" placeholder="DESCRIPCION DEL ROL" rows="4">{{
+                            old('descripcion') }}</x-text-area>
+
                         <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
                     </div>
-            
+
                     <div class="mt-5">
-                        <h2 for="permissions" class="'block font-medium text-sm text-gray-700'">Lista de permisos</h2>
-                        
+                        <span for="permissions" class="block font-medium text-sm text-gray-700 uppercase">Lista de
+                            permisos</span>
+
                         <x-input-error :messages="$errors->get('permisos')" class="mt-2" />
-                            
+
                         @foreach ($permissions as $permission)
-                            <div class="flex items-center mt-2">
-                                <input
-                                    type="checkbox"
-                                    id="permission{{ $permission->id }}"
-                                    value="{{ $permission->id }}"
-                                    name="permisos[]"
-                                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                >
-                                <label for="permission{{ $permission->id }}" class="ml-2 text-gray-700">{{ $permission->description }}</label>
-                            </div>
+                        <div class="flex items-center mt-2">
+                            <input type="checkbox" id="permission{{ $permission->id }}" value="{{ $permission->id }}"
+                                name="permisos[]"
+                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="permission{{ $permission->id }}" class="ml-2 text-gray-700">{{
+                                $permission->description }}</label>
+                        </div>
                         @endforeach
                     </div>
-            
+
                     <div class="mt-5 flex flex-col md:flex-row gap-4 justify-center">
-                        <x-link href="{{ route('roles.index') }}" color="red"  class="w-full md:w-auto">
+                        <x-link href="{{ route('roles.index') }}" color="red" class="w-full md:w-auto">
                             Cancelar
                         </x-link>
 

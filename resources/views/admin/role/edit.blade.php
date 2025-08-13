@@ -6,27 +6,29 @@
                     @csrf
                     @method('PUT')
                     
-                    <h2 class="block font-bold text-lg text-gray-700 text-center">Editar rol</h2>
+                    <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar rol</h2>
             
                     <div class="mt-5">
-                        <x-input-label for="nombre" value="Nombre" />
+                        <x-input-label for="nombre" value="Nombre" class="uppercase" />
             
                         <x-text-input
                             id="nombre"
                             type="text"
                             name="nombre"
                             value="{{ $role->name }}"
-                            placeholder="Nombre de la carrera"
+                            placeholder="Nombre del rol"
+                            class="uppercase"
                         />
                         <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
                     </div>
                     
                     <div class="mt-5">
-                        <x-input-label for="descripcion" value="Descripción" />
+                        <x-input-label for="descripcion" value="Descripción" class="uppercase" />
 
                         <x-text-area 
                             id="descripcion"
                             name="descripcion"
+                            placeholder="DESCRIPCION DEL ROL"
                             rows="4" 
                         >{{ $role->description }}</x-text-area>
                     
@@ -34,7 +36,7 @@
                     </div>
             
                     <div class="mt-5">
-                        <h2 for="permissions" class="'block font-medium text-sm text-gray-700'">Lista de permisos</h2>
+                        <h2 for="permissions" class="block font-medium text-sm text-gray-700 uppercase">Lista de permisos</h2>
                         
                         <x-input-error :messages="$errors->get('permisos')" class="mt-2" />
                             

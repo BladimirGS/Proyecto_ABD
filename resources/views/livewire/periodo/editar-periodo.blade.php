@@ -7,23 +7,24 @@
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="EditarPeriodo">
             @csrf
     
-            <h2 class="block font-bold text-lg text-gray-700 text-center">Editar Periodo</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar Periodo</h2>
 
             <div class="mt-5">
-                <x-input-label for="nombre" value="Nombre" />
+                <x-input-label for="nombre" value="Nombre" class="uppercase" />
     
                 <x-text-input
                     id="nombre"
                     type="text"
                     wire:model="nombre"
                     :value="$periodo->nombre"
-                    placeholder="Nombre de la periodo"
+                    placeholder="Nombre del periodo"
+                    class="uppercase"
                 />
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="fecha_inicio" value="fecha_inicio" />
+                <x-input-label for="fecha_inicio" value="fecha inicio" class="uppercase" />
     
                 <x-text-input
                     id="fecha_inicio"
@@ -36,7 +37,7 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="fecha_fin" value="fecha_fin" />
+                <x-input-label for="fecha_fin" value="fecha fin" class="uppercase" />
     
                 <x-text-input
                     id="fecha_fin"

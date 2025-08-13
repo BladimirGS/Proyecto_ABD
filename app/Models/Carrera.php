@@ -9,5 +9,5 @@ class Carrera extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre'];
+    protected $fillable = ['clave', 'nombre'];
 }

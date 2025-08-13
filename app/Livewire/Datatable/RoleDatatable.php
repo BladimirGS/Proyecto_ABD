@@ -59,7 +59,7 @@ class RoleDatatable extends DataTableComponent
     public function builder(): Builder
     {
         return Role::query()
-            ->where('name', '!=', 'Super Usuario')
+            ->where('name', '!=', 'SUPER USUARIO')
             ->orderBy('id');
     }
 

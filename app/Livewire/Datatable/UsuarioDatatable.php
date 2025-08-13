@@ -26,7 +26,8 @@ class UsuarioDatatable extends DataTableComponent
             ->setHideBulkActionsWhenEmptyEnabled()
             ->setConfigurableAreas([
                 'toolbar-left-start' => [
-                    'livewire.datatable.create-area', [
+                    'livewire.datatable.create-area',
+                    [
                         'CrearUsuario' => '$dispatch(\'openModal\', { component: \'usuario.crear-usuario\'})',
                     ],
                 ],
@@ -44,98 +45,55 @@ class UsuarioDatatable extends DataTableComponent
                 ->component('break-normal')
                 ->sortable()
                 ->searchable(),
-            // Column::make("Rfc", "rfc")
-            //     ->sortable()
-            //     ->searchable(),
             Column::make('Contratos')
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.contratos')->with([
+                    fn($row, Column $column) => view('livewire.datatable.contratos')->with([
                         'usuario' => $row,
                     ])
                 )->html(),
-            // Column::make("Email", "email")
-            //     ->sortable()
-            //     ->searchable(),
             Column::make('Acciones')
-            ->unclickable()
+                ->unclickable()
                 ->label(
-                    fn ($row, Column $column) => view('livewire.datatable.action-column')->with(
+                    fn($row, Column $column) => view('livewire.datatable.action-column')->with(
                         [
                             'EditarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.editar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                             'EliminarUsuario' => '$dispatch(\'mostrarAlerta\', { id: ' . $row->id . '})',
                             'MostarUsuario' => '$dispatch(\'openModal\', { component: \'usuario.mostrar-usuario\', arguments: { usuario: ' . $row->id . ' }})',
                         ]
                     )
-            )->html(),
+                )->html(),
         ];
     }
-    
+
     public function filters(): array
     {
         return [
             SelectFilter::make('Contratos')
                 ->options(
                     Contrato::query()
-                        ->orderBy('nombre')
+                        ->orderBy('id')
                         ->get()
                         ->keyBy('id')
                         ->map(fn($contrato) => $contrato->nombre)
                         ->toArray()
                 )
-                ->filter(function(Builder $builder, string $value) {
+                ->filter(function (Builder $builder, string $value) {
                     $builder->whereHas('contratos', fn($query) => $query->where('contratos.id', $value));
                 }),
         ];
     }
-    
-    
-    // public function filters(): array
-    // {
-    //     return [
-    //         MultiSelectFilter::make('Contratos')
-    //             ->options(
-    //                 ['no_contract' => 'Sin Contrato'] +  // Añade la opción especial al inicio
-    //                 Contrato::query()
-    //                     ->get()
-    //                     ->keyBy('id')
-    //                     ->map(fn($contrato) => $contrato->nombre)
-    //                     ->toArray()
-    //             )
-    //             ->filter(function (Builder $builder, array $values) {
-    //                 $noContract = false;
-    
-    //                 // Verifica si "Sin Contrato" está seleccionado
-    //                 if (in_array('no_contract', $values)) {
-    //                     $noContract = true;
-    //                     // Elimina 'no_contract' de los valores para no interferir con los IDs de contratos
-    //                     $values = array_diff($values, ['no_contract']);
-    //                 }
-    
-    //                 if ($noContract) {
-    //                     // Filtra usuarios que no tienen ningún contrato
-    //                     $builder->whereDoesntHave('contratos');
-    
-    //                     if (!empty($values)) {
-    //                         // También filtra usuarios que tienen los contratos seleccionados
-    //                         $builder->orWhereHas('contratos', fn($query) => $query->whereIn('contratos.id', $values));
-    //                     }
-    //                 } elseif (!empty($values)) {
-    //                     // Filtra usuarios que tienen los contratos seleccionados
-    //                     $builder->whereHas('contratos', fn($query) => $query->whereIn('contratos.id', $values));
-    //                 }
-    //             })
-    //     ];
-    // }
-    
+
     public function builder(): Builder
     {
         return User::query()
-            ->where('nombre', '!=', 'Super Usuario')
-            ->orderBy('id');;
+            ->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'SUPER USUARIO');
+            });
     }
 
+
     #[On('eliminar-usuario')]
-    public function EliminarUsuario(User $id) 
+    public function EliminarUsuario(User $id)
     {
         $id->delete();
     }

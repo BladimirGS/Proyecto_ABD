@@ -7,34 +7,34 @@
         <form class="md:w-3/4 lg:w-2/3" wire:submit.prevent="EditarUsuario">
             @csrf
 
-            <h2 class="block font-bold text-lg text-gray-700 text-center">Editar Usuario</h2>
+            <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar Usuario</h2>
 
             <div class="mt-5">
-                <x-input-label for="nombre" value="Nombre" />
+                <x-input-label for="nombre" value="Nombre" class="uppercase" />
 
                 <x-text-input id="nombre" type="text" wire:model="nombre" :value="$usuario->nombre"
-                    placeholder="Nombre del usuario" />
+                    placeholder="Nombre del usuario" class="uppercase" />
                 <x-input-error :messages="$errors->get('nombre')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="apellido" value="Apellido" />
+                <x-input-label for="apellido" value="Apellido" class="uppercase" />
 
                 <x-text-input id="apellido" type="text" wire:model="apellido" :value="$usuario->apellido"
-                    placeholder="Apellido del usuario" />
+                    placeholder="Apellido del usuario" class="uppercase" />
                 <x-input-error :messages="$errors->get('apellido')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="rfc" value="RFC" />
+                <x-input-label for="rfc" value="RFC" class="uppercase" />
 
                 <x-text-input id="rfc" type="text" wire:model="rfc" :value="$usuario->rfc"
-                    placeholder="RFC del usuario" />
+                    placeholder="RFC del usuario" class="uppercase" />
                 <x-input-error :messages="$errors->get('rfc')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <span class="block font-medium text-sm text-gray-700 cursor-default">Contrato</span>
+                <span class="block font-medium text-sm text-gray-700 cursor-default uppercase">Contrato</span>
 
                 @foreach ($contratos as $contrato)
                 <div class="flex items-center mt-2">
@@ -43,7 +43,7 @@
                             in_array($contrato->id, $contratosUsuario) ? 'checked' : '' }}
                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                         >
-                        <span>{{ $contrato->nombre }}</span>
+                        <span class="uppercase">{{ $contrato->nombre }}</span>
                     </label>
                 </div>
                 @endforeach
@@ -52,17 +52,17 @@
             </div>
 
             <div class="mt-5">
-                <x-input-label for="email" value="Correo" />
+                <x-input-label for="email" value="Correo" class="uppercase" />
 
                 <x-text-input id="email" type="text" wire:model="email" :value="$usuario->email"
-                    placeholder="Correo del usuario" autocomplete="off" />
+                    placeholder="CORREO DEL USUARIO" autocomplete="off" />
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
             <div class="mt-5">
-                <x-input-label for="password" value="Contraseña" />
+                <x-input-label for="password" value="Contraseña" class="uppercase" />
 
-                <x-text-input id="password" type="password" wire:model="password" placeholder="Contraseña del usuario"
+                <x-text-input id="password" type="password" wire:model="password" placeholder="CONTRASEÑA DEL USUARIO"
                     autocomplete="new-password" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>

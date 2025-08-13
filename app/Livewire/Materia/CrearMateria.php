@@ -20,15 +20,16 @@ class CrearMateria extends ModalComponent
     {
         $datos = $this->validate();
 
+        $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
+        $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
+
         Materia::create([
             'clave' => $datos['clave'],
             'nombre' => $datos['nombre'],
         ]);
 
         $this->dispatch('refreshDatatable');
-
-        $this->dispatch('exito'); 
-
+        $this->dispatch('exito');
         $this->closeModal();
     }
 

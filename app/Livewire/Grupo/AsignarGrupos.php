@@ -32,17 +32,16 @@ class AsignarGrupos extends ModalComponent
 
         $this->periodoSeleccionado = optional($this->periodos->first())->id; // Selecciona el primer periodo por defecto
     
-        $this->gruposAsignados(); // Cargar los asignados al usuario
-        $this->actualizarListas(); // Cargar los disponibles
+        $this->gruposAsignados();
+        $this->actualizarListas(); 
     }    
 
     public function gruposAsignados()
     {
-        // Grupos ya asignados al usuario (se deben mostrar)
         $gruposAsignadosUsuario = $this->usuario->grupos()
             ->wherePivot('periodo_id', $this->periodoSeleccionado)
-            ->with('materia') // Cargar la relación
-            ->get(['grupos.id', 'clave', 'semestre', 'materia_id']); // Incluye materia_id
+            ->with('materia')
+            ->get(['grupos.id', 'clave', 'semestre', 'materia_id']);
 
         $this->gruposAsignados = $gruposAsignadosUsuario;
         $this->gruposUsuario = $gruposAsignadosUsuario->pluck('id')->toArray();
@@ -94,7 +93,7 @@ class AsignarGrupos extends ModalComponent
 
     public function desasignarGrupo($grupoId)
     {
-        DB::table('grupo_user_periodo')
+        DB::table('grupo_user')
             ->where('user_id', $this->usuario->id)
             ->where('grupo_id', $grupoId)
             ->where('periodo_id', $this->periodoSeleccionado)

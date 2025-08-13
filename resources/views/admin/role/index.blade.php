@@ -16,8 +16,8 @@
         document.addEventListener('livewire:init', () => {
             Livewire.on('mostrarAlerta', (id) => {
                 Swal.fire({
-                    title: 'Eliminar role?',
-                    text: "El role eliminada no se puede recuperar",
+                    title: 'Eliminar rol?',
+                    text: "El rol eliminada no se puede recuperar",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -30,7 +30,6 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Eliminar el role
                         Livewire.dispatch('eliminar-role', id);
 
                         Livewire.dispatch('exito');

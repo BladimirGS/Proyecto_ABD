@@ -28,7 +28,6 @@ class CrearActividad extends ModalComponent
         $datos = $this->validate();
 
         $datos['nombre'] = mb_strtoupper($datos['nombre'], 'UTF-8');
-        $datos['descripcion'] = mb_strtoupper($datos['descripcion'], 'UTF-8');
 
         Actividad::create($datos);
 

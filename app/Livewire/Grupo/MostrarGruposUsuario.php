@@ -31,9 +31,10 @@ class MostrarGruposUsuario extends ModalComponent
     {
         $this->gruposDelUsuario = $this->usuario->grupos()
             ->wherePivot('periodo_id', $this->periodoSeleccionado)
+            ->with('materia')
             ->get(['clave', 'semestre']);
     }
-    
+
     public function render()
     {
         return view('livewire.grupo.mostrar-grupos-usuario');
