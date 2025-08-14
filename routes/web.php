@@ -87,5 +87,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/archivo/ver/{archivo}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
 
+    Route::delete('/comentario/eliminar/{comentario}', [ArchivoController::class, 'eliminarComentario'])->name('comentarios.destroy');
+
+    Route::delete('/archivo/eliminar/{archivo}', [ArchivoController::class, 'eliminarArchivo'])->name('archivos.destroy');
+
     Route::get('/roles/usuario', [UsuarioRoleController::class, 'index'])->name('roles.usuario.index');
 });

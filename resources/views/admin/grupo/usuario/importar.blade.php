@@ -87,13 +87,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             @if(session('status'))
-                Swal.fire({
-                    title: "Importación Exitosa",
-                    text: "Los registros se han procesado correctamente.",
-                    icon: "success",
-                    confirmButtonColor: '#6366F1',
-                    confirmButtonText: 'Ok'
-                });
+                Livewire.dispatch('exito');
             @endif
 
             @if(session('errores_excel'))

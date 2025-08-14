@@ -108,6 +108,7 @@ class JefeDocenciaDatatable extends DataTableComponent
         return Archivo::query()
             ->whereHas('actividad', fn(Builder $q) => $q->where('firma', true))
             ->whereHas('grupoUser.periodo', fn(Builder $q) => $q->where('activo', true))
+            ->where('estado', '<>', 'Firmado')
             ->join('grupo_user', 'archivos.grupo_user_id', '=', 'grupo_user.id')
             ->join('periodos', 'grupo_user.periodo_id', '=', 'periodos.id')
             ->orderBy('periodos.created_at', 'desc')

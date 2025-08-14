@@ -61,12 +61,6 @@ class DocenteGrupoActividadController extends Controller
         DB::beginTransaction();
 
         try {
-            // Validar existencia de la relación
-            if (!$grupoUser) {
-                return back()->withErrors('No se encontró la relación grupo-usuario.');
-            }
-
-
             $usuario = $grupoUser->user;
             $grupo   = $grupoUser->grupo;
             $periodo = $grupoUser->periodo;
@@ -84,6 +78,7 @@ class DocenteGrupoActividadController extends Controller
             // Buscar si ya existe un archivo de esa actividad para el grupoUser
             $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
                 ->where('actividad_id', $actividad->id)
+                ->where('user_id', $usuario->id)
                 ->first();
 
             if ($archivoExistente) {
@@ -93,7 +88,7 @@ class DocenteGrupoActividadController extends Controller
                 }
 
                 // Mantener o cambiar estado
-                $nuevoEstado = strtolower($archivoExistente->estado) === 'rechazado'
+                $nuevoEstado = strtolower($archivoExistente->estado) === 'rechazado' | 'aprobado'
                     ? 'Modificado'
                     : 'Pendiente';
 
@@ -108,8 +103,8 @@ class DocenteGrupoActividadController extends Controller
                 Archivo::create([
                     'nombre'        => $archivoSubido->getClientOriginalName(),
                     'fecha'         => now(),
-                    'user_id'       => auth()->id(),
                     'documento'     => $rutaDocumento,
+                    'user_id'       => auth()->id(),
                     'grupo_user_id' => $grupoUser->id,
                     'actividad_id'  => $actividad->id,
                     'estado'        => 'Pendiente',

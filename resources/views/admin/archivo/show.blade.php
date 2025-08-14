@@ -69,53 +69,50 @@
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold"
                                     colspan="2">
+                                    <label class="font-bold block mb-2">Comentario</label>
+
+                                    @if ($comentario)
+                                    <div class="bg-gray-50 border border-gray-300 rounded-md p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <p class="text-gray-800">
+                                                {{ $comentario->comentario }}
+                                            </p>
+
+                                            <form action="{{ route('comentarios.destroy', $comentario->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button id="eliminar-comentario" type="button"
+                                                    class="text-red-600 hover:text-red-800 text-sm font-semibold">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                        <span class="text-sm text-gray-500">
+                                            Publicado {{ $comentario->fecha?->diffForHumans() }}
+                                            ({{ $comentario->fecha?->translatedFormat('d \d\e F \d\e Y') }})
+                                        </span>
+                                    </div>
+                                    @endif
+
                                     <form action="{{ route('archivos.evaluar', ['archivo' => $archivo->id]) }}"
                                         method="POST">
                                         @csrf
-                                        <label class="font-bold block mb-2">Comentario</label>
-
-                                        @if ($comentario)
-                                            <div class="bg-gray-50 border border-gray-300 rounded-md p-4">
-                                                <div class="flex items-center justify-between mb-2 text-sm text-gray-500">
-                                                    <span>
-                                                        Publicado {{ $comentario->fecha?->diffForHumans() }}
-                                                        ({{ $comentario->fecha?->translatedFormat('d \d\e F \d\e Y') }})
-                                                    </span>
-                                                </div>
-                                                <p class="whitespace-pre-line text-gray-800">
-                                                    {{ $comentario->comentario }}
-                                                </p>
-                                            </div>
-                                        @else
-                                            <p class="text-gray-500 italic">No hay comentarios aún</p>
-                                        @endif
-
                                         <textarea name="comentario" class="w-full mt-2 border rounded"></textarea>
 
                                         <x-input-error :messages="$errors->get('comentario')" class="mt-2" />
 
-                                        <!-- Opciones de Estado -->
                                         <div class="mt-4">
                                             <label class="font-bold">Estado:</label>
                                             <div class="flex items-center space-x-4 mt-2">
+                                                @foreach (['Aprobado', 'Rechazado'] as $estado)
                                                 <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Aprobado" {{
-                                                        $archivo->estado === 'Aprobado' ? 'checked' : '' }}
-                                                    class="mr-2">
-                                                    Aprobado
+                                                    <input type="radio" name="estado" value="{{ $estado }}" {{
+                                                        $archivo->estado === $estado ? 'checked' : '' }} class="mr-2">
+                                                    {{ $estado }}
                                                 </label>
-                                                <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Rechazado" {{
-                                                        $archivo->estado === 'Rechazado' ? 'checked' : '' }}
-                                                    class="mr-2">
-                                                    Rechazado
-                                                </label>
-                                                <label class="flex items-center">
-                                                    <input type="radio" name="estado" value="Pendiente" {{
-                                                        $archivo->estado === 'Pendiente' ? 'checked' : '' }}
-                                                    class="mr-2">
-                                                    Pendiente
-                                                </label>
+                                                @endforeach
                                             </div>
                                         </div>
 
@@ -143,8 +140,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const Comentario = document.getElementById("eliminar-comentario");
+            
+                Comentario.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '¿Eliminar comentario?',
+                        text: 'Esta acción no se puede deshacer',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc2626',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            confirmButton: 'btn-confirm',
+                            cancelButton: 'btn-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit();
+                        }
+                    });
+                });
+            
             @if(session('status'))
-            Livewire.dispatch('exito');
+                Livewire.dispatch('exito');
             @endif
         });
     </script>

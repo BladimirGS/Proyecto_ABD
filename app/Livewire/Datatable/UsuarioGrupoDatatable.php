@@ -3,6 +3,7 @@
 namespace App\Livewire\Datatable;
 
 use App\Models\User;
+use App\Models\Periodo;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -58,7 +59,7 @@ class UsuarioGrupoDatatable extends DataTableComponent
     public function builder(): Builder
     {
         // Obtenemos el último periodo activo
-        $ultimoPeriodoId = \App\Models\Periodo::where('activo', true)
+        $ultimoPeriodoId = Periodo::where('activo', true)
             ->orderByDesc('created_at')
             ->value('id');
 

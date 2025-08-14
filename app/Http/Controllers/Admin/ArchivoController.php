@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use App\Models\Grupo;
 use App\Models\Archivo;
 use App\Models\Revision;
@@ -30,7 +31,7 @@ class ArchivoController extends Controller
         $actividad = Actividad::find($archivo->actividad_id);
         $comentario = Comentario::where('grupo_user_id', $grupoUser->id)
             ->where('actividad_id', $actividad->id)
-            ->first(); // Cambiado a first()
+            ->first();
 
         return view('admin.archivo.show', [
             'grupoUser' => $grupoUser,
@@ -56,8 +57,8 @@ class ArchivoController extends Controller
                 ],
                 [
                     'comentario' => $datos['comentario'],
-                    'fecha' => now(),              // fecha actual al crear o actualizar
-                    'user_id' => auth()->id(),      // usuario que hizo el comentario
+                    'fecha' => now(),
+                    'user_id' => auth()->id(),
                 ]
             );
         }
@@ -65,7 +66,7 @@ class ArchivoController extends Controller
         // Registrar la revisión siempre
         Revision::create([
             'fecha' => now(),
-            'user_id' => auth()->id(),              // usuario que revisó
+            'user_id' => auth()->id(),
             'grupo_user_id' => $archivo->grupo_user_id,
             'actividad_id' => $archivo->actividad_id,
         ]);
@@ -93,5 +94,30 @@ class ArchivoController extends Controller
             'Content-Type' => Storage::mimeType($archivo->documento),
             'Content-Disposition' => 'inline; filename="' . $archivo->nombre . '"',
         ]);
+    }
+
+    public function eliminarArchivo(Archivo $archivo)
+    {
+        if ($archivo->user_id !== auth()->id()) {
+            return redirect()->back()->with('error-eliminar', 'No se puede eliminar el archivo: no eres el propietario.');
+        }
+
+        try {
+            if ($archivo->documento && Storage::exists($archivo->documento)) {
+                Storage::delete($archivo->documento);
+            }
+
+            $archivo->delete();
+
+            return redirect()->back()->with('status', 'Archivo eliminado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error-eliminar', 'Ocurrió un error al eliminar el archivo.');
+        }
+    }
+
+    public function EliminarComentario(Comentario $comentario)
+    {
+        $comentario->delete();
+        return redirect()->back()->with('status', 'Comentario eliminado correctamente.');
     }
 }
