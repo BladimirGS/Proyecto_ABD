@@ -73,7 +73,7 @@ class JefeDocenciaController extends Controller
                     [
                         'comentario' => $request->comentario,
                         'user_id' => auth()->id(),
-                        'fecha' => now()->setTimezone(config('app.timezone')),
+                        'fecha' => now(),
                     ]
                 );
             }
@@ -90,7 +90,6 @@ class JefeDocenciaController extends Controller
                 'estado' => $request->estado,
             ]);
 
-            // Subir archivo firmado si aplica
             if ($request->hasFile('archivo')) {
                 $nuevoArchivo = $request->file('archivo');
 
@@ -117,7 +116,7 @@ class JefeDocenciaController extends Controller
                     }
                     $archivoFirmado->update([
                         'nombre' => $nuevoArchivo->getClientOriginalName(),
-                        'fecha' => now()->setTimezone(config('app.timezone')),
+                        'fecha' => now(),
                         'documento' => $rutaDocumento,
                         'estado' => 'Firmado',
                     ]);

@@ -49,7 +49,12 @@ class DocenteGrupoActividadController extends Controller
             ->where('actividad_id', $actividad->id)
             ->first();
 
-        return view('docente.grupo.actividad.show', compact('grupoUser', 'actividad', 'archivoExistente', 'comentario'));
+        $archivoFirmado = Archivo::where('grupo_user_id', $grupoUser->id)
+            ->where('actividad_id', $actividad->id)
+            ->where('estado', 'Firmado')
+            ->first();
+
+        return view('docente.grupo.actividad.show', compact('grupoUser', 'actividad', 'archivoExistente', 'archivoFirmado', 'comentario'));
     }
 
     public function subir(Request $request, GrupoUser $grupoUser, Actividad $actividad)
@@ -67,30 +72,28 @@ class DocenteGrupoActividadController extends Controller
 
             $archivoSubido = $request->file('archivo');
 
-            // Ruta del directorio destino
-            $carpetaUsuario = str_replace([' ', '/', '\\'], '_', "{$usuario->nombre}_{$usuario->apellido}");
-            $grupoPeriodo   = str_replace([' ', '/', '\\'], '_', "{$grupo->clave}_{$periodo->nombre}");
-            $directorio     = "archivos/{$carpetaUsuario}/{$grupoPeriodo}";
+            $carpetaPeriodo = $this->generarHash($periodo->id);
+            $carpetaUser    = $this->generarHash($usuario->id);
+            $carpetaGrupo   = $this->generarHash($grupo->id);
 
-            // Guardar archivo
+            $directorio = "archivos/{$carpetaPeriodo}/{$carpetaUser}/{$carpetaGrupo}";
             $rutaDocumento = Storage::put($directorio, $archivoSubido);
 
-            // Buscar si ya existe un archivo de esa actividad para el grupoUser
             $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
                 ->where('actividad_id', $actividad->id)
                 ->where('user_id', $usuario->id)
                 ->first();
 
             if ($archivoExistente) {
-                // Eliminar archivo anterior si existe
                 if (Storage::exists($archivoExistente->documento)) {
                     Storage::delete($archivoExistente->documento);
                 }
 
-                // Mantener o cambiar estado
-                $nuevoEstado = strtolower($archivoExistente->estado) === 'rechazado' | 'aprobado'
+                $nuevoEstado = strtolower($archivoExistente->estado) === 'rechazado'
+                    || strtolower($archivoExistente->estado) === 'aprobado'
                     ? 'Modificado'
                     : 'Pendiente';
+
 
                 $archivoExistente->update([
                     'nombre'     => $archivoSubido->getClientOriginalName(),
@@ -119,5 +122,10 @@ class DocenteGrupoActividadController extends Controller
 
             return back()->withErrors('Error al subir el archivo: ' . $e->getMessage());
         }
+    }
+
+    private function generarHash($id)
+    {
+        return strtoupper(substr(md5($id), 0, 8)); // Ej: '8D969EEF'
     }
 }

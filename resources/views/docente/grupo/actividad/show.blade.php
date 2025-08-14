@@ -84,6 +84,25 @@
                                 </x-table-cell>
                             </tr>
 
+                            @if ($actividad->firma == true)
+                            <tr>
+                                <x-table-cell class="font-bold">Archivo Firmado</x-table-cell>
+                                <x-table-cell class="font-semibold">
+                                    @if ($archivoFirmado)
+                                    <x-truncade class="flex-1">
+                                        <a href="{{ route('verArchivo', ['archivo' => $archivoFirmado->id, 'nombre' => $archivoFirmado->nombre]) }}"
+                                            target="_blank"
+                                            class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate active:text-red-600">
+                                            {{ $archivoFirmado->nombre }}
+                                        </a>
+                                    </x-truncade>
+                                    @else
+                                    <span class="text-gray-500 italic">Actividad no firmada</span>
+                                    @endif
+                                </x-table-cell>
+                            </tr>
+                            @endif
+
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold"
                                     colspan="2">

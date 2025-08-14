@@ -87,13 +87,13 @@ class RolesAndPermissionsSeeder extends Seeder
         // Rol de super administrador
         $role1 = Role::create(['name' => 'SUPER USUARIO', 'description' => 'Acceso a todo']);
 
-        // Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
+        Role::create(['name' => 'Jefe', 'description' => 'Jefe del departamento']);
 
-        // Role::create(['name' => 'Docente', 'description' => 'Maestros']);
+        Role::create(['name' => 'Docente', 'description' => 'Maestros']);
 
-        // Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
+        Role::create(['name' => 'Administración', 'description' => 'Personal administrativo']);
 
-        // Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
+        Role::create(['name' => 'Servicio', 'description' => 'Chicos del servicio']);
 
         // Agregando super administrador
         $user = User::create([
