@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 shadow-sm sm:rounded-lg mx-auto">
             <div class="bg-white md:flex md:justify-center p-10">
@@ -6,10 +6,10 @@
                     @method('PUT')
                     @csrf
             
-                    <h2 class="block font-bold text-lg text-gray-700 text-center">Editar grupo</h2>
+                    <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar grupo</h2>
             
                     <div class="mt-5">
-                        <x-input-label for="clave" value="clave" />
+                        <x-input-label for="clave" value="clave" class="uppercase" />
             
                         <x-text-input
                             id="clave"
@@ -17,12 +17,13 @@
                             name="clave"
                             value="{{ $grupo->clave }}"
                             placeholder="Clave del grupo"
+                            class="uppercase"
                         />
                         <x-input-error :messages="$errors->get('clave')" class="mt-2" />
                     </div>
             
                     <div class="mt-5">
-                        <x-input-label for="semestre" value="semestre" />
+                        <x-input-label for="semestre" value="semestre" class="uppercase" />
             
                         <x-text-input
                             id="semestre"
@@ -35,7 +36,7 @@
                     </div>
 
                     <div class="mt-5">
-                        <x-input-label for="carrera_id" value="Carrera" />
+                        <x-input-label for="carrera_id" value="Carrera" class="uppercase" />
     
                         <select name="carrera_id" id="carrera_id" class="selectCarreras">
                             <option></option>
@@ -48,7 +49,7 @@
                     </div>
 
                     <div class="mt-5">
-                        <x-input-label for="materia_id" value="Materia" />
+                        <x-input-label for="materia_id" value="Materia" class="uppercase" />
     
                         <select name="materia_id" id="materia_id" class="selectMaterias">
                             <option></option>

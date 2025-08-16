@@ -12,6 +12,11 @@ class UsuarioController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.usuario.index');
+        return view('admin.usuario.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administar Usuarios' => ''
+            ]
+        ]);
     }
 }

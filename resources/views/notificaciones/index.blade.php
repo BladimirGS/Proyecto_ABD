@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <div class="py-12 sm:px-6 lg:px-8">
         <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 bg-white shadow-sm sm:rounded-lg mx-auto">
             <h1 class="text-2xl font-bold text-center my-5 py-10">Mis Notificaciones</h1>
@@ -18,7 +18,7 @@
                         </div>
                         <div class="mt-5 lg:mt-0">
                             <a href="{{ route('docente.grupo.actividades.show', [
-                                'grupo' => $notificacion->data['id_grupo'],
+                                'grupoUser' => $notificacion->data['id_grupo'],
                                 'actividad' => $notificacion->data['id_actividad']
                             ]) }}" class="bg-indigo-500 p-3 text-sm uppercase font-bold text-white rounded-lg">
                                 Ver revisión

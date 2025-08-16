@@ -22,7 +22,12 @@ class ArchivoController extends Controller
      */
     public function index()
     {
-        return view('admin.archivo.index');
+        return view('admin.archivo.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Evaluar Actividades' => ''
+            ]
+        ]);
     }
 
     public function show(Archivo $archivo)
@@ -37,7 +42,11 @@ class ArchivoController extends Controller
             'grupoUser' => $grupoUser,
             'actividad' => $actividad,
             'archivo' => $archivo,
-            'comentario' => $comentario
+            'comentario' => $comentario,
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Evaluar Actividades' => route('archivos.index'),
+                'Grupo ' . $grupoUser->grupo->clave => '']
         ]);
     }
 

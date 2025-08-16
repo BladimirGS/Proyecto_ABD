@@ -12,6 +12,11 @@ class ReporteController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.reporte.index');
+        return view('admin.reporte.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Generar Reporte' => ''
+            ]
+        ]);
     }
 }

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         @can('usuarios.index')
             <a href="{{ route('usuarios.index') }}" class="flex flex-col items-center justify-center p-4 h-32 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:outline hover:outline-1 hover:outline-black">

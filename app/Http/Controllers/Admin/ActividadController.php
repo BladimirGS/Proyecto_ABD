@@ -12,6 +12,11 @@ class ActividadController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.actividad.index');
+        return view('admin.actividad.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administar Actividades' => ''
+            ]
+        ]);
     }
 }

@@ -1,35 +1,48 @@
+@props(['breadcrumbs' => []])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="icon" type="image/svg" href="{{ asset('svg/tecito.svg') }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/svg" href="{{ asset('svg/tecito.svg') }}">
 
-        @livewireStyles
-        @stack('styles')
-    </head>
-    <body>
-        <div class="flex flex-col min-h-screen">
-            @include('layouts.header')
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-            <main class="flex-1 bg-gray-100">
-                <div class="container mx-auto px-4 py-8">
+    @livewireStyles
+    @stack('styles')
+</head>
+
+<body>
+    <div class="flex flex-col min-h-screen">
+        @include('layouts.header')
+
+        <main class="flex-1 bg-gray-100">
+            <div class="container mx-auto px-8 py-8">
+                @if (!empty($breadcrumbs))
+                <div class="pb-8">
+                    <x-breadcrumbs :links="$breadcrumbs" />
+                </div>
+                @endif
+
+                <div>
                     {{ $slot }}
                 </div>
-            </main>
-            
-            @include('layouts.footer')
-        </div>
+            </div>
+        </main>
 
-        @livewireScripts
-        @livewire('wire-elements-modal')
-        @stack('scripts')
-    </body>
+        @include('layouts.footer')
+    </div>
+
+    @livewireScripts
+    @livewire('wire-elements-modal')
+    @stack('scripts')
+</body>
+
 </html>

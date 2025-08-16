@@ -16,6 +16,11 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'usuario' => Auth::user(),
+        ], [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Editar Perfil' => ''
+            ]
         ]);
     }
     public function update(Request $request)

@@ -24,7 +24,12 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('admin.role.index');
+        return view('admin.role.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Roles' => ''
+            ]
+        ]);
     }
 
     /**
@@ -34,7 +39,13 @@ class RoleController extends Controller
     {
         $permissions = Permission::all();
 
-        return view('admin.role.create', compact('permissions'));
+        return view('admin.role.create', compact('permissions'), [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Roles' => route('roles.index'),
+                'Crear Rol' => ''
+            ]
+        ]);
     }
 
     /**
@@ -51,8 +62,10 @@ class RoleController extends Controller
             'permisos' => ['required', 'array', Rule::exists('permissions', 'id')],
         ]);
 
+        $request['nombre'] = mb_strtoupper($request['nombre'], 'UTF-8');
+
         $role = Role::create([
-            'name' => mb_strtoupper($request->nombre, 'UTF-8'),
+            'name' => $request->nombre,
             'description' => $request->descripcion
         ]);
 
@@ -69,7 +82,13 @@ class RoleController extends Controller
     {
         $permissions = Permission::all();
 
-        return view('admin.role.edit', compact('role', 'permissions'));
+        return view('admin.role.edit', compact('role', 'permissions'), [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Roles' => route('roles.index'),
+                'Editar Rol' => ''
+            ]
+        ]);
     }
 
     /**
@@ -86,8 +105,10 @@ class RoleController extends Controller
             'permisos' => ['required', 'array', Rule::exists('permissions', 'id')],
         ]);
 
+        $request['nombre'] = mb_strtoupper($request['nombre'], 'UTF-8');
+
         $role->update([
-            'name' => mb_strtoupper($request->nombre, 'UTF-8'),
+            'name' => $request->nombre,
             'description' => $request->descripcion
         ]);
 

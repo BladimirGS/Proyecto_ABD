@@ -31,6 +31,11 @@ class AdminController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.index');
+        return view('admin.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Panel Administrativo' => ''
+            ]
+        ]);
     }
 }

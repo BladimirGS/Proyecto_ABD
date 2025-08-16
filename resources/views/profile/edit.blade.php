@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <div class="bg-white mx-auto max-w-2xl p-10">
 
         <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Editar perfil</h2>
@@ -44,7 +44,7 @@
                     <x-input-label for="edad" value="Edad" class="uppercase" />
 
                     <x-text-input id="edad" type="number" name="edad" value="{{ old('edad', $usuario->edad) }}"
-                        placeholder="Edad del usuario" />
+                        placeholder="Edad del usuario" class="uppercase" />
                     <x-input-error :messages="$errors->get('edad')" class="mt-2" />
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     <x-input-label for="telefono" value="Teléfono" class="uppercase" />
 
                     <x-text-input id="telefono" type="number" name="telefono"
-                        value="{{ old('telefono', $usuario->telefono) }}" placeholder="Teléfono del usuario" />
+                        value="{{ old('telefono', $usuario->telefono) }}" placeholder="Teléfono del usuario" class="uppercase" />
                     <x-input-error :messages="$errors->get('telefono')" class="mt-2" />
                 </div>
 

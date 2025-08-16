@@ -1,10 +1,9 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <h1 class="font-bold text-2xl text-center uppercase">
         Lista de usuarios
     </h1>
 
     <div class="py-10 ">
-        <!-- Mensaje de estado -->
         <x-session-status :status="session('status')" />
 
         <div class="bg-white w-full mx-auto px-4 lg:px-8 py-10">
@@ -12,7 +11,7 @@
         </div>
     </div>
 
-@push('scripts')
+    @push('scripts')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
@@ -41,5 +40,5 @@
             })
         })
     </script>
-@endpush
+    @endpush
 </x-app-layout>

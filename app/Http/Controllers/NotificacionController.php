@@ -15,14 +15,23 @@ class NotificacionController extends Controller
         $notificacionesNoLeidas = auth()->user()->unreadNotifications()->latest()->paginate(5);
 
         // Paginación para notificaciones leídas (5 por página)
-        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->paginate(5);        
-        
+        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->paginate(5);
+
         // Marcar como leídas las notificaciones no leídas
         $notificacionesNoLeidas->markAsRead();
-    
-        return view('notificaciones.index', [
-            'notificacionesNoLeidas' => $notificacionesNoLeidas,
-            'notificacionesLeidas' => $notificacionesLeidas,
-        ]);
-    }    
+
+        return view(
+            'notificaciones.index',
+            [
+                'notificacionesNoLeidas' => $notificacionesNoLeidas,
+                'notificacionesLeidas' => $notificacionesLeidas,
+            ],
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('docentes.index'),
+                    'Administrar Notificaciones' => ''
+                ]
+            ]
+        );
+    }
 }

@@ -10,6 +10,11 @@
             <h2 class="block font-bold text-lg text-gray-700 text-center uppercase">Asignar roles</h2>
 
             <div class="mt-5">
+                <x-input-label value="Nombre del Usuario" class="uppercase" />
+                <p class="text-gray-800 border border-gray-300 rounded-md p-2">{{ $usuario->nombre }}</p>
+            </div>
+
+            <div class="mt-5">
                 <span class="block font-medium text-sm text-gray-700 cursor-default uppercase">Lista de roles</span>
 
                 @foreach ($roles as $rol)

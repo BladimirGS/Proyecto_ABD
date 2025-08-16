@@ -25,11 +25,21 @@ class DocenteGrupoActividadController extends Controller
             return redirect()->route('docentes.index');
         }
 
-        return view('docente.grupo.actividad.index', [
-            'grupoUser' => $grupoUser,
-            'grupo' => $grupoUser->grupo,
-            'actividades' => Actividad::where('periodo_id', $grupoUser->periodo_id)->get(),
-        ]);
+        return view(
+            'docente.grupo.actividad.index',
+            [
+                'grupoUser' => $grupoUser,
+                'grupo' => $grupoUser->grupo,
+                'actividades' => Actividad::where('periodo_id', $grupoUser->periodo_id)->get(),
+            ],
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('docentes.index'),
+                    'Tablero de Grupos' => route('docentes.index'),
+                    'Lista de Actividades' => ''
+                ]
+            ]
+        );
     }
 
     /**
@@ -54,7 +64,18 @@ class DocenteGrupoActividadController extends Controller
             ->where('estado', 'Firmado')
             ->first();
 
-        return view('docente.grupo.actividad.show', compact('grupoUser', 'actividad', 'archivoExistente', 'archivoFirmado', 'comentario'));
+        return view(
+            'docente.grupo.actividad.show',
+            compact('grupoUser', 'actividad', 'archivoExistente', 'archivoFirmado', 'comentario'),
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('docentes.index'),
+                    'Tablero de Grupos' => route('docentes.index'),
+                    'Lista de Actividades' => route('docente.grupo.actividades.index', $grupoUser),
+                    'Grupo ' . $grupoUser->grupo->clave => ''
+                ]
+            ]
+        );
     }
 
     public function subir(Request $request, GrupoUser $grupoUser, Actividad $actividad)

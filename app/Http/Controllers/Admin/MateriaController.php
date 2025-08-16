@@ -12,6 +12,11 @@ class MateriaController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.materia.index');
+        return view('admin.materia.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Materia' => ''
+            ]
+        ]);
     }
 }

@@ -9,6 +9,11 @@ class UsuarioRoleController extends Controller
 {
     public function index()
     {
-        return view('admin.role.usuario.index');
+        return view('admin.role.usuario.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Asignar Roles' => ''
+            ]
+        ]);
     }
 }

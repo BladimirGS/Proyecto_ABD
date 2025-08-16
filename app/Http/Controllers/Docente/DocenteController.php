@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Gate;
 
 class DocenteController extends Controller
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware(function ($request, $next) {
             if (Gate::allows('docentes.index')) {
@@ -57,6 +57,15 @@ class DocenteController extends Controller
         //         ->count('actividad_id');
         // }
 
-        return view('docente.index', compact('gruposPorCarrera', 'actividadesCompletadas'));
+        return view(
+            'docente.index',
+            compact('gruposPorCarrera', 'actividadesCompletadas'),
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('docentes.index'),
+                    'Tablero de Grupos' => ''
+                ]
+            ]
+        );
     }
 }

@@ -11,19 +11,24 @@ use App\Http\Controllers\Controller;
 
 class GrupoController extends Controller
 {
-    public function __construct() 
+    public function __construct()
     {
         $this->middleware('can:grupos.index')->only('index');
         $this->middleware('can:grupos.create')->only('create');
         $this->middleware('can:grupos.edit')->only('edit');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('admin.grupo.index');
+        return view('admin.grupo.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Grupos' => ''
+            ]
+        ]);
     }
 
     /**
@@ -34,6 +39,12 @@ class GrupoController extends Controller
         return view('admin.grupo.create', [
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
+        ], [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Grupos' => route('grupos.index'),
+                'Crear Grupos' => ''
+            ]
         ]);
     }
 
@@ -44,22 +55,24 @@ class GrupoController extends Controller
     {
         $datos = $this->validate($request, [
             'clave' => 'required',
-            'semestre' => 'required',
+            'semestre' => 'required|integer',
             'carrera_id' => 'required',
             'materia_id' => 'required',
         ]);
-    
+
+        $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
+
         // Obtener un color aleatorio de la lista de colores
         $colorAleatorio = Arr::random(['#6b7280', '#ef4444', '#f97316', '#10b981', '#14b8a6', '#0ea5e9', '#3b82f6']);
-    
-        $grupo = Grupo::create([
+
+        Grupo::create([
             'clave' => $datos['clave'],
             'semestre' => $datos['semestre'],
             'carrera_id' => $datos['carrera_id'],
             'materia_id' => $datos['materia_id'],
             'color' => $colorAleatorio
         ]);
-    
+
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
 
@@ -80,6 +93,12 @@ class GrupoController extends Controller
             'grupo' => $grupo,
             'carreras' => Carrera::where('activo', true)->get(),
             'materias' => Materia::where('activo', true)->get(),
+        ], [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Grupos' => route('grupos.index'),
+                'Editar Grupos' => ''
+            ]
         ]);
     }
 
@@ -90,16 +109,15 @@ class GrupoController extends Controller
     {
         $datos = $this->validate($request, [
             'clave' => 'required',
-            'semestre' => 'required',
+            'semestre' => 'required|integer',
             'carrera_id' => 'required',
             'materia_id' => 'required',
         ]);
 
-        // Se actualiza el grupo
+        $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
+
         $grupo->update($datos);
 
-        // Redireccionar
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
 }
-

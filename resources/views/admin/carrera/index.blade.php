@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :breadcrumbs="$breadcrumbs">
     <h1 class="font-bold text-2xl text-center uppercase">
         Lista de carreras
     </h1>

@@ -12,6 +12,11 @@ class PeriodoController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.periodo.index');
+        return view('admin.periodo.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Periodo' => ''
+            ]
+        ]);
     }
 }

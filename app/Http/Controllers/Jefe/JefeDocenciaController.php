@@ -18,7 +18,12 @@ class JefeDocenciaController extends Controller
 {
     public function index()
     {
-        return view('jefe.index');
+        return view('jefe.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Evaluar actividades' => ''
+            ]
+        ]);
     }
 
     public function show(Archivo $archivo)
@@ -37,13 +42,23 @@ class JefeDocenciaController extends Controller
             ->where('estado', 'Firmado')
             ->first();
 
-        return view('jefe.show', [
-            'grupoUser' => $grupoUser,
-            'actividad' => $actividad,
-            'archivo' => $archivo,
-            'comentario' => $comentario,
-            'archivoFirmado' => $archivoFirmado
-        ]);
+        return view(
+            'jefe.show',
+            [
+                'grupoUser' => $grupoUser,
+                'actividad' => $actividad,
+                'archivo' => $archivo,
+                'comentario' => $comentario,
+                'archivoFirmado' => $archivoFirmado
+            ],
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('admin.index'),
+                    'Evaluar actividades' => route('firma.index'),
+                    'Grupo ' . $grupoUser->grupo->clave => ''
+                ]
+            ]
+        );
     }
 
     public function evaluar(Request $request, Archivo $archivo)

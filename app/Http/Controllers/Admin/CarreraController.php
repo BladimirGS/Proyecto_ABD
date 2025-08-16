@@ -12,6 +12,11 @@ class CarreraController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('admin.carrera.index');
+        return view('admin.carrera.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Administrar Carreras' => ''
+            ]
+        ]);
     }
 }

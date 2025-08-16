@@ -12,14 +12,29 @@ class UsuarioGrupoController extends Controller
 {
     public function index()
     {
-        return view('admin.grupo.usuario.index');
+        return view('admin.grupo.usuario.index', [
+            'breadcrumbs' => [
+                'Inicio' => route('admin.index'),
+                'Asignar Grupos' => ''
+            ]
+        ]);
     }
 
     public function formImportar()
     {
         $ultimoPeriodo = Periodo::orderBy('created_at', 'desc')->first();
 
-        return view('admin.grupo.usuario.importar', compact('ultimoPeriodo'));
+        return view(
+            'admin.grupo.usuario.importar',
+            compact('ultimoPeriodo'),
+            [
+                'breadcrumbs' => [
+                    'Inicio' => route('admin.index'),
+                    'Asignar Grupos' => route('grupos.usuarios.index'),
+                    'importar Grupos' => ''
+                ]
+            ]
+        );
     }
 
     public function importarExcel(Request $request)
