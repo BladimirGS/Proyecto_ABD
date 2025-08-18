@@ -115,6 +115,10 @@ class GrupoController extends Controller
         $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
 
         $grupo->update($datos);
+        
+        // Generar color usando id + clave
+        $grupo->color = Grupo::generarColor($grupo->clave, $grupo->id);
+        $grupo->save();
 
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
