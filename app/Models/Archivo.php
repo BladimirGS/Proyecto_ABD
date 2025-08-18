@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -26,6 +27,15 @@ class Archivo extends Model
         return Attribute::make(
             get: fn($value) => $value ? Carbon::parse($value) : null,
         );
+    }
+    
+    protected static function booted()
+    {
+        static::deleting(function ($archivo) {
+            if ($archivo->documento && Storage::exists($archivo->documento)) {
+                Storage::delete($archivo->documento);
+            }
+        });
     }
 
     public function user()

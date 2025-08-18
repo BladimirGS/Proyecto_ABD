@@ -46,7 +46,8 @@ class ArchivoController extends Controller
             'breadcrumbs' => [
                 'Inicio' => route('admin.index'),
                 'Evaluar Actividades' => route('archivos.index'),
-                'Grupo ' . $grupoUser->grupo->clave => '']
+                'Grupo ' . $grupoUser->grupo->clave => ''
+            ]
         ]);
     }
 
@@ -105,22 +106,26 @@ class ArchivoController extends Controller
         ]);
     }
 
-    public function eliminarArchivo(Archivo $archivo)
+    public function eliminarArchivo(Archivo $archivo, $redirectUrl = null)
     {
         if ($archivo->user_id !== auth()->id()) {
-            return redirect()->back()->with('error-eliminar', 'No se puede eliminar el archivo: no eres el propietario.');
+            return redirect($redirectUrl ?? url()->previous())
+                ->with('error-eliminar', 'No se puede eliminar el archivo: no eres el propietario.');
+        }
+
+        if (!$archivo->actividad || !$archivo->actividad->activo) {
+            return redirect($redirectUrl ?? url()->previous())
+                ->with('error-eliminar', 'No se puede eliminar el archivo: la actividad no está activa.');
         }
 
         try {
-            if ($archivo->documento && Storage::exists($archivo->documento)) {
-                Storage::delete($archivo->documento);
-            }
-
             $archivo->delete();
 
-            return redirect()->back()->with('status', 'Archivo eliminado correctamente.');
+            return redirect($redirectUrl ?? url()->previous())
+                ->with('status', 'Archivo eliminado correctamente.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error-eliminar', 'Ocurrió un error al eliminar el archivo.');
+            return redirect($redirectUrl ?? url()->previous())
+                ->with('error-eliminar', 'Ocurrió un error al eliminar el archivo.');
         }
     }
 

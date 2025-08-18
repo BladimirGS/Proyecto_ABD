@@ -92,9 +92,11 @@
                                                 {{ $archivoFirmado->nombre }}
                                             </a>
                                         </x-truncade>
-
-                                        <form action="{{ route('archivos.destroy', $archivoFirmado->id) }}"
-                                            method="POST" class="flex-shrink-0">
+                                        @if($actividad->activo)
+                                        <form action="{{ route('archivos.destroy', [
+                                                'archivo' => $archivoFirmado->id, 
+                                                'redirectUrl' => route('firma.show', ['archivo' => $archivo->id])
+                                            ]) }}" method="POST" class="flex-shrink-0">
                                             @csrf
                                             @method('DELETE')
                                             <button id="eliminar-archivo" type="button"
@@ -102,6 +104,7 @@
                                                 Eliminar
                                             </button>
                                         </form>
+                                        @endif
                                     </div>
                                     @else
                                     <span class="text-gray-500 italic">Actividad no firmada</span>
@@ -111,12 +114,12 @@
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold"
                                     colspan="2">
-                                    <label class="font-bold block mb-2">Comentario</label>
+                                    <label class="font-bold block mb-2">Comentario:</label>
 
                                     @if ($comentario)
                                     <div class="bg-gray-50 border border-gray-300 rounded-md p-4">
                                         <div class="flex items-center justify-between mb-2">
-                                            <p class="text-gray-800">
+                                            <p class="text-gray-800 whitespace-pre-line">
                                                 {{ $comentario->comentario }}
                                             </p>
 
@@ -136,8 +139,11 @@
                                             ({{ $comentario->fecha?->translatedFormat('d \d\e F \d\e Y') }})
                                         </span>
                                     </div>
+                                    @else
+                                    <p class="text-gray-500 italic">No hay comentarios</p>
                                     @endif
 
+                                    @if ($actividad->activo)
                                     <form class="mt-2"
                                         action="{{ route('firma.evaluar', ['archivo' => $archivo->id]) }}" method="POST"
                                         enctype="multipart/form-data">
@@ -178,15 +184,11 @@
                                             </x-button>
                                         </div>
                                     </form>
-
-
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="text-center">
-
                 </div>
             </div>
         </div>
@@ -200,47 +202,51 @@
             const comentario = document.getElementById("eliminar-comentario");
             const archivo = document.getElementById("eliminar-archivo");
 
-            comentario.addEventListener('click', function () {
-                Swal.fire({
-                    title: '¿Eliminar comentario?',
-                    text: 'Esta acción no se puede deshacer',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc2626',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar',
-                    customClass: {
-                        confirmButton: 'btn-confirm',
-                        cancelButton: 'btn-cancel'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.closest('form').submit();
-                    }
+            if (comentario) {
+                comentario.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '¿Eliminar comentario?',
+                        text: 'Esta acción no se puede deshacer',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc2626',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            confirmButton: 'btn-confirm',
+                            cancelButton: 'btn-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit();
+                        }
+                    });
                 });
-            });
+            }
 
-            archivo.addEventListener('click', function () {
-                Swal.fire({
-                    title: '¿Eliminar archivo?',
-                    text: 'Esta acción no se puede deshacer',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc2626',
-                    cancelButtonColor: '#6b7280',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar',
-                    customClass: {
-                        confirmButton: 'btn-confirm',
-                        cancelButton: 'btn-cancel'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.closest('form').submit();
-                    }
+            if (archivo) {
+                archivo.addEventListener('click', function () {
+                    Swal.fire({
+                        title: '¿Eliminar archivo?',
+                        text: 'Esta acción no se puede deshacer',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc2626',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            confirmButton: 'btn-confirm',
+                            cancelButton: 'btn-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.closest('form').submit();
+                        }
+                    });
                 });
-            });
+            }
 
             @if(session('status'))
                 Livewire.dispatch('exito');

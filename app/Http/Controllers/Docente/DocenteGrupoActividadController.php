@@ -53,6 +53,8 @@ class DocenteGrupoActividadController extends Controller
 
         $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
             ->where('actividad_id', $actividad->id)
+            ->where('user_id', auth()->id())
+            ->Where('estado', '<>', 'Firmado')
             ->first();
 
         $comentario = Comentario::where('grupo_user_id', $grupoUser->id)

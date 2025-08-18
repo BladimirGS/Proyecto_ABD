@@ -85,7 +85,7 @@
                 </x-button>
 
                 <x-button type="submit" class="w-full md:w-auto">
-                    Asignar Grupos
+                    Guardar
                 </x-button>
             </div>
         </form>

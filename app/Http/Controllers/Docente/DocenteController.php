@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Docente;
 use App\Models\Grupo;
 use App\Models\Archivo;
 use App\Models\Periodo;
+use App\Models\Actividad;
 use App\Models\GrupoUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,39 +34,52 @@ class DocenteController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
-    {
-        $usuario = auth()->user();
-        $ultimoPeriodoId = Periodo::orderByDesc('id')->value('id');
+public function __invoke(Request $request)
+{
+    $usuarioId = auth()->id();
+    $ultimoPeriodoId = Periodo::orderByDesc('id')->value('id');
 
-        // Obtenemos registros de grupo_user del usuario para el último periodo
-        $grupoUsers = GrupoUser::with(['grupo.materia', 'grupo.carrera'])
-            ->where('user_id', $usuario->id)
-            ->where('periodo_id', $ultimoPeriodoId)
-            ->get();
+    $gruposUser = GrupoUser::with('grupo.materia')
+        ->where('user_id', $usuarioId)
+        ->where('periodo_id', $ultimoPeriodoId)
+        ->get();
 
-        // Agrupamos por carrera desde la relación grupo.carrera
-        $gruposPorCarrera = $grupoUsers->groupBy(fn($gu) => $gu->grupo->carrera->nombre ?? 'Sin carrera');
+    $progreso = [];
+    foreach ($gruposUser as $grupoUser) {
+        $grupoUserId = $grupoUser->id;
 
-        // Actividades completadas por grupo
-        $actividadesCompletadas = [];
-        // foreach ($grupoUsers as $grupoUser) {
-        //     $grupoId = $grupoUser->grupo_id;
+        // total de actividades en el periodo
+        $total = Actividad::where('periodo_id', $grupoUser->periodo_id)->count();
 
-        //     $actividadesCompletadas[$grupoId] = Archivo::where('grupo_id', $grupoId)
-        //         ->distinct('actividad_id')
-        //         ->count('actividad_id');
-        // }
+        // actividades con archivo subido por el docente (no firmado)
+        $completadas = Archivo::where('grupo_user_id', $grupoUserId)
+            ->where('estado', '!=', 'firmado')
+            ->distinct('actividad_id')
+            ->count('actividad_id');
 
-        return view(
-            'docente.index',
-            compact('gruposPorCarrera', 'actividadesCompletadas'),
-            [
-                'breadcrumbs' => [
-                    'Inicio' => route('docentes.index'),
-                    'Tablero de Grupos' => ''
-                ]
-            ]
-        );
+        // actividades que ya tienen al menos un archivo aprobado
+        $aprobadas = Archivo::where('grupo_user_id', $grupoUserId)
+            ->where('estado', 'aprobado')
+            ->distinct('actividad_id')
+            ->count('actividad_id');
+
+        $progreso[$grupoUserId] = [
+            'total' => $total,
+            'completadas' => $completadas,
+            'aprobadas' => $aprobadas,
+        ];
     }
+
+    return view(
+        'docente.index',
+        compact('gruposUser', 'progreso'),
+        [
+            'breadcrumbs' => [
+                'Inicio' => route('docentes.index'),
+                'Tablero de Grupos' => ''
+            ]
+        ]
+    );
+}
+
 }

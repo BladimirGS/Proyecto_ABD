@@ -67,8 +67,9 @@
                                                 {{ $archivoExistente->nombre }}
                                             </a>
                                         </x-truncade>
-
-                                        <form action="{{ route('archivos.destroy', $archivoExistente->id) }}"
+                                        @if($actividad->activo)
+                                        <form
+                                            action="{{ route('archivos.destroy', ['archivo' => $archivoExistente->id, 'redirectUrl' => route('docente.grupo.actividades.show', ['grupoUser' => $archivoExistente->grupoUser->grupo_id, 'actividad' => $archivoExistente->actividad_id])]) }}"
                                             method="POST" class="flex-shrink-0">
                                             @csrf
                                             @method('DELETE')
@@ -77,6 +78,7 @@
                                                 Eliminar
                                             </button>
                                         </form>
+                                        @endif
                                     </div>
                                     @else
                                     <span class="text-gray-500 italic">Actividad no completada</span>
@@ -102,22 +104,24 @@
                                 </x-table-cell>
                             </tr>
                             @endif
-
                             <tr>
                                 <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold"
                                     colspan="2">
-                                    <label class="font-bold mb-2">Comentario :</label>
+                                    <label class="font-bold block mb-2">Comentario:</label>
 
                                     @if ($comentario)
-                                    <h2>{{ $comentario->fecha->diffForHumans() }}</h2>
-                                    @endif
-                                    <div class="mb-4">
-                                        @if ($comentario)
-                                        <p class="whitespace-pre-line">{{ $comentario->comentario }}</p>
-                                        @else
-                                        <p>No hay comentarios</p>
-                                        @endif
+                                    <div class="bg-gray-50 border border-gray-300 rounded-md p-4">
+                                        <p class="text-gray-800 whitespace-pre-line">
+                                            {{ $comentario->comentario }}
+                                        </p>
+                                        <span class="text-sm text-gray-500">
+                                            Publicado {{ $comentario->fecha?->diffForHumans() }}
+                                            ({{ $comentario->fecha?->translatedFormat('d \d\e F \d\e Y') }})
+                                        </span>
                                     </div>
+                                    @else
+                                    <p class="text-gray-500 italic">No hay comentarios</p>
+                                    @endif
                                 </td>
                             </tr>
                         </tbody>

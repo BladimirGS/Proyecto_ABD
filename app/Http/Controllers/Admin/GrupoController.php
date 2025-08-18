@@ -60,19 +60,17 @@ class GrupoController extends Controller
             'materia_id' => 'required',
         ]);
 
-        $datos['clave'] = mb_strtoupper($datos['clave'], 'UTF-8');
-
-        // Obtener un color aleatorio de la lista de colores
-        $colorAleatorio = Arr::random(['#6b7280', '#ef4444', '#f97316', '#10b981', '#14b8a6', '#0ea5e9', '#3b82f6']);
-
-        Grupo::create([
-            'clave' => $datos['clave'],
-            'semestre' => $datos['semestre'],
+        $grupo = Grupo::create([
+            'clave'      => mb_strtoupper($datos['clave'], 'UTF-8'),
+            'semestre'   => $datos['semestre'],
             'carrera_id' => $datos['carrera_id'],
             'materia_id' => $datos['materia_id'],
-            'color' => $colorAleatorio
         ]);
 
+        // Generar color usando id + clave
+        $grupo->color = Grupo::generarColor($grupo->clave, $grupo->id);
+        $grupo->save();
+        
         return redirect()->route('grupos.index')->with('status', 'Operación exitosa');
     }
 

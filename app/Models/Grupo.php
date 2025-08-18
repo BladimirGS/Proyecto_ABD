@@ -17,12 +17,33 @@ class Grupo extends Model
         'color',
     ];
 
+    /**
+     * Genera un color HSL consistente y agradable para el grupo.
+     */
+    public static function generarColor(string $clave, int $id): string
+    {
+        // Si existe el id, lo usamos para garantizar unicidad
+        $input = $id ? $clave . $id : $clave;
+
+        // Hashear
+        $hash = crc32($input);
+
+        // Tono (0–360)
+        $hue = $hash % 360;
+
+        // Saturación y luminosidad fijas (colores bonitos)
+        $saturation = 65;
+        $lightness  = 55;
+
+        return "hsl($hue, {$saturation}%, {$lightness}%)";
+    }
+
     public function usuarios()
     {
         return $this->belongsToMany(User::class, 'grupo_user')
-                    ->withPivot('periodo_id')
-                    ->withTimestamps();
-    }    
+            ->withPivot('periodo_id')
+            ->withTimestamps();
+    }
 
     public function carrera()
     {
