@@ -11,7 +11,7 @@
 
             <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
                 <li class="list-none">El archivo debe ser un Excel con extensión <code>.xlsx</code>.</li>
-                <li class="list-none">Asegúrate de usar <strong>correctamente</strong> el nombre del docente, la clave
+                <li class="list-none">Asegúrate de usar <strong>correctamente</strong> el nombre completo del docente, la clave
                     del grupo y el nombre de la materia según están en el sistema.</li>
                 <li class="list-none">Evita duplicar registros (el sistema ya lo validará).</li>
                 <li class="list-none">Solo se necesita una hoja en el archivo.</li>
@@ -24,7 +24,7 @@
                         <tr>
                             <th class="px-4 py-2">Grupo</th>
                             <th class="px-4 py-2">Materia</th>
-                            <th class="px-4 py-2">Docente</th>
+                            <th class="px-4 py-2">Nombre</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-800">
@@ -32,11 +32,13 @@
                             <td class="px-4 py-2">4SA</td>
                             <td class="px-4 py-2">TALLER DE INVESTIGACION</td>
                             <td class="px-4 py-2">JUAN CARLOS</td>
+                            <td class="px-4 py-2">ALONZO JUAREZ</td>
                         </tr>
                         <tr class="border-t">
                             <td class="px-4 py-2">5CB</td>
                             <td class="px-4 py-2">CONTABILIDAD</td>
                             <td class="px-4 py-2">JOSE MANUEL</td>
+                            <td class="px-4 py-2">DIAZ SUAREZ</td>
                         </tr>
                     </tbody>
                 </table>
