@@ -31,17 +31,28 @@ class GruposImport implements ToCollection, WithHeadingRow
         $fila = 2; // Fila de datos (1 es encabezado)
 
         foreach ($rows as $row) {
-            $docente = strtoupper(trim($row['docente'] ?? ''));
+            $nombre = strtoupper(trim($row['nombre'] ?? ''));
+            $apellido = strtoupper(trim($row['apellido'] ?? ''));
             $grupoClave = strtoupper(trim($row['grupo'] ?? ''));
             $materiaNombre = strtoupper(trim($row['materia'] ?? ''));
 
             // Saltar filas vacías
-            if ($docente === '' && $grupoClave === '' && $materiaNombre === '') {
+            if ($nombre === '' && $apellido === '' && $grupoClave === '' && $materiaNombre === '') {
                 $fila++;
                 continue;
             }
 
-            $usuario = User::whereRaw('UPPER(nombre) = ?', [$docente])->first();
+            // Validar que tenga ambos
+            if ($nombre === '' || $apellido === '') {
+                $this->errores[] = "Fila {$fila}: El docente no tiene nombre y/o apellido válidos.";
+                $fila++;
+                continue;
+            }
+
+            // Buscar usuario por nombre y apellido
+            $usuario = User::whereRaw('UPPER(nombre) = ?', [$nombre])
+                ->whereRaw('UPPER(apellido) = ?', [$apellido])
+                ->first();
 
             $grupo = Grupo::whereRaw('UPPER(clave) = ?', [$grupoClave])
                 ->whereHas('materia', function ($q) use ($materiaNombre) {
@@ -50,7 +61,7 @@ class GruposImport implements ToCollection, WithHeadingRow
                 ->first();
 
             if (!$usuario) {
-                $this->errores[] = "Fila {$fila}: Usuario '{$docente}' no encontrado.";
+                $this->errores[] = "Fila {$fila}: Usuario '{$nombre} {$apellido}' no encontrado.";
             }
 
             if (!$grupo) {
@@ -89,16 +100,15 @@ class GruposImport implements ToCollection, WithHeadingRow
         // Segunda pasada para insertar
         $fila = 2;
         foreach ($rows as $row) {
-            $docente = strtoupper(trim($row['docente'] ?? ''));
             $grupoClave = strtoupper(trim($row['grupo'] ?? ''));
             $materiaNombre = strtoupper(trim($row['materia'] ?? ''));
 
-            if ($docente === '' && $grupoClave === '' && $materiaNombre === '') {
-                $fila++;
-                continue;
-            }
+            $nombre = strtoupper(trim($row['nombre'] ?? ''));
+            $apellido = strtoupper(trim($row['apellido'] ?? ''));
 
-            $usuario = User::whereRaw('UPPER(nombre) = ?', [$docente])->first();
+            $usuario = User::whereRaw('UPPER(nombre) = ?', [$nombre])
+                ->whereRaw('UPPER(apellido) = ?', [$apellido])
+                ->first();
 
             $grupo = Grupo::whereRaw('UPPER(clave) = ?', [$grupoClave])
                 ->whereHas('materia', function ($q) use ($materiaNombre) {
