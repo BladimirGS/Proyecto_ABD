@@ -93,14 +93,6 @@ class JefeDocenciaController extends Controller
                 );
             }
 
-            Revision::create([
-                'fecha' => now(),
-                'descripcion' => '',
-                'user_id' => auth()->id(),
-                'grupo_user_id' => $archivo->grupo_user_id,
-                'actividad_id' => $archivo->actividad_id,
-            ]);
-
             $archivo->update([
                 'estado' => $request->estado,
             ]);

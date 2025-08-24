@@ -70,9 +70,14 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'grupos.destroy', 'description' => 'Borrar grupos'],
             ['name' => 'grupos.show', 'description' => 'Mostrar Grupo grupos'],
 
+            ['name' => 'grupos.usuarios.assign', 'description' => 'Asignar grupos a los usuarios'],
+
             ['name' => 'firma.index', 'description' => 'Ver lista de instrumentaciones'],
-            ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
+            ['name' => 'firma.evaluar', 'description' => 'Evaluar instrumentaciones'],
+            ['name' => 'firma.descargar', 'description' => 'Descargar instrumentaciones'],
+
             ['name' => 'archivos.descargar', 'description' => 'Descargar archivos'],
+            ['name' => 'archivos.index', 'description' => 'Ver lista de archivos'],
             ['name' => 'archivos.evaluar', 'description' => 'Evaluar archivos'],
 
             ['name' => 'reportes.index', 'description' => 'Ver listado de reportes'],

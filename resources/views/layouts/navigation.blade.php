@@ -1,6 +1,6 @@
 <nav class="flex items-center justify-end">
     <!-- Notificaciones -->
-    <a class="flex items-center justify-center w-7 h-7 bg-indigo-600 hover:bg-indigo-800 rounded-full text-sm font-extrabold text-white" href="{{ route('notificaciones')}}">
+    <a class="flex items-center justify-center w-7 h-7 bg-indigo-600 hover:bg-indigo-800 rounded-full text-sm font-extrabold text-white" href="{{ route('notificaciones.index')}}">
         {{ auth()->user()->unreadNotifications->count() }}
     </a>
 

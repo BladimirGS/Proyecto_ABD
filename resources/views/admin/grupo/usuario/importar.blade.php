@@ -25,6 +25,7 @@
                             <th class="px-4 py-2">Grupo</th>
                             <th class="px-4 py-2">Materia</th>
                             <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Apellido</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-800">

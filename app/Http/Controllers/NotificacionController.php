@@ -6,32 +6,37 @@ use Illuminate\Http\Request;
 
 class NotificacionController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        // Paginación para notificaciones no leídas (5 por página)
-        $notificacionesNoLeidas = auth()->user()->unreadNotifications()->latest()->paginate(5);
+        $notificacionesNoLeidas = auth()->user()->unreadNotifications()->latest()->get();
+        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->get();
 
-        // Paginación para notificaciones leídas (5 por página)
-        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->paginate(5);
+        // Marcar como leídas
+        auth()->user()->unreadNotifications->markAsRead();
 
-        // Marcar como leídas las notificaciones no leídas
-        $notificacionesNoLeidas->markAsRead();
-
-        return view(
-            'notificaciones.index',
-            [
-                'notificacionesNoLeidas' => $notificacionesNoLeidas,
-                'notificacionesLeidas' => $notificacionesLeidas,
-            ],
-            [
-                'breadcrumbs' => [
-                    'Inicio' => route('docentes.index'),
-                    'Administrar Notificaciones' => ''
-                ]
+        return view('notificaciones.index', [
+            'notificacionesNoLeidas' => $notificacionesNoLeidas,
+            'notificacionesLeidas' => $notificacionesLeidas,
+            'breadcrumbs' => [
+                'Inicio' => route('docentes.index'),
+                'Administrar Notificaciones' => ''
             ]
-        );
+        ]);
+    }
+
+    // Ruta AJAX para cargar más notificaciones
+    public function cargarMas(Request $request)
+    {
+        $tipo = $request->input('tipo', 'no-leidas'); // 'no-leidas' o 'leidas'
+        $offset = (int)$request->input('offset', 0);
+        $limit = 5;
+
+        $query = $tipo === 'leidas'
+            ? auth()->user()->readNotifications()->latest()
+            : auth()->user()->unreadNotifications()->latest();
+
+        $notificaciones = $query->skip($offset)->take($limit)->get();
+
+        return response()->json($notificaciones);
     }
 }

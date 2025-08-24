@@ -73,14 +73,6 @@ class ArchivoController extends Controller
             );
         }
 
-        // Registrar la revisión siempre
-        Revision::create([
-            'fecha' => now(),
-            'user_id' => auth()->id(),
-            'grupo_user_id' => $archivo->grupo_user_id,
-            'actividad_id' => $archivo->actividad_id,
-        ]);
-
         // Actualizar el estado del archivo
         $archivo->update(['estado' => $datos['estado']]);
 

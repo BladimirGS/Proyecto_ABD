@@ -12,22 +12,14 @@ use Illuminate\Notifications\Notification;
 class EvaluarActividad extends Notification
 {
     use Queueable;
-    public $id_archivo;
-    public $id_actividad;
-    public $id_grupo;
-    public $nombre_actividad;
-    public $clave_grupo;
+    protected Archivo $archivo;
 
     /**
      * Create a new notification instance.
      */
     public function __construct(Archivo $archivo)
     {
-        $this->id_archivo = $archivo->id;
-        $this->id_actividad = $archivo->actividad_id;
-        $this->id_grupo = $archivo->grupo_user_id;
-        $this->nombre_actividad = $archivo->actividad->nombre; 
-        $this->clave_grupo = $archivo->grupoUser->grupo->clave;
+        $this->archivo = $archivo->load('actividad', 'grupoUser.grupo.materia');
     }
 
     /**
@@ -46,20 +38,40 @@ class EvaluarActividad extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
-    // Almacena las notificaciones en la BD
     public function toDatabase($notifiable)
     {
         return [
-            'id_archivo' => $this->id_archivo,
-            'id_actividad' => $this->id_actividad,
-            'id_grupo' => $this->id_grupo,
-            'nombre_actividad' => $this->nombre_actividad,
-            'clave_grupo' => $this->clave_grupo
+
+            'archivo' => [
+                'id' => $this->archivo->id,
+                'estado' => $this->archivo->estado ?? 'Pendiente',
+            ],
+
+            'grupoUser' => [
+                'id' => $this->archivo->grupoUser->id ?? null,
+            ],
+
+            'grupo' => [
+                'id' => $this->archivo->grupoUser->grupo->id ?? null,
+                'clave' => $this->archivo->grupoUser->grupo->clave ?? '(Grupo desconocida)',
+            ],
+
+            'materia' => [
+                'id' => $this->archivo->grupoUser->grupo->materia->id ?? null,
+                'nombre' => $this->archivo->grupoUser->grupo->materia->nombre ?? '(Materia desconocida)',
+            ],
+
+            'actividad' => [
+                'id' => $this->archivo->actividad->id ?? null,
+                'nombre' => $this->archivo->actividad->nombre ?? '(Actividad desconocida)',
+            ],
+
+            'fecha' => now()->toDateTimeString(),
         ];
     }
 }

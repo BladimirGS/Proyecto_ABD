@@ -83,7 +83,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('perfil/{usuario}', [ProfileController::class, 'show'])->name('profile.show');
 
     // Notificaciones
-    Route::get('/notificaciones', NotificacionController::class)->name('notificaciones');
+    Route::get('notificaciones', NotificacionController::class)->name('notificaciones.index');
+    Route::get('notificaciones/cargar-mas', [NotificacionController::class, 'cargarMas'])->name('notificaciones.cargar-mas');
 
     Route::get('/archivo/ver/{archivo}/{nombre}', [ArchivoController::class, 'verArchivo'])->name('verArchivo');
 

@@ -182,7 +182,7 @@
             @endisset
         @endcan
 
-        @can('archivos.evaluar')
+        @can('firma.descargar')
             @isset($IrArchivo)
                 <x-link color="amber" href="{{ $IrArchivo }}">Ir</x-link>
             @endisset
