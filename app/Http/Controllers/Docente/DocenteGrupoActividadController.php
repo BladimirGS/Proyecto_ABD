@@ -45,16 +45,26 @@ class DocenteGrupoActividadController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(GrupoUser $grupoUser, Actividad $actividad)
+    public function show(GrupoUser $grupoUser, Actividad $actividad, Request $request)
     {
         if ($grupoUser->user_id !== auth()->id()) {
             return redirect()->route('docentes.index');
         }
 
+        // Obtener el notification_id de la query (si vino)
+        $notificationId = $request->query('notification_id');
+
+        if ($notificationId) {
+            $notification = auth()->user()->notifications()->find($notificationId);
+            if ($notification && $notification->unread()) {
+                $notification->markAsRead();
+            }
+        }
+
         $archivoExistente = Archivo::where('grupo_user_id', $grupoUser->id)
             ->where('actividad_id', $actividad->id)
             ->where('user_id', auth()->id())
-            ->Where('estado', '<>', 'Firmado')
+            ->where('estado', '<>', 'Firmado')
             ->first();
 
         $comentario = Comentario::where('grupo_user_id', $grupoUser->id)

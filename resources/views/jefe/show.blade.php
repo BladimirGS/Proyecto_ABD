@@ -4,7 +4,7 @@
     </h1>
 
     <div class="py-12 sm:px-6 lg:px-8">
-        <div class="w-full lg:w-2/3 xl:w-3/5 2xl:w-2/4 mx-auto">
+        <div class="w-full lg:w-4/5 xl:w-4/6 2xl:w-3/5 mx-auto">
             <div class="bg-white shadow-sm sm:rounded-lg py-10 px-8 md:px-20 mx-auto">
                 <div class="mb-4 space-y-4">
                     <h1 class="text-2xl font-bold">{{ $actividad->nombre }}</h1>
@@ -85,7 +85,7 @@
                                 <x-table-cell class="font-semibold">
                                     @if ($archivoFirmado)
                                     <div class="flex items-center justify-between space-x-4">
-                                        <x-truncade class="flex-1">
+                                        <x-truncade>
                                             <a href="{{ route('verArchivo', ['archivo' => $archivoFirmado->id, 'nombre' => $archivoFirmado->nombre]) }}"
                                                 target="_blank"
                                                 class="text-indigo-600 hover:text-indigo-700 focus:text-red-600 truncate active:text-red-600">
@@ -112,14 +112,13 @@
                                 </x-table-cell>
                             </tr>
                             <tr>
-                                <td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700 border border-gray-400 font-semibold"
-                                    colspan="2">
+                                <td colspan="2" class="px-6 py-4 text-sm text-gray-700 border border-gray-400 font-semibold">
                                     <label class="font-bold block mb-2">Comentario:</label>
 
                                     @if ($comentario)
                                     <div class="bg-gray-50 border border-gray-300 rounded-md p-4">
                                         <div class="flex items-center justify-between mb-2">
-                                            <p class="text-gray-800 whitespace-pre-line">
+                                            <p class="text-gray-800">
                                                 {{ $comentario->comentario }}
                                             </p>
 
@@ -128,7 +127,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button id="eliminar-comentario" type="button"
-                                                    class="text-red-600 hover:text-red-800 text-sm font-semibold">
+                                                    class="text-red-600 hover:text-red-800 ml-4 text-sm font-semibold">
                                                     Eliminar
                                                 </button>
                                             </form>
@@ -167,7 +166,7 @@
                                         </div>
 
                                         <!-- Subida del archivo firmado -->
-                                        <div class="mt-4">
+                                        <div class="mt-4 w-full">
                                             <livewire:dropzone {{-- El name interno es name="archivo" --}}
                                                 :rules="['file','extensions:pdf,doc,docx,xls,xlsx,zip,rar','max:20840']"
                                                 :multiple="false" />

@@ -8,34 +8,71 @@ class NotificacionController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $notificacionesNoLeidas = auth()->user()->unreadNotifications()->latest()->get();
-        $notificacionesLeidas = auth()->user()->readNotifications()->latest()->get();
+        $limit = 5;
 
-        // Marcar como leídas
-        auth()->user()->unreadNotifications->markAsRead();
+        // 🔹 No leídas
+        $notificacionesNoLeidas = auth()->user()
+            ->unreadNotifications()
+            ->latest()
+            ->take($limit)
+            ->get()
+            ->map(function ($n) {
+                return [
+                    'id' => $n->id,
+                    'data' => $n->data,
+                    'created_at' => $n->created_at->diffForHumans(), // 👈 igual que cargarMas
+                    'read_at' => $n->read_at,
+                ];
+            });
+
+        // 🔹 Leídas
+        $notificacionesLeidas = auth()->user()
+            ->readNotifications()
+            ->latest()
+            ->take($limit)
+            ->get()
+            ->map(function ($n) {
+                return [
+                    'id' => $n->id,
+                    'data' => $n->data,
+                    'created_at' => $n->created_at->diffForHumans(), // 👈 igual que cargarMas
+                    'read_at' => $n->read_at,
+                ];
+            });
 
         return view('notificaciones.index', [
             'notificacionesNoLeidas' => $notificacionesNoLeidas,
-            'notificacionesLeidas' => $notificacionesLeidas,
+            'notificacionesLeidas'   => $notificacionesLeidas,
             'breadcrumbs' => [
                 'Inicio' => route('docentes.index'),
                 'Administrar Notificaciones' => ''
-            ]
+            ],
+            'limit' => $limit,
         ]);
     }
 
-    // Ruta AJAX para cargar más notificaciones
+    // Ruta AJAX
     public function cargarMas(Request $request)
     {
-        $tipo = $request->input('tipo', 'no-leidas'); // 'no-leidas' o 'leidas'
-        $offset = (int)$request->input('offset', 0);
-        $limit = 5;
+        $tipo = $request->get('tipo', 'no-leidas');
+        $offset = (int) $request->get('offset', 0);
 
         $query = $tipo === 'leidas'
-            ? auth()->user()->readNotifications()->latest()
-            : auth()->user()->unreadNotifications()->latest();
+            ? auth()->user()->readNotifications()
+            : auth()->user()->unreadNotifications();
 
-        $notificaciones = $query->skip($offset)->take($limit)->get();
+        $notificaciones = $query->latest()
+            ->skip($offset)
+            ->take(5)
+            ->get()
+            ->map(function ($n) {
+                return [
+                    'id' => $n->id,
+                    'data' => $n->data,
+                    'created_at' => $n->created_at->diffForHumans(),
+                    'read_at' => $n->read_at,
+                ];
+            });
 
         return response()->json($notificaciones);
     }
