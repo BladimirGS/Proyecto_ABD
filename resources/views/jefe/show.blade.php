@@ -169,7 +169,7 @@
                                         <!-- Subida del archivo firmado -->
                                         <div class="mt-4">
                                             <livewire:dropzone {{-- El name interno es name="archivo" --}}
-                                                :rules="['file','extensions:pdf,doc,docx','max:20840']"
+                                                :rules="['file','extensions:pdf,doc,docx,xls,xlsx,zip,rar','max:20840']"
                                                 :multiple="false" />
 
                                             <x-input-error :messages="$errors->get('archivo')" class="mt-2" />

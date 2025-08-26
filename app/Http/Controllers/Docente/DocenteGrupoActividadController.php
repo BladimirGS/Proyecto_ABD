@@ -83,7 +83,7 @@ class DocenteGrupoActividadController extends Controller
     public function subir(Request $request, GrupoUser $grupoUser, Actividad $actividad)
     {
         $request->validate([
-            'archivo' => 'required|file|mimes:pdf,doc,docx|max:20840',
+            'archivo' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,zip,rar|max:20840',
         ]);
 
         DB::beginTransaction();

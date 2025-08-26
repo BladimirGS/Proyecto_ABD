@@ -66,7 +66,7 @@ class JefeDocenciaController extends Controller
         $request->validate([
             'estado' => 'required|in:Aprobado,Rechazado,Pendiente',
             'comentario' => 'required_if:estado,Rechazado',
-            'archivo' => 'required_if:estado,Aprobado|nullable|file|mimes:pdf,doc,docx|max:20840',
+            'archivo' => 'required_if:estado,Aprobado|file|mimes:pdf,doc,docx,xls,xlsx,zip,rar|max:20840',
         ]);
 
         if ($request->hasFile('archivo') && $request->estado !== 'Aprobado') {
