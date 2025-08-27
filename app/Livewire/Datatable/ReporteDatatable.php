@@ -51,17 +51,18 @@ class ReporteDatatable extends DataTableComponent
     public function exportar(int $id)
     {
         $periodo = Periodo::findOrFail($id);
-        $fileName = 'reporte ' . $periodo->nombre . '.xlsx';
+        $safeName = preg_replace('/[^A-Za-z0-9 _.-]/', '-', $periodo->nombre);
+        $fileName = 'REPORTE DETALLADO ' . $safeName . '.xlsx';
 
         return Excel::download(new PeriodoExport($id), $fileName);
     }
-
 
     #[On('reporteGeneral')]
     public function exportarGeneral(int $id)
     {
         $periodo = Periodo::findOrFail($id);
-        $fileName = 'reporte ' . $periodo->nombre . '.xlsx';
+        $safeName = preg_replace('/[^A-Za-z0-9 _.-]/', '-', $periodo->nombre);
+        $fileName = 'REPORTE GENERAL ' . $safeName . '.xlsx';
 
         return Excel::download(new ReporteGeneral($id), $fileName);
     }

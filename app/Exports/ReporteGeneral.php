@@ -21,7 +21,7 @@ class ReporteGeneral implements FromCollection, WithHeadings, WithMapping, WithS
 
     public function collection()
     {
-        return GrupoUser::query()
+        $query = GrupoUser::query()
             ->join('users', 'grupo_user.user_id', '=', 'users.id')
             ->join('grupos', 'grupo_user.grupo_id', '=', 'grupos.id')
             ->leftJoin('materias', 'grupos.materia_id', '=', 'materias.id')
@@ -31,7 +31,7 @@ class ReporteGeneral implements FromCollection, WithHeadings, WithMapping, WithS
             })
             ->leftJoin('archivos', function ($join) {
                 $join->on('archivos.actividad_id', '=', 'actividades.id')
-                     ->on('archivos.grupo_user_id', '=', 'grupo_user.id');
+                    ->on('archivos.grupo_user_id', '=', 'grupo_user.id');
             })
             ->where('grupo_user.periodo_id', $this->periodoId)
             ->select(
@@ -40,16 +40,30 @@ class ReporteGeneral implements FromCollection, WithHeadings, WithMapping, WithS
                 'grupos.clave as grupo',
                 'materias.nombre as materia',
                 DB::raw('COUNT(DISTINCT actividades.id) as actividades_totales'),
-                DB::raw('SUM(CASE WHEN archivos.fecha IS NOT NULL AND archivos.fecha <= actividades.fecha THEN 1 ELSE 0 END) as entregadas_a_tiempo'),
-                DB::raw('SUM(CASE WHEN archivos.fecha IS NOT NULL AND archivos.fecha > actividades.fecha THEN 1 ELSE 0 END) as entregadas_fuera_tiempo'),
-                DB::raw('(COUNT(DISTINCT actividades.id) - SUM(CASE WHEN archivos.fecha IS NOT NULL THEN 1 ELSE 0 END)) as no_entregadas')
+                DB::raw("IFNULL(COUNT(DISTINCT CASE 
+                WHEN archivos.user_id = grupo_user.user_id 
+                AND archivos.fecha <= actividades.fecha 
+                THEN actividades.id END), 0) as entregadas_a_tiempo"),
+                DB::raw("IFNULL(COUNT(DISTINCT CASE 
+                WHEN archivos.user_id = grupo_user.user_id 
+                AND archivos.fecha > actividades.fecha 
+                THEN actividades.id END), 0) as entregadas_fuera_tiempo"),
+                DB::raw("(COUNT(DISTINCT actividades.id) 
+                - IFNULL(COUNT(DISTINCT CASE 
+                    WHEN archivos.user_id = grupo_user.user_id 
+                    THEN actividades.id END), 0)
+            ) as no_entregadas")
             )
             ->groupBy('users.nombre', 'carreras.nombre', 'grupos.clave', 'materias.nombre')
             ->orderBy('users.nombre')
             ->orderBy('carreras.nombre')
-            ->orderBy('grupos.clave')
-            ->get();
+            ->orderBy('grupos.clave');
+
+        $result = $query->get();
+
+        return $result;
     }
+
 
     public function headings(): array
     {
@@ -59,6 +73,7 @@ class ReporteGeneral implements FromCollection, WithHeadings, WithMapping, WithS
             'Grupo',
             'Materia',
             'Actividades Totales',
+            'Actividades Entregadas', // 👈 nueva columna
             'Entregadas a Tiempo',
             'Entregadas Fuera de Tiempo',
             'No Entregadas',
@@ -67,23 +82,31 @@ class ReporteGeneral implements FromCollection, WithHeadings, WithMapping, WithS
 
     public function map($row): array
     {
+        $aTiempo   = (int) ($row->entregadas_a_tiempo ?? 0);
+        $fuera     = (int) ($row->entregadas_fuera_tiempo ?? 0);
+        $noEnt     = (int) ($row->no_entregadas ?? 0);
+        $total     = (int) ($row->actividades_totales ?? 0);
+
+        $entregadas = $aTiempo + $fuera;
+
         return [
             $row->docente,
             $row->carrera,
             $row->grupo,
             $row->materia,
-            $row->actividades_totales,
-            $row->entregadas_a_tiempo,
-            $row->entregadas_fuera_tiempo,
-            $row->no_entregadas,
+            (string) $total,
+            (string) $entregadas,
+            (string) $aTiempo,
+            (string) $fuera,
+            (string) $noEnt,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // 👈 ahora son 9 columnas
 
-        foreach (range('A', 'H') as $col) {
+        foreach (range('A', 'I') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
     }
