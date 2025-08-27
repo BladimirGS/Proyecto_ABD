@@ -53,7 +53,7 @@
             <div class="mt-5">
                 <x-input-label for="fecha" value="Fecha programada" class="uppercase" />
 
-                <x-text-input id="fecha" type="date" wire:model="fecha" :value="$actividad->fecha" />
+                <x-text-input id="fecha" type="date" wire:model="fecha" />
                 <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
             </div>
 

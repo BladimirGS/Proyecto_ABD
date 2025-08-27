@@ -15,6 +15,13 @@ class Actividad extends Model
 
     protected $fillable = ['nombre', 'descripcion', 'fecha', 'firma', 'periodo_id'];
 
+    protected function fecha(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? Carbon::parse($value) : null,
+        );
+    }
+
     public function periodo()
     {
         return $this->belongsTo(Periodo::class);

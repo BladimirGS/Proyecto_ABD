@@ -31,7 +31,7 @@ class EditarActividad extends ModalComponent
     {
         $this->nombre = $this->actividad->nombre;
         $this->descripcion = $this->actividad->descripcion;
-        $this->fecha = $this->actividad->fecha;
+        $this->fecha = $this->actividad->fecha?->format('Y-m-d');
         $this->firma = $this->actividad->firma;
         $this->periodo_id = $this->actividad->periodo_id;
     }

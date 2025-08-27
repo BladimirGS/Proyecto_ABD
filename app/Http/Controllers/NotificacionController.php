@@ -16,11 +16,26 @@ class NotificacionController extends Controller
             ->latest()
             ->take($limit)
             ->get()
+            ->filter(function ($n) {
+                $grupoUserId = $n->data['grupoUser']['id'] ?? null;
+                $actividadId = $n->data['actividad']['id'] ?? null;
+
+                $grupoUser = $grupoUserId ? \App\Models\GrupoUser::find($grupoUserId) : null;
+                $actividad = $actividadId ? \App\Models\Actividad::find($actividadId) : null;
+
+                // Si no existen, borrar la notificación y excluirla de la colección
+                if (!$grupoUser || !$actividad) {
+                    $n->delete();
+                    return false;
+                }
+
+                return true;
+            })
             ->map(function ($n) {
                 return [
                     'id' => $n->id,
                     'data' => $n->data,
-                    'created_at' => $n->created_at->diffForHumans(), // 👈 igual que cargarMas
+                    'created_at' => $n->created_at->diffForHumans(),
                     'read_at' => $n->read_at,
                 ];
             });
@@ -31,11 +46,25 @@ class NotificacionController extends Controller
             ->latest()
             ->take($limit)
             ->get()
+            ->filter(function ($n) {
+                $grupoUserId = $n->data['grupoUser']['id'] ?? null;
+                $actividadId = $n->data['actividad']['id'] ?? null;
+
+                $grupoUser = $grupoUserId ? \App\Models\GrupoUser::find($grupoUserId) : null;
+                $actividad = $actividadId ? \App\Models\Actividad::find($actividadId) : null;
+
+                if (!$grupoUser || !$actividad) {
+                    $n->delete();
+                    return false;
+                }
+
+                return true;
+            })
             ->map(function ($n) {
                 return [
                     'id' => $n->id,
                     'data' => $n->data,
-                    'created_at' => $n->created_at->diffForHumans(), // 👈 igual que cargarMas
+                    'created_at' => $n->created_at->diffForHumans(),
                     'read_at' => $n->read_at,
                 ];
             });
@@ -51,6 +80,7 @@ class NotificacionController extends Controller
         ]);
     }
 
+
     // Ruta AJAX
     public function cargarMas(Request $request)
     {
@@ -65,6 +95,20 @@ class NotificacionController extends Controller
             ->skip($offset)
             ->take(5)
             ->get()
+            ->filter(function ($n) {
+                $grupoUserId = $n->data['grupoUser']['id'] ?? null;
+                $actividadId = $n->data['actividad']['id'] ?? null;
+
+                $grupoUser = $grupoUserId ? \App\Models\GrupoUser::find($grupoUserId) : null;
+                $actividad = $actividadId ? \App\Models\Actividad::find($actividadId) : null;
+
+                if (!$grupoUser || !$actividad) {
+                    $n->delete();
+                    return false;
+                }
+
+                return true;
+            })
             ->map(function ($n) {
                 return [
                     'id' => $n->id,
