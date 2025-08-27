@@ -20,6 +20,14 @@
                 <span class="text-sm font-semibold text-gray-800 text-center">Grupos</span>
             </a>
         @endcan
+
+        
+        @can('firma.index')
+            <a href="{{ route('firma.index')}} " class="flex flex-col items-center justify-center p-4 h-32 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:outline hover:outline-1 hover:outline-black">
+                <img src="{{ asset('svg/jefe.svg') }}" alt="Jefe" class="w-10 h-10 mb-2">
+                <span class="text-sm font-semibold text-gray-800 text-center">Jefe</span>
+            </a>
+        @endcan
     
         @can('archivos.index')
             <a href="{{ route('archivos.index')}} " class="flex flex-col items-center justify-center p-4 h-32 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:outline hover:outline-1 hover:outline-black">
@@ -32,6 +40,13 @@
             <a href="{{ route('reportes.index') }}" class="flex flex-col items-center justify-center p-4 h-32 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:outline hover:outline-1 hover:outline-black">
                 <img src="{{ asset('svg/reporte.svg') }}" alt="Reporte" class="w-10 h-10 mb-2">
                 <span class="text-sm font-semibold text-gray-800 text-center">Reportes</span>
+            </a>
+        @endcan
+        
+        @can('roles.index')
+            <a href="{{ route('roles.index') }}" class="flex flex-col items-center justify-center p-4 h-32 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:outline hover:outline-1 hover:outline-black">
+                <img src="{{ asset('svg/roles.svg') }}" alt="Roles" class="w-10 h-10 mb-2">
+                <span class="text-sm font-semibold text-gray-800 text-center">Roles</span>
             </a>
         @endcan
 

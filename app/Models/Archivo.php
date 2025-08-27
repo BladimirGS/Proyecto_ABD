@@ -28,12 +28,20 @@ class Archivo extends Model
             get: fn($value) => $value ? Carbon::parse($value) : null,
         );
     }
-    
+
     protected static function booted()
     {
         static::deleting(function ($archivo) {
             if ($archivo->documento && Storage::exists($archivo->documento)) {
                 Storage::delete($archivo->documento);
+
+                // Obtener el directorio de la ruta del archivo
+                $directorio = dirname($archivo->documento);
+
+                // Si la carpeta está vacía, eliminarla
+                if (empty(Storage::files($directorio)) && empty(Storage::directories($directorio))) {
+                    Storage::deleteDirectory($directorio);
+                }
             }
         });
     }
