@@ -16,19 +16,11 @@
 
         <nav class="ml-4">
             <ul class="space-y-2">
-                <x-nav-link :href="route('admin.index')" :active="request()->routeIs('docentes.index')">
+                <x-nav-link :href="route('admin.index')" :active="request()->routeIs(['docentes.index', 'admin.index'])">
                     <img src="{{ asset('svg/inicio.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Inicio</span>
                 </x-nav-link>
-
-                {{-- @can('docentes.index')
-                <x-nav-link :href="route('docente.grupos.index')" :active="request()->routeIs('docente.grupos.index')">
-                    <img src="{{ asset('svg/tablero.svg') }}" alt="" class="mr-3 h-5 w-5">
-
-                    <span>Mis grupos</span>
-                </x-nav-link>
-                @endcan --}}
 
                 @can('firma.index')
                 <x-nav-link :href="route('firma.index')" :active="request()->routeIs('firma.index')">
@@ -45,51 +37,57 @@
                     <span>Usuarios</span>
                 </x-nav-link>
                 @endcan
-                
-                @can('admin.index')
-                <x-nav-button id="AdminButton"  >
+
+                @canany(['carreras.index', 'materias.index', 'periodos.index'])
+                <x-nav-button id="AdminButton">
                     <img src="{{ asset('svg/administracion.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Administración</span>
                     <div class="ml-1">
-                        <svg class="fill-current h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="dropdown">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <svg class="fill-current h-4 w-4 transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="dropdown">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
                         </svg>
-                    </div>                    
+                    </div>
                 </x-nav-button>
-                
-                <ul id="AdminMenu" class="hidden space-y-1">
-                    <li class="relative">
 
-                        @can('carreras.index')
-                        <x-nav-link :href="route('carreras.index')" :active="request()->routeIs('carreras.index')" class="pl-8">
+                <ul id="AdminMenu" class="hidden space-y-1">
+                    @can('carreras.index')
+                    <li class="relative">
+                        <x-nav-link :href="route('carreras.index')" :active="request()->routeIs('carreras.index')"
+                            class="pl-8">
                             <img src="{{ asset('svg/carrera.svg') }}" alt="" class="mr-3 h-5 w-5">
-        
+
                             <span>Carreras</span>
                         </x-nav-link>
-                        @endcan
                     </li>
+                    @endcan
+
+                    @can('materias.index')
                     <li class="relative">
-                        @can('materias.index')
-                        <x-nav-link :href="route('materias.index')" :active="request()->routeIs('materias.index')" class="pl-8">
+                        <x-nav-link :href="route('materias.index')" :active="request()->routeIs('materias.index')"
+                            class="pl-8">
                             <img src="{{ asset('svg/materia.svg') }}" alt="" class="mr-3 h-5 w-5">
-        
+
                             <span>Materias</span>
                         </x-nav-link>
-                        @endcan
                     </li>
-                    <li class="relative">
+                    @endcan
 
-                        @can('periodos.index')
-                        <x-nav-link :href="route('periodos.index')" :active="request()->routeIs('periodos.index')" class="pl-8">
+                    @can('periodos.index')
+                    <li class="relative">
+                        <x-nav-link :href="route('periodos.index')" :active="request()->routeIs('periodos.index')"
+                            class="pl-8">
                             <img src="{{ asset('svg/periodo.svg') }}" alt="" class="mr-3 h-5 w-5">
-        
+
                             <span>Periodos</span>
                         </x-nav-link>
-                        @endcan
                     </li>
+                    @endcan
                 </ul>
-                @endcan
+                @endcanany
 
                 @can('actividades.index')
                 <x-nav-link :href="route('actividades.index')" :active="request()->routeIs('actividades.index')">
@@ -99,31 +97,42 @@
                 </x-nav-link>
                 @endcan
 
-                @can('grupos.index')
-                <x-nav-button id="GrupoButton" :href="route('grupos.index')" :active="request()->routeIs(['grupos.index', 'grupos.usuarios.index'])">
+                @canany(['grupos.index', 'grupos.usuarios.assign'])
+                <x-nav-button id="GrupoButton" :href="route('grupos.index')"
+                    :active="request()->routeIs(['grupos.index', 'grupos.usuarios.index'])">
                     <img src="{{ asset('svg/grupo.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Grupos</span>
                     <div class="ml-1">
-                        <svg class="fill-current h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"  id="dropdown">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <svg class="fill-current h-4 w-4 transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="dropdown">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
                         </svg>
-                    </div>                    
+                    </div>
                 </x-nav-button>
-                @endcan
 
                 <ul id="GrupoMenu" class="hidden space-y-1">
+                    @can('grupos.index')
                     <li class="relative">
-                        <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')" class="pl-8">
+                        <x-nav-link :href="route('grupos.index')" :active="request()->routeIs('grupos.index')"
+                            class="pl-8">
                             <span>Administrar Grupo</span>
                         </x-nav-link>
                     </li>
+                    @endcan
+
+                    @can('grupos.usuarios.assign')
                     <li class="relative">
-                        <x-nav-link :href="route('grupos.usuarios.index')" :active="request()->routeIs('grupos.usuarios.index')" class="pl-8">
+                        <x-nav-link :href="route('grupos.usuarios.index')"
+                            :active="request()->routeIs('grupos.usuarios.index')" class="pl-8">
                             <span>Asignar Grupos</span>
                         </x-nav-link>
                     </li>
+                    @endcan
                 </ul>
+                @endcanany
 
                 @can('archivos.index')
                 <x-nav-link :href="route('archivos.index')" :active="request()->routeIs('archivos.index')">
@@ -141,41 +150,52 @@
                 </x-nav-link>
                 @endcan
 
-                @can('roles.index')
+                @canany(['roles.index', 'roles.usuario.assign'])
                 <x-nav-button id="RolesButton" :active="request()->routeIs(['roles.index', 'roles.usuario.index'])">
                     <img src="{{ asset('svg/roles.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Roles</span>
                     <div class="ml-1">
-                        <svg class="fill-current h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"  id="dropdown">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <svg class="fill-current h-4 w-4 transition-transform duration-200"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="dropdown">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
                         </svg>
-                    </div>                    
+                    </div>
                 </x-nav-button>
-                @endcan
 
                 <ul id="RolesMenu" class="hidden space-y-1">
+                    @can('roles.index')
                     <li class="relative">
-                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')" class="pl-8">
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')"
+                            class="pl-8">
                             <span>Administrar Roles</span>
                         </x-nav-link>
                     </li>
+                    @endcan
+
+                    @can('roles.usuario.assign')
                     <li class="relative">
-                        <x-nav-link :href="route('roles.usuario.index')" :active="request()->routeIs('roles.usuario.index')" class="pl-8">
+                        <x-nav-link :href="route('roles.usuario.index')"
+                            :active="request()->routeIs('roles.usuario.index')" class="pl-8">
                             <span>Asignar Roles</span>
                         </x-nav-link>
                     </li>
+                    @endcan
                 </ul>
+                @endcanany
 
-                <x-nav-button id="optionsButton"  :active="request()->routeIs('profile.edit')">
+                <x-nav-button id="optionsButton" :active="request()->routeIs('profile.edit')">
                     <img src="{{ asset('svg/opciones.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Opciones</span>
                 </x-nav-button>
-                
+
                 <ul id="optionsMenu" class="hidden space-y-1">
                     <li class="relative">
-                        <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.edit')" class="pl-8">
+                        <x-nav-link href="{{ route('profile.edit') }}" :active="request()->routeIs('profile.edit')"
+                            class="pl-8">
                             Perfil
                         </x-nav-link>
                     </li>
