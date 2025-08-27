@@ -39,7 +39,7 @@
                 @endcan
 
                 @canany(['carreras.index', 'materias.index', 'periodos.index'])
-                <x-nav-button id="AdminButton">
+                <x-nav-button id="AdminButton" :active="request()->routeIs(['carreras.index', 'materias.index', 'periodos.index'])">
                     <img src="{{ asset('svg/administracion.svg') }}" alt="" class="mr-3 h-5 w-5">
 
                     <span>Administración</span>
