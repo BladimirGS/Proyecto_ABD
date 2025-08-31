@@ -68,12 +68,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Contrato::class);
     }
 
-    public function grupos()
+    public function gruposUser()
     {
-        return $this->belongsToMany(Grupo::class, 'grupo_user')
-            ->using(GrupoUser::class)
-            ->withPivot('periodo_id')
-            ->withTimestamps();
+        return $this->hasMany(GrupoUser::class);
     }
 
     public function archivos()

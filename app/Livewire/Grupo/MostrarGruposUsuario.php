@@ -4,7 +4,6 @@ namespace App\Livewire\Grupo;
 
 use App\Models\User;
 use App\Models\Periodo;
-use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
 class MostrarGruposUsuario extends ModalComponent
@@ -31,10 +30,18 @@ class MostrarGruposUsuario extends ModalComponent
 
     public function cargarGrupos()
     {
-        $this->gruposDelUsuario = $this->usuario->grupos()
-            ->wherePivot('periodo_id', $this->periodoSeleccionado)
-            ->with('materia')
-            ->get(['grupos.id', 'clave', 'materia_id']);
+        if (!$this->periodoSeleccionado) {
+            $this->gruposDelUsuario = [];
+            return;
+        }
+
+        // Traer grupos asignados al usuario para este periodo
+        $gruposAsignados = $this->usuario->gruposUser()
+            ->where('periodo_id', $this->periodoSeleccionado)
+            ->with('grupo.materia')
+            ->get();
+
+        $this->gruposDelUsuario = $gruposAsignados->pluck('grupo');
     }
 
     public function render()

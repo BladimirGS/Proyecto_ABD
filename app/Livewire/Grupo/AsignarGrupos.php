@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Grupo;
 use App\Models\GrupoUser;
 use App\Models\Periodo;
-use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 
 class AsignarGrupos extends ModalComponent
@@ -39,13 +38,13 @@ class AsignarGrupos extends ModalComponent
 
     public function gruposAsignados()
     {
-        $gruposAsignadosUsuario = $this->usuario->grupos()
-            ->wherePivot('periodo_id', $this->periodoSeleccionado)
-            ->with('materia')
-            ->get(['grupos.id', 'clave', 'materia_id']);
+        $gruposAsignadosUsuario = $this->usuario->gruposUser()
+            ->where('periodo_id', $this->periodoSeleccionado)
+            ->with('grupo.materia')
+            ->get();
 
-        $this->gruposAsignados = $gruposAsignadosUsuario;
-        $this->gruposUsuario = $gruposAsignadosUsuario->pluck('id')->toArray();
+        $this->gruposAsignados = $gruposAsignadosUsuario->pluck('grupo');
+        $this->gruposUsuario   = $gruposAsignadosUsuario->pluck('grupo_id')->toArray();
     }
 
     public function actualizarListas()
@@ -56,8 +55,7 @@ class AsignarGrupos extends ModalComponent
         }
 
         // Grupos ya ocupados por otros usuarios
-        $gruposOcupados = DB::table('grupo_user')
-            ->where('periodo_id', $this->periodoSeleccionado)
+        $gruposOcupados = GrupoUser::where('periodo_id', $this->periodoSeleccionado)
             ->where('user_id', '!=', $this->usuario->id)
             ->pluck('grupo_id')
             ->toArray();
@@ -68,41 +66,51 @@ class AsignarGrupos extends ModalComponent
         $query = Grupo::whereNotIn('id', $idsExcluir);
 
         if (!empty($this->busqueda)) {
-            $query->where(function ($q) {
-                $q->where('clave', 'like', "%{$this->busqueda}%");
-            });
+            $query->where('clave', 'like', "%{$this->busqueda}%");
         }
 
         $this->gruposDisponibles = $query
-            ->with('materia') // Aquí cargas la relación
-            ->get(['id', 'clave', 'materia_id']); // Incluye materia_id para que no falle
+            ->with('materia')
+            ->get(['id', 'clave', 'materia_id']);
     }
 
     public function actualizarGrupos()
     {
         $datos = $this->validate();
 
-        $this->usuario->grupos()->wherePivot('periodo_id', $this->periodoSeleccionado)->detach();
-        $this->usuario->grupos()->attach($datos['gruposUsuario'], ['periodo_id' => $this->periodoSeleccionado]);
+        // 🔹 Grupos actuales del usuario en este periodo
+        $gruposActuales = $this->usuario->gruposUser()
+            ->where('periodo_id', $this->periodoSeleccionado)
+            ->pluck('grupo_id')
+            ->toArray();
+
+        // 🔹 Grupos que se desmarcaron → eliminar
+        $gruposAEliminar = array_diff($gruposActuales, $datos['gruposUsuario']);
+        if (!empty($gruposAEliminar)) {
+            $this->usuario->gruposUser()
+                ->where('periodo_id', $this->periodoSeleccionado)
+                ->whereIn('grupo_id', $gruposAEliminar)
+                ->get()
+                ->each->delete(); // 🔹 dispara deleting
+        }
+
+        // 🔹 Grupos nuevos a asignar → insertar
+        $gruposANuevos = array_diff($datos['gruposUsuario'], $gruposActuales);
+        foreach ($gruposANuevos as $grupoId) {
+            GrupoUser::create([
+                'user_id'    => $this->usuario->id,
+                'grupo_id'   => $grupoId,
+                'periodo_id' => $this->periodoSeleccionado,
+            ]);
+        }
 
         $this->dispatch('refreshDatatable');
         $this->dispatch('exito');
 
-        $this->closeModal();
-    }
-
-    public function desasignarGrupo($grupoId)
-    {
-        $grupoUser = GrupoUser::where('user_id', $this->usuario->id)
-            ->where('grupo_id', $grupoId)
-            ->where('periodo_id', $this->periodoSeleccionado)
-            ->first();
-
-        if ($grupoUser) {
-            $grupoUser->delete();
-        }
-
+        $this->gruposAsignados(); // 🔹 actualizar listas internas
         $this->actualizarListas();
+
+        $this->closeModal();
     }
 
     public function actualizarPeriodo()
@@ -111,7 +119,6 @@ class AsignarGrupos extends ModalComponent
         $this->gruposAsignados();
         $this->actualizarListas();
     }
-
 
     public function render()
     {

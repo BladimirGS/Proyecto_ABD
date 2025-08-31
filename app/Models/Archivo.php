@@ -57,7 +57,7 @@ class Archivo extends Model
 
     public function grupoUser()
     {
-        return $this->belongsTo(GrupoUser::class, 'grupo_user_id');
+        return $this->belongsTo(GrupoUser::class);
     }
 
     public function actividad()

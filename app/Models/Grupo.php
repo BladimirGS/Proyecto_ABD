@@ -38,11 +38,9 @@ class Grupo extends Model
         return "hsl($hue, {$saturation}%, {$lightness}%)";
     }
 
-    public function usuarios()
+    public function gruposUser()
     {
-        return $this->belongsToMany(User::class, 'grupo_user')
-            ->withPivot('periodo_id')
-            ->withTimestamps();
+        return $this->hasMany(GrupoUser::class);
     }
 
     public function carrera()

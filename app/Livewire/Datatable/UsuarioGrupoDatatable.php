@@ -33,16 +33,19 @@ class UsuarioGrupoDatatable extends DataTableComponent
             Column::make("Docente", "nombre")
                 ->sortable()
                 ->searchable(),
+
             Column::make("Grupos")
                 ->label(function ($row) {
-                    return $row->grupos
-                        ->map(function ($grupo) {
-                            return ($grupo->clave . ' - ' . $grupo->materia->nombre) ?? 'Sin grupos';
+                    return $row->gruposUser
+                        ->map(function ($grupoUser) {
+                            $grupo = $grupoUser->grupo;
+                            return $grupo ? ($grupo->clave . ' - ' . $grupo->materia->nombre) : 'Sin grupos';
                         })
                         ->implode('<br>');
                 })
                 ->sortable()
                 ->html(),
+
             Column::make('Acciones')
                 ->unclickable()
                 ->label(
@@ -64,9 +67,9 @@ class UsuarioGrupoDatatable extends DataTableComponent
             ->value('id');
 
         return User::query()
-            ->with(['grupos' => function ($q) use ($ultimoPeriodoId) {
-                $q->wherePivot('periodo_id', $ultimoPeriodoId)
-                    ->with('materia');
+            ->with(['gruposUser' => function ($q) use ($ultimoPeriodoId) {
+                $q->where('periodo_id', $ultimoPeriodoId)
+                    ->with('grupo.materia');
             }])
             ->whereDoesntHave('roles', function ($q) {
                 $q->where('name', 'SUPER USUARIO');

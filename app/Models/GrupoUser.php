@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
-use App\Models\Grupo;
+use Illuminate\Database\Eloquent\Model;
 
-class GrupoUser extends Pivot
+class GrupoUser extends Model
 {
     protected $table = 'grupo_user';
 

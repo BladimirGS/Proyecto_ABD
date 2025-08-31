@@ -161,11 +161,13 @@
                                                 @foreach (['Aprobado', 'Rechazado'] as $estado)
                                                 <label class="flex items-center">
                                                     <input type="radio" name="estado" value="{{ $estado }}" {{
-                                                        $archivo->estado === $estado ? 'checked' : '' }} class="mr-2">
+                                                        old('estado', $archivo->estado) === $estado ? 'checked' : '' }}
+                                                    class="mr-2">
                                                     {{ $estado }}
                                                 </label>
                                                 @endforeach
                                             </div>
+                                            <x-input-error :messages="$errors->get('estado')" class="mt-2" />
                                         </div>
 
                                         <!-- Subida del archivo firmado -->
