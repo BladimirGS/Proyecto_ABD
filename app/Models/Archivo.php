@@ -35,12 +35,16 @@ class Archivo extends Model
             if ($archivo->documento && Storage::exists($archivo->documento)) {
                 Storage::delete($archivo->documento);
 
-                // Obtener el directorio de la ruta del archivo
+                // Ir borrando directorios vacíos hacia arriba
                 $directorio = dirname($archivo->documento);
 
-                // Si la carpeta está vacía, eliminarla
-                if (empty(Storage::files($directorio)) && empty(Storage::directories($directorio))) {
-                    Storage::deleteDirectory($directorio);
+                while ($directorio !== 'archivos' && $directorio !== '.' && $directorio !== '/') {
+                    if (empty(Storage::files($directorio)) && empty(Storage::directories($directorio))) {
+                        Storage::deleteDirectory($directorio);
+                        $directorio = dirname($directorio);
+                    } else {
+                        break; // si no está vacío, detenemos
+                    }
                 }
             }
         });

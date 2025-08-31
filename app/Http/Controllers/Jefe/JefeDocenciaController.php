@@ -28,6 +28,12 @@ class JefeDocenciaController extends Controller
 
     public function show(Archivo $archivo)
     {
+        if ($archivo->estado == 'Firmado') {
+            return redirect()->route('firma.index');
+        } else if ($archivo->actividad->firma == false) {
+            return redirect()->route('firma.index');
+        }
+
         // Obtenemos el modelo GrupoUser
         $grupoUser = $archivo->grupoUser()->with('grupo', 'user')->firstOrFail();
 

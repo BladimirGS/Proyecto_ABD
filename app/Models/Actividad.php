@@ -22,6 +22,15 @@ class Actividad extends Model
         );
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($actividad) {
+            foreach ($actividad->archivos as $archivo) {
+                $archivo->delete(); // dispara deleting de Archivo
+            }
+        });
+    }
+
     public function periodo()
     {
         return $this->belongsTo(Periodo::class);
@@ -30,5 +39,10 @@ class Actividad extends Model
     public function grupos()
     {
         return $this->belongsToMany(Grupo::class);
+    }
+
+    public function archivos()
+    {
+        return $this->hasMany(Archivo::class);
     }
 }

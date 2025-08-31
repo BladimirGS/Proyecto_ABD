@@ -68,12 +68,13 @@
                                             </a>
                                         </x-truncade>
                                         @if($actividad->activo)
-                                        <form
-                                            action="{{ route('archivos.destroy', ['archivo' => $archivoExistente->id, 'redirectUrl' => route('docente.grupo.actividades.show', ['grupoUser' => $archivoExistente->grupoUser->grupo_id, 'actividad' => $archivoExistente->actividad_id])]) }}"
+                                        <form action="{{ route('archivo.eliminar', $archivoExistente->id) }}"
                                             method="POST" class="flex-shrink-0">
                                             @csrf
                                             @method('DELETE')
-                                            <button id="eliminar-archivo" type=" button"
+                                            <input type="hidden" name="redirectUrl"
+                                                value="{{ route('docente.grupo.actividades.show', ['grupoUser' => $archivoExistente->grupo_user_id, 'actividad' => $archivoExistente->actividad_id]) }}">
+                                            <button id="eliminar-archivo" type="button"
                                                 class="text-red-600 hover:text-red-800 text-sm font-semibold">
                                                 Eliminar
                                             </button>
@@ -105,7 +106,8 @@
                             </tr>
                             @endif
                             <tr>
-                                <td colspan="2" class="px-6 py-4 text-sm text-gray-700 border border-gray-400 font-semibold">
+                                <td colspan="2"
+                                    class="px-6 py-4 text-sm text-gray-700 border border-gray-400 font-semibold">
                                     <label class="font-bold block mb-2">Comentario:</label>
 
                                     @if ($comentario)

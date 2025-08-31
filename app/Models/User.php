@@ -54,6 +54,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            foreach ($user->archivos as $archivo) {
+                $archivo->delete(); // dispara deleting de Archivo
+            }
+        });
+    }
+
     public function contratos()
     {
         return $this->belongsToMany(Contrato::class);
@@ -65,5 +74,10 @@ class User extends Authenticatable
             ->using(GrupoUser::class)
             ->withPivot('periodo_id')
             ->withTimestamps();
-    }   
+    }
+
+    public function archivos()
+    {
+        return $this->hasMany(Archivo::class);
+    }
 }

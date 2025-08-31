@@ -90,7 +90,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/comentario/eliminar/{comentario}', [ArchivoController::class, 'eliminarComentario'])->name('comentarios.destroy');
 
-    Route::delete('/archivo/eliminar/{archivo}', [ArchivoController::class, 'eliminarArchivo'])->name('archivos.destroy');
+    Route::delete('/archivo/eliminar/{archivo}', [ArchivoController::class, 'eliminarArchivo'])->name('archivo.eliminar');
 
     Route::get('/roles/usuario', [UsuarioRoleController::class, 'index'])->name('roles.usuario.index');
 });

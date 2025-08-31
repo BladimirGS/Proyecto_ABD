@@ -32,6 +32,12 @@ class ArchivoController extends Controller
 
     public function show(Archivo $archivo)
     {
+        if ($archivo->estado == 'Firmado') {
+            return redirect()->route('archivos.index');
+        } else if ($archivo->actividad->firma == true) {
+            return redirect()->route('archivos.index');
+        }
+
         $grupoUser = GrupoUser::find($archivo->grupo_user_id);
         $actividad = Actividad::find($archivo->actividad_id);
         $comentario = Comentario::where('grupo_user_id', $grupoUser->id)
@@ -98,8 +104,10 @@ class ArchivoController extends Controller
         ]);
     }
 
-    public function eliminarArchivo(Archivo $archivo, $redirectUrl = null)
+    public function eliminarArchivo(Archivo $archivo, Request $request)
     {
+        $redirectUrl = $request->input('redirectUrl');
+
         if ($archivo->user_id !== auth()->id()) {
             return redirect($redirectUrl ?? url()->previous())
                 ->with('error-eliminar', 'No se puede eliminar el archivo: no eres el propietario.');
@@ -110,15 +118,10 @@ class ArchivoController extends Controller
                 ->with('error-eliminar', 'No se puede eliminar el archivo: la actividad no está activa.');
         }
 
-        try {
-            $archivo->delete();
+        $archivo->delete();
 
-            return redirect($redirectUrl ?? url()->previous())
-                ->with('status', 'Archivo eliminado correctamente.');
-        } catch (\Exception $e) {
-            return redirect($redirectUrl ?? url()->previous())
-                ->with('error-eliminar', 'Ocurrió un error al eliminar el archivo.');
-        }
+        return redirect($redirectUrl ?? url()->previous())
+            ->with('status', 'Archivo eliminado correctamente.');
     }
 
     public function EliminarComentario(Comentario $comentario)

@@ -4,6 +4,7 @@ namespace App\Livewire\Grupo;
 
 use App\Models\User;
 use App\Models\Grupo;
+use App\Models\GrupoUser;
 use App\Models\Periodo;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
@@ -92,11 +93,14 @@ class AsignarGrupos extends ModalComponent
 
     public function desasignarGrupo($grupoId)
     {
-        DB::table('grupo_user')
-            ->where('user_id', $this->usuario->id)
+        $grupoUser = GrupoUser::where('user_id', $this->usuario->id)
             ->where('grupo_id', $grupoId)
             ->where('periodo_id', $this->periodoSeleccionado)
-            ->delete();
+            ->first();
+
+        if ($grupoUser) {
+            $grupoUser->delete();
+        }
 
         $this->actualizarListas();
     }

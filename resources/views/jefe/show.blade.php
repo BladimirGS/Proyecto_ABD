@@ -93,12 +93,14 @@
                                             </a>
                                         </x-truncade>
                                         @if($actividad->activo)
-                                        <form action="{{ route('archivos.destroy', [
-                                                'archivo' => $archivoFirmado->id, 
-                                                'redirectUrl' => route('firma.show', ['archivo' => $archivo->id])
-                                            ]) }}" method="POST" class="flex-shrink-0">
+                                        <form action="{{ route('archivo.eliminar', $archivoFirmado->id) }}"
+                                            method="POST" class="flex-shrink-0">
                                             @csrf
                                             @method('DELETE')
+
+                                            <input type="hidden" name="redirectUrl"
+                                                value="{{ route('firma.show', ['archivo' => $archivo->id]) }}">
+
                                             <button id="eliminar-archivo" type="button"
                                                 class="text-red-600 hover:text-red-800 text-sm font-semibold">
                                                 Eliminar
@@ -112,7 +114,8 @@
                                 </x-table-cell>
                             </tr>
                             <tr>
-                                <td colspan="2" class="px-6 py-4 text-sm text-gray-700 border border-gray-400 font-semibold">
+                                <td colspan="2"
+                                    class="px-6 py-4 text-sm text-gray-700 border border-gray-400 font-semibold">
                                     <label class="font-bold block mb-2">Comentario:</label>
 
                                     @if ($comentario)
