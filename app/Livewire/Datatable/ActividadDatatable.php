@@ -21,6 +21,15 @@ class ActividadDatatable extends DataTableComponent
 
     public ?int $searchFilterDebounce = 600;
 
+    public function mount()
+    {
+        $ultimoPeriodo = Periodo::latest('nombre')->first();
+
+        if ($ultimoPeriodo) {
+            $this->setFilter('periodos', [$ultimoPeriodo->id]);
+        }
+    }
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')
@@ -98,9 +107,8 @@ class ActividadDatatable extends DataTableComponent
     public function builder(): Builder
     {
         return Actividad::query()
-            ->whereHas('periodo', function ($q) {
-                $q->where('activo', true);
-            });
+            ->whereHas('periodo', fn($q) => $q->where('activo', true))
+            ->orderBy('periodo_id', 'desc'); // << aquí
     }
 
     public function bulkActions(): array

@@ -23,7 +23,8 @@ class UsuarioRoleDatatable extends DataTableComponent
     {
         return [
             Column::make("Nombre", "nombre")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Roles")
                 ->label(fn($row) => nl2br(e($row->roles->pluck('name')->join("\n"))))
                 ->sortable()
